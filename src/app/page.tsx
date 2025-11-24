@@ -1,65 +1,128 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { QrCode, Type, FileSpreadsheet, FileText, Printer, Tent, Table, BookOpen, Tags, AlertTriangle, Globe, Mail, Image as ImageIcon, Users, Heart } from "lucide-react"
+import { ToolCard } from "@/components/ui/tool-card"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center py-24">
+      <section className="container mx-auto px-4 flex flex-col items-center gap-8 text-center pb-20 sm:px-6 lg:px-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl">
+            Tiny tools for <span className="text-primary">big tasks</span>.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mx-auto max-w-[700px] text-lg text-muted-foreground">
+            A suite of premium productivity tools designed to make your workflow smoother.
+            Generate QR codes, create labels, clean data, and more.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="flex gap-4">
+          <Link href="/tools/qr-generator">
+            <Button size="lg">Try QR Generator</Button>
+          </Link>
+          <Button variant="outline" size="lg">
+            Explore All Tools
+          </Button>
         </div>
-      </main>
-    </div>
-  );
+      </section>
+
+      <section className="container mx-auto px-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:px-6 lg:px-8">
+        <ToolCard
+          title="Invoice Swift"
+          description="Create professional PDF invoices instantly."
+          icon={<FileText className="w-6 h-6 text-emerald-600" />}
+          href="/tools/invoice-swift"
+        />
+        <ToolCard
+          title="Zone Zapper"
+          description="Find the perfect meeting time across timezones."
+          icon={<Globe className="w-6 h-6 text-cyan-600" />}
+          href="/tools/zone-zapper"
+        />
+        <ToolCard
+          title="Signature Smith"
+          description="Create professional email signatures."
+          icon={<Mail className="w-6 h-6 text-pink-500" />}
+          href="/tools/signature-smith"
+          isNew
+        />
+        <ToolCard
+          title="Pixel Pruner"
+          description="Resize and compress images in your browser."
+          icon={<ImageIcon className="w-6 h-6 text-cyan-500" />}
+          href="/tools/pixel-pruner"
+          isNew
+        />
+        <ToolCard
+          title="Bi-Fold Brochure"
+          description="Design simple 4-panel brochures."
+          icon={<BookOpen className="w-6 h-6 text-blue-500" />}
+          href="/tools/bi-fold-brochure"
+          isNew
+        />
+        <ToolCard
+          title="Greeting Card"
+          description="Create folded greeting cards."
+          icon={<Heart className="w-6 h-6 text-red-500" />}
+          href="/tools/greeting-card"
+          isNew
+        />
+        <ToolCard
+          title="Team Taggler"
+          description="Pick winners and split teams instantly."
+          icon={<Users className="w-6 h-6 text-indigo-500" />}
+          href="/tools/team-taggler"
+          isNew
+        />
+        <ToolCard
+          title="Name Tent Maker"
+          description="Create foldable name tents for meetings and events."
+          icon={<Tent className="w-6 h-6 text-rose-500" />}
+          href="/tools/name-tent"
+        />
+        <ToolCard
+          title="Table Tuner"
+          description="Convert CSV/Excel data to Markdown, HTML, JSON, and ASCII tables."
+          icon={<Table className="w-6 h-6 text-teal-600" />}
+          href="/tools/table-tuner"
+        />
+        <ToolCard
+          title="Brochure Builder"
+          description="Design and print tri-fold brochures with ease."
+          icon={<BookOpen className="w-6 h-6 text-sky-600" />}
+          href="/tools/brochure-builder"
+        />
+        <ToolCard
+          title="QR & Barcode Generator"
+          description="Generate QR codes and Barcodes for URLs, text, and more."
+          icon={<QrCode className="w-6 h-6 text-blue-500" />}
+          href="/tools/qr-generator"
+        />
+        <ToolCard
+          title="Label Creator"
+          description="Design and print custom labels with Avery templates."
+          icon={<Tags className="w-6 h-6 text-purple-500" />}
+          href="/tools/label-creator"
+        />
+        <ToolCard
+          title="Sign Generator"
+          description="Create professional OSHA-compliant safety signs."
+          icon={<AlertTriangle className="w-6 h-6 text-orange-500" />}
+          href="/tools/sign-generator"
+        />
+        <ToolCard
+          title="Excel Data Scrubber"
+          description="Clean, format, and manipulate Excel and CSV data."
+          icon={<FileSpreadsheet className="w-6 h-6 text-green-600" />}
+          href="/tools/excel-scrubber"
+        />
+        <ToolCard
+          title="Word Formatter"
+          description="Fix formatting issues in text and export to Markdown."
+          icon={<FileText className="w-6 h-6 text-indigo-600" />}
+          href="/tools/word-formatter"
+        />
+      </section>
+    </main>
+  )
 }
