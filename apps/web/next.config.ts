@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     "@tinytask/tool-excel-scrubber",
     "@tinytask/tool-greeting-card",
     "@tinytask/tool-invoice-swift",
+    "@tinytask/tool-jar-label-generator",
     "@tinytask/tool-label-creator",
     "@tinytask/tool-name-tent",
     "@tinytask/tool-pixel-pruner",
