@@ -1,0 +1,8 @@
+{
+  "slug": "greeting-card",
+  "name": "Greeting Card Maker",
+  "description": "Create folded greeting cards.",
+  "category": "documents",
+  "status": "active",
+  "sharedTheme": "light"
+}

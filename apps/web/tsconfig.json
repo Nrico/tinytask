@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/ui/button": ["../../packages/ui/buttons/button.tsx"],
+      "@/components/ui/badge": ["../../packages/ui/badge.tsx"],
+      "@/components/ui/card": ["../../packages/ui/cards/card.tsx"],
+      "@/components/ui/tool-card": ["../../packages/ui/cards/tool-card.tsx"],
+      "@/components/ui/checkbox": ["../../packages/ui/forms/checkbox.tsx"],
+      "@/components/ui/input": ["../../packages/ui/forms/input.tsx"],
+      "@/components/ui/label": ["../../packages/ui/forms/label.tsx"],
+      "@/components/ui/select": ["../../packages/ui/forms/select.tsx"],
+      "@/components/ui/slider": ["../../packages/ui/forms/slider.tsx"],
+      "@/components/ui/textarea": ["../../packages/ui/forms/textarea.tsx"],
+      "@/components/ui/dropdown-menu": ["../../packages/ui/forms/dropdown-menu.tsx"],
+      "@/lib/utils": ["../../packages/utils/src/cn.ts"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts",
+    "../../tools/**/*.ts",
+    "../../tools/**/*.tsx",
+    "../../packages/**/*.ts",
+    "../../packages/**/*.tsx"
+  ],
+  "exclude": ["node_modules", "../../node_modules"]
+}

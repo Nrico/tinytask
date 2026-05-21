@@ -1,0 +1,8 @@
+{
+  "slug": "word-formatter",
+  "name": "Word Formatter",
+  "description": "Fix formatting issues in text and export to Markdown.",
+  "category": "data",
+  "status": "active",
+  "sharedTheme": "light"
+}

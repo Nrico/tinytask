@@ -1,0 +1,61 @@
+{
+  "name": "@tinytask/ui",
+  "version": "0.1.0",
+  "private": true,
+  "main": "theme.css",
+  "exports": {
+    "./badge": {
+      "import": "./badge.tsx",
+      "require": "./badge.tsx"
+    },
+    "./buttons/button": {
+      "import": "./buttons/button.tsx",
+      "require": "./buttons/button.tsx"
+    },
+    "./cards/card": {
+      "import": "./cards/card.tsx",
+      "require": "./cards/card.tsx"
+    },
+    "./cards/tool-card": {
+      "import": "./cards/tool-card.tsx",
+      "require": "./cards/tool-card.tsx"
+    },
+    "./forms/checkbox": {
+      "import": "./forms/checkbox.tsx",
+      "require": "./forms/checkbox.tsx"
+    },
+    "./forms/input": {
+      "import": "./forms/input.tsx",
+      "require": "./forms/input.tsx"
+    },
+    "./forms/label": {
+      "import": "./forms/label.tsx",
+      "require": "./forms/label.tsx"
+    },
+    "./forms/select": {
+      "import": "./forms/select.tsx",
+      "require": "./forms/select.tsx"
+    },
+    "./forms/slider": {
+      "import": "./forms/slider.tsx",
+      "require": "./forms/slider.tsx"
+    },
+    "./forms/textarea": {
+      "import": "./forms/textarea.tsx",
+      "require": "./forms/textarea.tsx"
+    },
+    "./forms/dropdown-menu": {
+      "import": "./forms/dropdown-menu.tsx",
+      "require": "./forms/dropdown-menu.tsx"
+    },
+    "./theme.css": {
+      "import": "./theme.css",
+      "require": "./theme.css"
+    }
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "lucide-react": "*"
+  }
+}

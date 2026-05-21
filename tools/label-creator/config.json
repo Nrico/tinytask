@@ -1,0 +1,8 @@
+{
+  "slug": "label-creator",
+  "name": "Label Creator",
+  "description": "Design and print custom labels with Avery templates.",
+  "category": "documents",
+  "status": "active",
+  "sharedTheme": "light"
+}

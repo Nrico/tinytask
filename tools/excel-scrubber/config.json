@@ -1,0 +1,8 @@
+{
+  "slug": "excel-scrubber",
+  "name": "Excel Data Scrubber",
+  "description": "Clean, format, and manipulate Excel and CSV data.",
+  "category": "data",
+  "status": "active",
+  "sharedTheme": "light"
+}

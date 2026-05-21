@@ -1,0 +1,8 @@
+{
+  "slug": "{{ slug }}",
+  "name": "{{ name }}",
+  "description": "{{ description }}",
+  "category": "{{ category }}",
+  "status": "active",
+  "sharedTheme": "light"
+}

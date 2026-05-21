@@ -1,0 +1,8 @@
+{
+  "slug": "qr-generator",
+  "name": "QR & Barcode Generator",
+  "description": "Generate QR codes and Barcodes for URLs, text, and more.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

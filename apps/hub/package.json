@@ -1,0 +1,9 @@
+{
+  "name": "@tinytask/hub",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "uvicorn main:app --reload",
+    "start": "uvicorn main:app"
+  }
+}

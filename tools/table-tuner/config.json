@@ -1,0 +1,8 @@
+{
+  "slug": "table-tuner",
+  "name": "Table Tuner",
+  "description": "Convert CSV/Excel data to Markdown, HTML, JSON, and ASCII tables.",
+  "category": "data",
+  "status": "active",
+  "sharedTheme": "light"
+}

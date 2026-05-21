@@ -1,0 +1,34 @@
+{
+  "name": "@tinytask/utils",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    },
+    "./cn": {
+      "import": "./src/cn.ts",
+      "require": "./src/cn.ts"
+    },
+    "./formatDate": {
+      "import": "./src/formatDate.ts",
+      "require": "./src/formatDate.ts"
+    },
+    "./slugify": {
+      "import": "./src/slugify.ts",
+      "require": "./src/slugify.ts"
+    },
+    "./validation": {
+      "import": "./src/validation.ts",
+      "require": "./src/validation.ts"
+    }
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.4.0"
+  }
+}

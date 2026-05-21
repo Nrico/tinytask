@@ -1,0 +1,6 @@
+{
+  "name": "@tinytask/brand",
+  "version": "0.1.0",
+  "private": true,
+  "main": "colors.css"
+}

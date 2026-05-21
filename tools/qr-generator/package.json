@@ -1,0 +1,11 @@
+{
+  "name": "@tinytask/tool-qr-generator",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/page.tsx",
+  "dependencies": {
+    "@tinytask/ui": "*",
+    "@tinytask/brand": "*",
+    "@tinytask/utils": "*"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "pixel-pruner",
+  "name": "Pixel Pruner",
+  "description": "Resize and compress images in your browser.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}
