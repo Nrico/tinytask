@@ -4,6 +4,7 @@ import { ComponentType } from "react";
 
 // Static mapping of tool slugs to their workspace packages
 const tools: Record<string, ComponentType> = {
+  "jar-label-generator": dynamic(() => import("@tinytask/tool-jar-label-generator")),
   "bi-fold-brochure": dynamic(() => import("@tinytask/tool-bi-fold-brochure")),
   "brochure-builder": dynamic(() => import("@tinytask/tool-brochure-builder")),
   "excel-scrubber": dynamic(() => import("@tinytask/tool-excel-scrubber")),
@@ -37,6 +38,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
 // Pre-define slugs for static site generation (SSG) on build
 export async function generateStaticParams() {
   return [
+    { slug: "jar-label-generator" },
     { slug: "bi-fold-brochure" },
     { slug: "brochure-builder" },
     { slug: "excel-scrubber" },

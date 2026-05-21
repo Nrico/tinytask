@@ -18,8 +18,10 @@ def replace_placeholders(src_path: str, dest_path: str, context: dict):
     with open(src_path, "r", encoding="utf-8") as f:
         content = f.read()
         
-    template = Template(content)
-    rendered = template.render(**context)
+    rendered = content
+    for key, val in context.items():
+        rendered = rendered.replace("{{" + " " + key + " " + "}}", str(val))
+        rendered = rendered.replace("{{" + key + "}}", str(val))
     
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     with open(dest_path, "w", encoding="utf-8") as f:
@@ -40,27 +42,26 @@ def register_tool_in_router(slug: str):
         return True
         
     # 1. Insert into tools mapping
-    tools_match = re.search(r'(const tools: Record<string, ComponentType> = \{[^}]+)', content)
-    if not tools_match:
+    tools_marker = "const tools: Record<string, ComponentType> = {"
+    if tools_marker not in content:
         print("Could not find tools mapping block in router page.")
         return False
         
-    old_tools_block = tools_match.group(1)
-    new_tools_line = f'  "{slug}": dynamic(() => import("@tinytask/tool-{slug}")),\n'
-    # Append inside the block
-    new_tools_block = old_tools_block.rstrip() + "\n" + new_tools_line
-    content = content.replace(old_tools_block, new_tools_block)
+    content = content.replace(
+        tools_marker,
+        f'{tools_marker}\n  "{slug}": dynamic(() => import("@tinytask/tool-{slug}")),'
+    )
     
     # 2. Insert into generateStaticParams
-    static_match = re.search(r'(export async function generateStaticParams\(\) \{(?:[^{}]*|\{[^{}]*\})*return \[[^\]]*)', content)
-    if not static_match:
+    static_marker = "return ["
+    if static_marker not in content:
         print("Could not find generateStaticParams array block in router page.")
         return False
         
-    old_static_block = static_match.group(1)
-    new_static_line = f'    {{ slug: "{slug}" }},\n'
-    new_static_block = old_static_block.rstrip() + "\n" + new_static_line
-    content = content.replace(old_static_block, new_static_block)
+    content = content.replace(
+        static_marker,
+        f'{static_marker}\n    {{ slug: "{slug}" }},'
+    )
     
     with open(router_file, "w", encoding="utf-8") as f:
         f.write(content)

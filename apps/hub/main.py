@@ -66,6 +66,17 @@ def read_root():
 def get_opportunities(session: Session = Depends(db.get_db)):
     return session.query(db.Opportunity).order_by(db.Opportunity.score_total.desc()).all()
 
+def run_build_tool_background(slug: str):
+    from database import SessionLocal
+    from agents.builder import build_tool
+    session = SessionLocal()
+    try:
+        build_tool(slug, session)
+    except Exception as e:
+        print(f"Error in background build for {slug}: {e}")
+    finally:
+        session.close()
+
 @app.post("/api/opportunities/{slug}/build")
 def build_opportunity(slug: str, background_tasks: BackgroundTasks, session: Session = Depends(db.get_db)):
     opportunity = session.query(db.Opportunity).filter(db.Opportunity.slug == slug).first()
@@ -78,7 +89,7 @@ def build_opportunity(slug: str, background_tasks: BackgroundTasks, session: Ses
     opportunity.status = "approved_for_build"
     session.commit()
     
-    # We will trigger the builder agent background tasks here once builder.py is ready
+    background_tasks.add_task(run_build_tool_background, slug)
     
     return {"status": "queued", "message": f"Building {slug} in background"}
 

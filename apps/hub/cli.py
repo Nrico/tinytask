@@ -41,10 +41,32 @@ def main():
     elif args.command == "builder":
         if args.build:
             print(f"Triggering Builder Agent for opportunity: {args.build}")
-            # Todo: call builder agent build
+            from database import SessionLocal
+            from agents.builder import build_tool
+            session = SessionLocal()
+            try:
+                success = build_tool(args.build, session)
+                if success:
+                    print("Tool built and tested successfully!")
+                    sys.exit(0)
+                else:
+                    print("Tool build or testing failed.")
+                    sys.exit(1)
+            finally:
+                session.close()
         elif args.test:
             print(f"Running automated tests for tool: {args.test}")
-            # Todo: call builder agent test
+            # Runs typescript and lint tests
+            from agents.builder import run_command
+            from config import settings
+            ret_b, out_b = run_command("npm run build", settings.workspace_dir)
+            ret_l, out_l = run_command("npm run lint", settings.workspace_dir)
+            if ret_b == 0 and ret_l == 0:
+                print("Tests passed successfully.")
+                sys.exit(0)
+            else:
+                print(f"Tests failed.\nBuild output: {out_b}\nLint output: {out_l}")
+                sys.exit(1)
         else:
             parser_build.print_help()
     elif args.command == "growth":
