@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "../../../../packages/ui/**/*.{js,ts,jsx,tsx}";
+@source "../../../../tools/**/*.{js,ts,jsx,tsx}";
 @import "@tinytask/brand/colors.css";
 @import "@tinytask/brand/type.css";
 @import "@tinytask/brand/spacing.css";
@@ -24,6 +26,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --radius-radius: var(--radius);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 @layer base {

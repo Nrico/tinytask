@@ -3,7 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { cn } from "@/lib/utils";
-import { inter, playfair, oswald } from "@/lib/fonts";
+import { inter, playfair, oswald, outfit } from "@/lib/fonts";
 import { AuthProvider } from "@/lib/auth-context";
 
 export const metadata: Metadata = {
@@ -20,6 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(
         "min-h-screen bg-background font-sans antialiased",
+        outfit.variable,
         inter.variable,
         playfair.variable,
         oswald.variable

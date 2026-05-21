@@ -1,7 +1,7 @@
 /* TinyTask Brand Typography */
 :root {
-  --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-sans: var(--font-outfit), var(--font-inter), "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono-custom, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
   
   /* Standard font scale */
   --text-xs: 0.75rem;
