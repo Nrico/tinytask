@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { QrCode, FileSpreadsheet, FileText, Tent, Table, BookOpen, Tags, AlertTriangle, Globe, Mail, Image as ImageIcon, Users, Heart } from "lucide-react"
+import { QrCode, FileSpreadsheet, FileText, Tent, Table, BookOpen, Tags, AlertTriangle, Globe, Mail, Image as ImageIcon, Users, Heart, Package } from "lucide-react"
 import { ToolCard } from "@/components/ui/tool-card"
 
 export default function Home() {
@@ -27,6 +27,13 @@ export default function Home() {
       </section>
 
       <section className="container mx-auto px-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:px-6 lg:px-8">
+        <ToolCard
+          title="Jar Label Generator"
+          description="Design and print custom jar labels for home canning, pantry organization, and small-batch products."
+          icon={<Package className="w-6 h-6 text-amber-600" />}
+          href="/tools/jar-label-generator"
+          isNew
+        />
         <ToolCard
           title="Invoice Swift"
           description="Create professional PDF invoices instantly."
