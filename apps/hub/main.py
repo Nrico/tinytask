@@ -66,19 +66,8 @@ def read_root():
 def get_opportunities(session: Session = Depends(db.get_db)):
     return session.query(db.Opportunity).order_by(db.Opportunity.score_total.desc()).all()
 
-def run_build_tool_background(slug: str):
-    from database import SessionLocal
-    from agents.builder import build_tool
-    session = SessionLocal()
-    try:
-        build_tool(slug, session)
-    except Exception as e:
-        print(f"Error in background build for {slug}: {e}")
-    finally:
-        session.close()
-
 @app.post("/api/opportunities/{slug}/build")
-def build_opportunity(slug: str, background_tasks: BackgroundTasks, session: Session = Depends(db.get_db)):
+def build_opportunity(slug: str, session: Session = Depends(db.get_db)):
     opportunity = session.query(db.Opportunity).filter(db.Opportunity.slug == slug).first()
     if not opportunity:
         raise HTTPException(status_code=404, detail="Opportunity not found")
@@ -89,9 +78,10 @@ def build_opportunity(slug: str, background_tasks: BackgroundTasks, session: Ses
     opportunity.status = "approved_for_build"
     session.commit()
     
-    background_tasks.add_task(run_build_tool_background, slug)
+    from tasks import run_build_tool_async
+    run_build_tool_async(slug)
     
-    return {"status": "queued", "message": f"Building {slug} in background"}
+    return {"status": "queued", "message": f"Building {slug} in background queue"}
 
 @app.get("/api/builds", response_model=List[BuildSchema])
 def get_builds(session: Session = Depends(db.get_db)):

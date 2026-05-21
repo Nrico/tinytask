@@ -13,7 +13,7 @@ test.describe("Jar Label Generator tool interface tests", () => {
     await expect(privacyNote).toBeVisible();
     
     // Verify preview card container exists
-    const previewContainer = page.locator(".print\\:block");
+    const previewContainer = page.locator(".print\\:block").first();
     await expect(previewContainer).toBeVisible();
   });
 });

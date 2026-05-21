@@ -9,6 +9,9 @@ def main():
     # DB init command
     subparsers.add_parser("db-init", help="Initialize the SQLite database schema")
     
+    # DB migrate command
+    subparsers.add_parser("db-migrate", help="Run database migrations using Alembic")
+    
     # Discovery commands
     parser_disc = subparsers.add_parser("discovery", help="Discovery Agent actions")
     parser_disc.add_argument("--ingest", action="store_true", help="Ingest raw signals")
@@ -29,6 +32,10 @@ def main():
         print("Initializing database...")
         init_db()
         print("Database initialized successfully.")
+    elif args.command == "db-migrate":
+        print("Running database migrations...")
+        init_db()
+        print("Database migrations applied successfully.")
     elif args.command == "discovery":
         if args.ingest:
             print("Running discovery signal ingestion...")
@@ -55,17 +62,36 @@ def main():
             finally:
                 session.close()
         elif args.test:
+            import os
             print(f"Running automated tests for tool: {args.test}")
-            # Runs typescript and lint tests
+            # Runs typescript build check, linting, and Playwright E2E browser tests
             from agents.builder import run_command
             from config import settings
+            
+            print("Step 1: Running Next.js build compilation check...")
             ret_b, out_b = run_command("npm run build", settings.workspace_dir)
+            if ret_b != 0:
+                print(f"Next.js build compilation failed:\n{out_b}")
+                sys.exit(1)
+                
+            print("Step 2: Running project linter check...")
             ret_l, out_l = run_command("npm run lint", settings.workspace_dir)
-            if ret_b == 0 and ret_l == 0:
-                print("Tests passed successfully.")
+            if ret_l != 0:
+                print(f"Project linting failed:\n{out_l}")
+                sys.exit(1)
+                
+            print("Step 3: Running Playwright E2E browser tests...")
+            test_path = f"tools/{args.test}/src/tests.spec.ts"
+            if not os.path.exists(os.path.join(settings.workspace_dir, test_path)):
+                print(f"Playwright test file not found at: {test_path}")
+                sys.exit(1)
+                
+            ret_p, out_p = run_command(f"npx playwright test {test_path}", settings.workspace_dir)
+            if ret_p == 0:
+                print("All tests (Build, Lint, Playwright) passed successfully!")
                 sys.exit(0)
             else:
-                print(f"Tests failed.\nBuild output: {out_b}\nLint output: {out_l}")
+                print(f"Playwright browser tests failed (exit code {ret_p}):\n{out_p}")
                 sys.exit(1)
         else:
             parser_build.print_help()

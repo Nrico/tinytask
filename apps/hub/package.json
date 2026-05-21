@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "uvicorn main:app --reload",
-    "start": "uvicorn main:app"
+    "dev": "./.venv/bin/uvicorn main:app --reload",
+    "start": "./.venv/bin/uvicorn main:app",
+    "worker": "./.venv/bin/huey_consumer tasks.huey --workers 2"
   }
 }

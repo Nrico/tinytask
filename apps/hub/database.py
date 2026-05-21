@@ -86,7 +86,18 @@ class Experiment(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 def init_db():
-    Base.metadata.create_all(bind=engine)
+    import os
+    from alembic.config import Config
+    from alembic import command
+    
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    ini_path = os.path.join(base_dir, "alembic.ini")
+    
+    cfg = Config(ini_path)
+    cfg.set_main_option("script_location", os.path.join(base_dir, "alembic"))
+    
+    print("Running database migrations up to head...")
+    command.upgrade(cfg, "head")
 
 def get_db():
     db = SessionLocal()
