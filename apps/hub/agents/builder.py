@@ -146,7 +146,7 @@ def build_tool(slug: str, session: Session) -> bool:
         
     # Run git checkout branch
     git_cwd = settings.workspace_dir
-    run_command(f"git checkout -b tool/{slug}", git_cwd)
+    run_command(f"git checkout -B tool/{slug}", git_cwd)
     
     # Run workspace link and compilation check
     build_log.status = "testing"
@@ -200,6 +200,31 @@ def build_tool(slug: str, session: Session) -> bool:
     # Commit changes to local branch
     run_command("git add .", git_cwd)
     run_command(f'git commit -m "feat(tool): add {opportunity.title} generated tool"', git_cwd)
+    
+    # Push branch to remote and create Pull Request
+    push_ret, push_out = run_command(f"git push -f -u origin tool/{slug}", git_cwd)
+    if push_ret == 0:
+        print(f"Successfully pushed branch tool/{slug} to origin.")
+        pr_title = f"feat(tool): add {opportunity.title} generated tool"
+        pr_body = f"This PR adds the generated `{opportunity.title}` tool.\n\n### Problem\n{opportunity.problem}\n\n### Scope\n{opportunity.mvp_scope}"
+        pr_ret, pr_out = run_command(f'gh pr create --title "{pr_title}" --body "{pr_body}" --head tool/{slug} --base main', git_cwd)
+        if pr_ret == 0:
+            pr_match = re.search(r'/pull/(\d+)', pr_out)
+            if pr_match:
+                build_log.pr_number = int(pr_match.group(1))
+                print(f"Successfully created PR #{build_log.pr_number}!")
+        else:
+            print(f"Failed to create PR (or it already exists): {pr_out}")
+            # If PR already exists, try to get its number
+            pr_list_ret, pr_list_out = run_command(f'gh pr list --head tool/{slug} --json number --jq ".[0].number"', git_cwd)
+            if pr_list_ret == 0 and pr_list_out.strip():
+                try:
+                    build_log.pr_number = int(pr_list_out.strip())
+                    print(f"Associated with existing PR #{build_log.pr_number}")
+                except ValueError:
+                    pass
+    else:
+        print(f"Failed to push branch to origin: {push_out}")
     
     # Try Vercel preview deployment or fall back to localhost mock URL
     preview_url = f"http://localhost:3000/tools/{slug}"
