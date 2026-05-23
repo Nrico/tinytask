@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      // Users can only read their own user record
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Users can initialize or update their own profile, but they cannot self-upgrade their plan to Pro
+      allow create, update: if request.auth != null && request.auth.uid == userId 
+                            && (!request.resource.data.keys().has('plan') 
+                                || request.resource.data.plan == 'free' 
+                                || (resource != null && resource.data.plan == request.resource.data.plan));
+    }
+  }
+}

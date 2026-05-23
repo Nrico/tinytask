@@ -1,11 +1,24 @@
 "use client"
 
+import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Check, X } from "lucide-react"
+import { Check, X, Loader2 } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
 
 export default function PricingPage() {
+    const { user, upgradeToPro, isLoading } = useAuth();
+    const isPro = user?.plan === 'pro';
+
+    const handleProAction = () => {
+        if (isPro) {
+            window.location.href = '/dashboard';
+        } else {
+            upgradeToPro();
+        }
+    };
+
     return (
         <div className="container mx-auto px-4 py-16 max-w-5xl sm:px-6 lg:px-8">
             <div className="text-center mb-16 space-y-4">
@@ -59,9 +72,15 @@ export default function PricingPage() {
                         </ul>
                     </CardContent>
                     <CardFooter>
-                        <Link href="/login?plan=pro" className="w-full">
-                            <Button className="w-full" size="lg">Upgrade to Pro</Button>
-                        </Link>
+                        <Button 
+                            className="w-full" 
+                            size="lg" 
+                            onClick={handleProAction}
+                            disabled={isLoading}
+                        >
+                            {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                            {isPro ? 'Manage Subscription' : 'Upgrade to Pro'}
+                        </Button>
                     </CardFooter>
                 </Card>
             </div>
