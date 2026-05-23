@@ -240,16 +240,28 @@ export default function BrochureBuilderPage() {
             {/* Print Styles */}
             <style dangerouslySetInnerHTML={{ __html: `
                 @media print {
+                    @page {
+                        size: landscape;
+                        margin: 0;
+                    }
+                    body {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        background: #ffffff !important;
+                    }
                     body * { visibility: hidden !important; }
                     #brochure-print-area, #brochure-print-area * { visibility: visible !important; }
                     #brochure-print-area {
                         position: absolute !important;
                         left: 0 !important;
                         top: 0 !important;
-                        width: 100% !important;
+                        width: 100vw !important;
+                        height: 100vh !important;
                         transform: none !important;
                         display: block !important;
                         gap: 0 !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
                     }
                     .print-sheet {
                         width: 100vw !important;
@@ -261,12 +273,14 @@ export default function BrochureBuilderPage() {
                         border: none !important;
                         box-shadow: none !important;
                         border-radius: 0 !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
                     }
                     .print-panel {
                         flex: 1 !important;
                         height: 100% !important;
                         border: none !important;
-                        padding: 1in !important;
+                        padding: 2.5rem !important;
                     }
                     header, footer, nav, aside { display: none !important; }
                 }
@@ -462,7 +476,7 @@ export default function BrochureBuilderPage() {
                                 }}
                             >
                                 {/* Outside Sheet */}
-                                <div className="flex flex-col items-center gap-2 w-[840px] select-none">
+                                <div className="flex flex-col items-center gap-2 w-[840px] select-none print:w-full print:h-full print:gap-0">
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:hidden">
                                         {layout === 'trifold' ? "Outside Sheet (Flap / Back / Front)" : "Outside Sheet (Back / Front)"}
                                     </span>
@@ -483,7 +497,7 @@ export default function BrochureBuilderPage() {
                                 </div>
 
                                 {/* Inside Sheet */}
-                                <div className="flex flex-col items-center gap-2 w-[840px] select-none">
+                                <div className="flex flex-col items-center gap-2 w-[840px] select-none print:w-full print:h-full print:gap-0">
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:hidden">
                                         {layout === 'trifold' ? "Inside Sheet (Left / Center / Right)" : "Inside Sheet (Left / Right)"}
                                     </span>
