@@ -48,6 +48,22 @@
       "import": "./forms/dropdown-menu.tsx",
       "require": "./forms/dropdown-menu.tsx"
     },
+    "./forms/file-uploader": {
+      "import": "./forms/file-uploader.tsx",
+      "require": "./forms/file-uploader.tsx"
+    },
+    "./forms/color-picker": {
+      "import": "./forms/color-picker.tsx",
+      "require": "./forms/color-picker.tsx"
+    },
+    "./forms/font-selector": {
+      "import": "./forms/font-selector.tsx",
+      "require": "./forms/font-selector.tsx"
+    },
+    "./layouts/tool-layout": {
+      "import": "./layouts/tool-layout.tsx",
+      "require": "./layouts/tool-layout.tsx"
+    },
     "./theme.css": {
       "import": "./theme.css",
       "require": "./theme.css"

@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@tinytask/ui/buttons/button";
 import { Label } from "@tinytask/ui/forms/label";
-import { ArrowLeft, Table, Clipboard, Check } from "lucide-react";
-import Link from "next/link";
+import { ToolLayout } from "@tinytask/ui/layouts/tool-layout";
+import { Clipboard, Check } from "lucide-react";
 import { cn } from "@tinytask/utils";
 
 export default function TableTunerPage() {
@@ -21,7 +21,6 @@ export default function TableTunerPage() {
         }
 
         // Detect separator (Excel uses tabs, CSV uses commas)
-        // Simple detection: check first line
         const firstLine = input.split('\n')[0];
         const separator = firstLine.includes('\t') ? '\t' : ',';
 
@@ -85,23 +84,15 @@ export default function TableTunerPage() {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row h-[calc(100vh-60px)]">
-            {/* Sidebar Controls */}
-            <div className="w-full lg:w-80 bg-background border-r flex flex-col shadow-sm z-10">
-                <div className="p-6 border-b">
-                    <Link href="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 mb-4">
-                        <ArrowLeft className="w-4 h-4" /> Back to Home
-                    </Link>
-                    <h2 className="font-bold text-xl flex items-center gap-2">
-                        <Table className="w-5 h-5 text-teal-600" /> Table Tuner
-                    </h2>
-                </div>
-
-                <div className="p-6 space-y-6 flex-1">
+        <ToolLayout
+            title="Table Tuner"
+            description="Convert CSV or Excel data to Markdown, HTML, JSON, and ASCII tables."
+            sidebarContent={
+                <div className="space-y-6">
                     <div className="space-y-2">
                         <Label>Input Data</Label>
                         <textarea
-                            className="w-full p-3 border rounded-md focus:ring-2 focus:ring-teal-500 outline-none h-48 font-mono text-xs resize-none bg-background"
+                            className="w-full p-3 border rounded-md focus:ring-2 focus:ring-teal-500 outline-none h-48 font-mono text-xs resize-none bg-background text-foreground"
                             placeholder="Paste from Excel (tab separated) or CSV..."
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
@@ -129,11 +120,9 @@ export default function TableTunerPage() {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* Main Output Area */}
-            <div className="flex-1 bg-secondary/20 p-8 flex flex-col">
-                <div className="bg-background rounded-xl shadow-sm border flex flex-col h-full overflow-hidden">
+            }
+            previewContent={
+                <div className="bg-background rounded-xl shadow-sm border flex flex-col h-full w-full max-w-4xl overflow-hidden min-h-[400px]">
                     <div className="p-4 border-b flex justify-between items-center bg-secondary/10">
                         <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Result Preview</span>
                         <Button
@@ -142,15 +131,15 @@ export default function TableTunerPage() {
                             onClick={handleCopy}
                             className="gap-2 text-teal-600 hover:text-teal-700 hover:bg-teal-50"
                         >
-                            {copied ? <Check className="w-3 h-3" /> : <Clipboard className="w-3 h-3" />}
+                            {copied ? <Check className="w-3.5 h-3.5" /> : <Clipboard className="w-3.5 h-3.5" />}
                             {copied ? 'COPIED' : 'COPY CODE'}
                         </Button>
                     </div>
-                    <pre className="flex-1 p-6 font-mono text-sm overflow-auto text-foreground whitespace-pre">
+                    <pre className="flex-1 p-6 font-mono text-sm overflow-auto text-foreground whitespace-pre leading-relaxed">
                         {output}
                     </pre>
                 </div>
-            </div>
-        </div>
+            }
+        />
     );
 }
