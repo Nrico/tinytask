@@ -1,11 +1,12 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@tinytask/ui/buttons/button';
 import { Input } from '@tinytask/ui/forms/input';
 import { Label } from '@tinytask/ui/forms/label';
 import { FileUploader } from '@tinytask/ui/forms/file-uploader';
 import { ToolLayout } from '@tinytask/ui/layouts/tool-layout';
+import { useBrandKit } from '@tinytask/ui/brand/brand-context';
 import { Printer, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
 
 interface LineItem {
@@ -16,9 +17,24 @@ interface LineItem {
 }
 
 export default function InvoiceSwiftPage() {
+    const { activeBrandKit, isBrandedSession } = useBrandKit();
+
     // State
     const [logo, setLogo] = useState<string | null>(null);
     const [companyName, setCompanyName] = useState('My Company');
+
+    // Load Brand default if in branded session
+    useEffect(() => {
+        if (isBrandedSession && activeBrandKit) {
+            if (activeBrandKit.logos?.primary) {
+                setLogo(activeBrandKit.logos.primary);
+            }
+            if (activeBrandKit.name) {
+                setCompanyName(activeBrandKit.name);
+            }
+        }
+    }, [isBrandedSession, activeBrandKit]);
+
     const [companyDetails, setCompanyDetails] = useState('123 Business Rd\nCity, State, Zip');
     const [clientName, setClientName] = useState('Client Name');
     const [clientDetails, setClientDetails] = useState('456 Client Ave\nCity, State, Zip');
@@ -93,7 +109,16 @@ export default function InvoiceSwiftPage() {
                         {/* Company Logo Section */}
                         <div className="space-y-4 border-t pt-4">
                             <Label className="flex items-center gap-1.5"><ImageIcon className="w-4 h-4 text-primary" /> Company Logo</Label>
-                            {logo ? (
+                            {isBrandedSession ? (
+                                logo ? (
+                                    <div className="flex items-center gap-4 mt-1.5 bg-slate-50 p-3 rounded-lg border">
+                                        <img src={logo} alt="Logo preview" className="max-h-12 max-w-[150px] object-contain border rounded p-1 bg-white" />
+                                        <span className="text-xs text-slate-500 font-semibold italic">Locked by brand kit</span>
+                                    </div>
+                                ) : (
+                                    <div className="text-xs text-slate-500 italic p-3 bg-slate-50 border rounded-lg">No logo provided in brand kit</div>
+                                )
+                            ) : logo ? (
                                 <div className="flex items-center gap-4 mt-1.5">
                                     <img src={logo} alt="Logo preview" className="max-h-12 max-w-[150px] object-contain border rounded p-1 bg-white" />
                                     <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setLogo(null)}>
@@ -123,7 +148,7 @@ export default function InvoiceSwiftPage() {
                             <div className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="company-name">My Company Details</Label>
-                                    <Input id="company-name" value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company Name" className="mb-2" />
+                                    <Input id="company-name" value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company Name" className="mb-2" disabled={isBrandedSession} />
                                     <textarea
                                         id="company-details"
                                         className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -250,14 +275,14 @@ export default function InvoiceSwiftPage() {
                             {/* Invoice Header */}
                             <div className="flex justify-between items-start mb-12">
                                 <div>
-                                    <h2 className="text-4xl font-extrabold text-slate-800 tracking-tight mb-2">INVOICE</h2>
+                                    <h2 className="text-4xl font-extrabold tracking-tight mb-2" style={{ color: isBrandedSession ? 'var(--primary)' : undefined }}>INVOICE</h2>
                                     <p className="text-sm font-medium text-slate-500">#{invoiceNumber}</p>
                                 </div>
                                 <div className="text-right flex flex-col items-end gap-1.5">
                                     {logo && (
                                         <img src={logo} alt="Company Logo" className="max-h-16 max-w-[200px] object-contain mb-3" />
                                     )}
-                                    <h3 className="font-bold text-lg leading-tight text-slate-800">{companyName}</h3>
+                                    <h3 className="font-bold text-lg leading-tight" style={{ color: isBrandedSession ? 'var(--primary)' : undefined }}>{companyName}</h3>
                                     <div className="text-xs text-slate-500 whitespace-pre-line leading-relaxed">{companyDetails}</div>
                                 </div>
                             </div>
@@ -278,7 +303,7 @@ export default function InvoiceSwiftPage() {
                             {/* Line Items Table */}
                             <table className="w-full mb-8">
                                 <thead>
-                                    <tr className="border-b-2 border-slate-200">
+                                    <tr className="border-b-2" style={{ borderColor: isBrandedSession ? 'var(--primary)' : undefined }}>
                                         <th className="text-left py-3 text-xs font-bold text-slate-600 uppercase tracking-wider">Description</th>
                                         <th className="text-right py-3 text-xs font-bold text-slate-600 uppercase tracking-wider w-24">Qty</th>
                                         <th className="text-right py-3 text-xs font-bold text-slate-600 uppercase tracking-wider w-32">Rate</th>
@@ -312,7 +337,7 @@ export default function InvoiceSwiftPage() {
                                             <span className="font-medium text-slate-800">{currency}{taxAmount.toFixed(2)}</span>
                                         </div>
                                     )}
-                                    <div className="flex justify-between font-bold text-lg text-slate-800 pt-4 border-t border-slate-200">
+                                    <div className="flex justify-between font-bold text-lg pt-4 border-t" style={{ color: isBrandedSession ? 'var(--primary)' : undefined, borderColor: isBrandedSession ? 'var(--primary)' : undefined }}>
                                         <span>Total</span>
                                         <span>{currency}{total.toFixed(2)}</span>
                                     </div>
@@ -335,7 +360,12 @@ export default function InvoiceSwiftPage() {
                     </div>
                 }
                 actions={
-                    <Button onClick={handlePrint} className="w-full gap-2 bg-indigo-600 hover:bg-indigo-700 text-white" size="lg">
+                    <Button 
+                        onClick={handlePrint} 
+                        className="w-full gap-2 text-white" 
+                        style={{ backgroundColor: isBrandedSession ? 'var(--primary)' : undefined }}
+                        size="lg"
+                    >
                         <Printer className="w-5 h-5" /> Print Invoice
                     </Button>
                 }

@@ -1,8 +1,10 @@
 "use client"
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
+import { useBrandKit, encodeBrandKit } from "@tinytask/ui/brand/brand-context";
 import { User, LogOut, ChevronDown, FileText, Globe, Mail, Image as ImageIcon, BookOpen, Heart, Users, Tent, Table, QrCode, Tags, FileSpreadsheet, Zap } from "lucide-react";
 import {
     DropdownMenu,
@@ -17,6 +19,55 @@ import { HowToGuide } from "@/components/layout/how-to-guide";
 
 export function Header() {
     const { user, logout } = useAuth();
+    const { activeBrandKit, isBrandedSession, clearBrandKit } = useBrandKit();
+    const router = useRouter();
+
+    if (isBrandedSession && activeBrandKit) {
+        const primaryColor = activeBrandKit.colors?.primary || '#4f46e5';
+        return (
+            <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 print:hidden">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-14 items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => {
+                            const encoded = encodeBrandKit(activeBrandKit);
+                            router.push(`/brand-portal?brand_kit=${encoded}`);
+                        }}>
+                            {activeBrandKit.logos?.primary ? (
+                                <img src={activeBrandKit.logos.primary} alt={activeBrandKit.name} className="max-h-8 max-w-[120px] object-contain" />
+                            ) : (
+                                <div 
+                                    style={{ backgroundColor: primaryColor }} 
+                                    className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold"
+                                >
+                                    {activeBrandKit.name.charAt(0).toUpperCase()}
+                                </div>
+                            )}
+                            <span className="font-bold text-lg tracking-tight" style={{ color: primaryColor }}>
+                                {activeBrandKit.name} Portal
+                            </span>
+                        </div>
+                        <span className="text-2xs bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-full border border-slate-200">
+                            Branded Suite
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="gap-1 text-slate-500 hover:text-slate-800"
+                            onClick={() => {
+                                clearBrandKit();
+                                router.push('/');
+                            }}
+                        >
+                            <LogOut className="w-3.5 h-3.5" /> Exit Brand Mode
+                        </Button>
+                    </div>
+                </div>
+            </header>
+        );
+    }
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

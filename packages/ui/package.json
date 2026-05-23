@@ -64,6 +64,10 @@
       "import": "./layouts/tool-layout.tsx",
       "require": "./layouts/tool-layout.tsx"
     },
+    "./brand/brand-context": {
+      "import": "./brand/brand-context.tsx",
+      "require": "./brand/brand-context.tsx"
+    },
     "./theme.css": {
       "import": "./theme.css",
       "require": "./theme.css"

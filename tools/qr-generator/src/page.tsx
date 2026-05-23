@@ -9,14 +9,25 @@ import { Label } from "@tinytask/ui/forms/label"
 import { Card, CardContent } from "@tinytask/ui/cards/card"
 import { ColorPicker } from "@tinytask/ui/forms/color-picker"
 import { ToolLayout } from "@tinytask/ui/layouts/tool-layout"
+import { useBrandKit } from "@tinytask/ui/brand/brand-context"
 import { Download, QrCode, ScanLine } from "lucide-react"
 
 export default function QrGeneratorPage() {
+    const { activeBrandKit, isBrandedSession } = useBrandKit();
+
     const [text, setText] = useState("https://example.com");
     const [size, setSize] = useState(256);
     const [color, setColor] = useState("#000000");
     const [bgColor, setBgColor] = useState("#ffffff");
     const [codeType, setCodeType] = useState<'qr' | 'barcode'>('qr');
+
+    // Override colors if in branded session
+    useEffect(() => {
+        if (isBrandedSession && activeBrandKit) {
+            setColor(activeBrandKit.colors.primary);
+            setBgColor(activeBrandKit.colors.background);
+        }
+    }, [isBrandedSession, activeBrandKit]);
 
     const barcodeRef = useRef<HTMLCanvasElement>(null);
 
@@ -122,20 +133,36 @@ export default function QrGeneratorPage() {
                         </div>
                     )}
 
-                    <div className="space-y-4 border-t pt-4">
-                        <ColorPicker
-                            id="fg-color"
-                            label="Foreground Color"
-                            value={color}
-                            onChange={setColor}
-                        />
-                        <ColorPicker
-                            id="bg-color"
-                            label="Background Color"
-                            value={bgColor}
-                            onChange={setBgColor}
-                        />
-                    </div>
+                    {isBrandedSession ? (
+                        <div className="space-y-2 border-t pt-4 text-xs text-slate-500 italic bg-slate-50 p-3 rounded-lg border">
+                            Colors locked by Brand Identity:
+                            <div className="flex gap-2 mt-2">
+                                <div className="flex items-center gap-1.5">
+                                    <div className="w-4 h-4 rounded border shadow-2xs" style={{ backgroundColor: color }} />
+                                    <span>Foreground</span>
+                                </div>
+                                <div className="flex items-center gap-1.5 ml-4">
+                                    <div className="w-4 h-4 rounded border shadow-2xs" style={{ backgroundColor: bgColor }} />
+                                    <span>Background</span>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-4 border-t pt-4">
+                            <ColorPicker
+                                id="fg-color"
+                                label="Foreground Color"
+                                value={color}
+                                onChange={setColor}
+                            />
+                            <ColorPicker
+                                id="bg-color"
+                                label="Background Color"
+                                value={bgColor}
+                                onChange={setBgColor}
+                            />
+                        </div>
+                    )}
                 </div>
             }
             previewContent={

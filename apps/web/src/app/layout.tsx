@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { cn } from "@/lib/utils";
 import { inter, playfair, oswald, outfit } from "@/lib/fonts";
 import { AuthProvider } from "@/lib/auth-context";
+import { BrandKitProvider } from "@tinytask/ui/brand/brand-context";
 
 export const metadata: Metadata = {
   title: "TinyTask - Productivity Tools Suite",
@@ -26,11 +27,13 @@ export default function RootLayout({
         oswald.variable
       )}>
         <AuthProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
-          </div>
+          <BrandKitProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <Header />
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </div>
+          </BrandKitProvider>
         </AuthProvider>
       </body>
     </html>
