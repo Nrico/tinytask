@@ -5,7 +5,9 @@ import { Button } from '@tinytask/ui/buttons/button';
 import { Input } from '@tinytask/ui/forms/input';
 import { Label } from '@tinytask/ui/forms/label';
 import { Card, CardContent } from '@tinytask/ui/cards/card';
-import { ArrowLeft, Copy, Check, Mail, Phone, Globe, MapPin, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { ColorPicker } from '@tinytask/ui/forms/color-picker';
+import { ToolLayout } from '@tinytask/ui/layouts/tool-layout';
+import { Copy, Check, Image as ImageIcon, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SignatureSmithPage() {
@@ -208,187 +210,173 @@ export default function SignatureSmithPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-6xl sm:px-6 lg:px-8">
-            <div className="mb-8">
-                <Link href="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 mb-4">
-                    <ArrowLeft className="w-4 h-4" /> Back to Home
-                </Link>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Signature Smith</h1>
-                        <p className="text-muted-foreground">Create professional email signatures in seconds.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-8">
-                {/* Controls */}
+        <ToolLayout
+            title="Signature Smith"
+            description="Create professional email signatures in seconds."
+            sidebarContent={
                 <div className="space-y-6">
-                    <Card>
-                        <CardContent className="p-6 space-y-6">
-                            <div className="space-y-4">
-                                <h3 className="font-semibold">Personal Details</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label>Full Name</Label>
-                                        <Input value={name} onChange={e => setName(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label>Job Title</Label>
-                                        <Input value={title} onChange={e => setTitle(e.target.value)} />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Company</Label>
-                                    <Input value={company} onChange={e => setCompany(e.target.value)} />
-                                </div>
+                    {/* Personal Details */}
+                    <div className="space-y-4">
+                        <h3 className="font-semibold text-slate-800 text-sm">Personal Details</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="full-name">Full Name</Label>
+                                <Input id="full-name" value={name} onChange={e => setName(e.target.value)} />
                             </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="job-title">Job Title</Label>
+                                <Input id="job-title" value={title} onChange={e => setTitle(e.target.value)} />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="company">Company</Label>
+                            <Input id="company" value={company} onChange={e => setCompany(e.target.value)} />
+                        </div>
+                    </div>
 
-                            {/* Avatar Section */}
-                            <div className="space-y-4 border-t pt-4">
-                                <h3 className="font-semibold flex items-center gap-1.5"><ImageIcon className="w-4 h-4 text-primary" /> Profile Image / Avatar</h3>
-                                
-                                <div className="flex bg-slate-100 p-1 rounded-lg text-xs font-semibold">
-                                    <button
-                                        className={`flex-1 py-1.5 rounded-md transition-all ${avatarType === 'url' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
-                                        onClick={() => setAvatarType('url')}
-                                    >
-                                        Hosted Image URL
-                                    </button>
-                                    <button
-                                        className={`flex-1 py-1.5 rounded-md transition-all ${avatarType === 'upload' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
-                                        onClick={() => setAvatarType('upload')}
-                                    >
-                                        Upload Image File
-                                    </button>
-                                </div>
+                    {/* Avatar Section */}
+                    <div className="space-y-4 border-t pt-4">
+                        <h3 className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
+                            <ImageIcon className="w-4 h-4 text-primary" /> Profile Image / Avatar
+                        </h3>
+                        
+                        <div className="flex bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+                            <button
+                                className={`flex-1 py-1.5 rounded-md transition-all ${avatarType === 'url' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
+                                onClick={() => setAvatarType('url')}
+                            >
+                                Hosted Image URL
+                            </button>
+                            <button
+                                className={`flex-1 py-1.5 rounded-md transition-all ${avatarType === 'upload' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
+                                onClick={() => setAvatarType('upload')}
+                            >
+                                Upload Image File
+                            </button>
+                        </div>
 
-                                {avatarType === 'url' ? (
-                                    <div className="space-y-2">
-                                        <Label htmlFor="avatar-url">Public Image URL</Label>
-                                        <Input 
-                                            id="avatar-url"
-                                            value={avatarUrl} 
-                                            onChange={e => setAvatarUrl(e.target.value)} 
-                                            placeholder="e.g. https://mywebsite.com/photo.png"
-                                            className="text-xs"
-                                        />
+                        {avatarType === 'url' ? (
+                            <div className="space-y-2">
+                                <Label htmlFor="avatar-url">Public Image URL</Label>
+                                <Input 
+                                    id="avatar-url"
+                                    value={avatarUrl} 
+                                    onChange={e => setAvatarUrl(e.target.value)} 
+                                    placeholder="e.g. https://mywebsite.com/photo.png"
+                                    className="text-xs"
+                                />
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <Label htmlFor="avatar-upload">Upload Local Photo</Label>
+                                {avatarBase64 ? (
+                                    <div className="flex items-center gap-4">
+                                        <img src={avatarBase64} alt="Avatar preview" className="w-12 h-12 object-cover rounded-full border p-0.5 bg-white" />
+                                        <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setAvatarBase64(null)}>
+                                            Remove Photo
+                                        </Button>
                                     </div>
                                 ) : (
-                                    <div className="space-y-2">
-                                        <Label htmlFor="avatar-upload">Upload Local Photo</Label>
-                                        {avatarBase64 ? (
-                                            <div className="flex items-center gap-4">
-                                                <img src={avatarBase64} alt="Avatar preview" className="w-12 h-12 object-cover rounded-full border p-0.5 bg-white" />
-                                                <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setAvatarBase64(null)}>
-                                                    Remove Photo
-                                                </Button>
-                                            </div>
-                                        ) : (
-                                            <input
-                                                id="avatar-upload"
-                                                type="file"
-                                                accept="image/*"
-                                                className="block w-full text-xs text-slate-500
-                                                    file:mr-4 file:py-2 file:px-4
-                                                    file:rounded-md file:border-0
-                                                    file:text-xs file:font-semibold
-                                                    file:bg-secondary file:text-secondary-foreground
-                                                    hover:file:bg-secondary/85 cursor-pointer"
-                                                onChange={handleLocalImage}
-                                            />
-                                        )}
-                                    </div>
+                                    <input
+                                        id="avatar-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        className="block w-full text-xs text-slate-500
+                                            file:mr-4 file:py-2 file:px-4
+                                            file:rounded-md file:border-0
+                                            file:text-xs file:font-semibold
+                                            file:bg-secondary file:text-secondary-foreground
+                                            hover:file:bg-secondary/85 cursor-pointer"
+                                        onChange={handleLocalImage}
+                                    />
                                 )}
+                            </div>
+                        )}
 
-                                <div className="bg-amber-50 border border-amber-200/60 rounded-lg p-4 flex gap-2.5 items-start text-xs text-amber-800 leading-relaxed">
-                                    <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                                    <div className="space-y-2">
-                                        <p className="font-semibold text-amber-900">Email Client Compatibility Notice</p>
-                                        <p>
-                                            A hosted public URL is highly recommended. Many mail apps (such as Gmail) block base64 image strings, which can cause uploaded local images to appear broken in your signature.
-                                        </p>
-                                        <div className="pt-2 border-t border-amber-200/50 space-y-1.5">
-                                            <p className="font-semibold text-amber-900 flex items-center gap-1">
-                                                ☁️ Want us to host it for you?
-                                            </p>
-                                            <p>
-                                                Unlock secure, reliable cloud hosting for your signature images and logos by becoming a <strong>TinyTask Pro</strong> subscriber, or support our work by buying us a coffee!
-                                            </p>
-                                            <div className="flex gap-2 pt-0.5">
-                                                <Link href="/pricing">
-                                                    <Button size="sm" className="h-7 text-[10px] px-3 bg-amber-700 hover:bg-amber-800 text-white border-none">
-                                                        Go Pro
-                                                    </Button>
-                                                </Link>
-                                                <a href="https://buymeacoffee.com" target="_blank" rel="noopener noreferrer">
-                                                    <Button size="sm" variant="outline" className="h-7 text-[10px] px-3 border-amber-300 text-amber-900 bg-white hover:bg-amber-100">
-                                                        Buy us a coffee
-                                                    </Button>
-                                                </a>
-                                            </div>
-                                        </div>
+                        <div className="bg-amber-50 border border-amber-200/60 rounded-lg p-4 flex gap-2.5 items-start text-xs text-amber-800 leading-relaxed">
+                            <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                            <div className="space-y-2">
+                                <p className="font-semibold text-amber-900">Email Client Compatibility Notice</p>
+                                <p>
+                                    A hosted public URL is highly recommended. Many mail apps (such as Gmail) block base64 image strings, which can cause uploaded local images to appear broken in your signature.
+                                </p>
+                                <div className="pt-2 border-t border-amber-200/50 space-y-1.5">
+                                    <p className="font-semibold text-amber-900 flex items-center gap-1">
+                                        ☁️ Want us to host it for you?
+                                    </p>
+                                    <p>
+                                        Unlock secure, reliable cloud hosting for your signature images and logos by becoming a <strong>TinyTask Pro</strong> subscriber, or support our work by buying us a coffee!
+                                    </p>
+                                    <div className="flex gap-2 pt-0.5">
+                                        <Link href="/pricing">
+                                            <Button size="sm" className="h-7 text-[10px] px-3 bg-amber-700 hover:bg-amber-800 text-white border-none">
+                                                Go Pro
+                                            </Button>
+                                        </Link>
+                                        <a href="https://buymeacoffee.com" target="_blank" rel="noopener noreferrer">
+                                            <Button size="sm" variant="outline" className="h-7 text-[10px] px-3 border-amber-300 text-amber-900 bg-white hover:bg-amber-100">
+                                                Buy us a coffee
+                                            </Button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div className="space-y-4 border-t pt-4">
-                                <h3 className="font-semibold">Contact Info</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label>Phone</Label>
-                                        <Input value={phone} onChange={e => setPhone(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label>Email</Label>
-                                        <Input value={email} onChange={e => setEmail(e.target.value)} />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Website</Label>
-                                    <Input value={website} onChange={e => setWebsite(e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Address</Label>
-                                    <Input value={address} onChange={e => setAddress(e.target.value)} />
-                                </div>
+                    {/* Contact Info */}
+                    <div className="space-y-4 border-t pt-4">
+                        <h3 className="font-semibold text-slate-800 text-sm">Contact Info</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="phone">Phone</Label>
+                                <Input id="phone" value={phone} onChange={e => setPhone(e.target.value)} />
                             </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" value={email} onChange={e => setEmail(e.target.value)} />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="website">Website</Label>
+                            <Input id="website" value={website} onChange={e => setWebsite(e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="address">Address</Label>
+                            <Input id="address" value={address} onChange={e => setAddress(e.target.value)} />
+                        </div>
+                    </div>
 
-                            <div className="space-y-4 border-t pt-4">
-                                <h3 className="font-semibold">Style</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label>Brand Color</Label>
-                                        <div className="flex items-center gap-2">
-                                            <Input type="color" value={color} onChange={e => setColor(e.target.value)} className="w-12 h-10 p-1 cursor-pointer" />
-                                            <span className="text-sm font-mono text-muted-foreground">{color}</span>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label>Template</Label>
-                                        <div className="flex gap-2">
-                                            {['simple', 'sidebar', 'card'].map(t => (
-                                                <Button
-                                                    key={t}
-                                                    variant={template === t ? 'default' : 'outline'}
-                                                    size="sm"
-                                                    onClick={() => setTemplate(t)}
-                                                    className="capitalize"
-                                                >
-                                                    {t}
-                                                </Button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
+                    {/* Style */}
+                    <div className="space-y-4 border-t pt-4">
+                        <h3 className="font-semibold text-slate-800 text-sm">Style</h3>
+                        <ColorPicker
+                            label="Brand Color"
+                            value={color}
+                            onChange={setColor}
+                        />
+                        <div className="space-y-2">
+                            <Label>Template Layout</Label>
+                            <div className="flex gap-2">
+                                {['simple', 'sidebar', 'card'].map(t => (
+                                    <Button
+                                        key={t}
+                                        variant={template === t ? 'default' : 'outline'}
+                                        size="sm"
+                                        onClick={() => setTemplate(t)}
+                                        className="capitalize flex-1"
+                                    >
+                                        {t}
+                                    </Button>
+                                ))}
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 </div>
-
-                {/* Preview */}
-                <div className="space-y-6">
-                    <Card className="bg-slate-50 border-2 border-dashed">
+            }
+            previewContent={
+                <div className="space-y-6 w-full max-w-xl flex flex-col items-center">
+                    <Card className="bg-slate-50 border-2 border-dashed w-full">
                         <CardContent className="p-8 flex items-center justify-center min-h-[300px]">
                             <div className="bg-white p-8 shadow-sm rounded-lg w-full max-w-lg overflow-auto">
                                 <div ref={previewRef}>
@@ -409,11 +397,11 @@ export default function SignatureSmithPage() {
                             </>
                         )}
                     </Button>
-                    <p className="text-center text-sm text-muted-foreground">
+                    <p className="text-center text-xs text-muted-foreground leading-relaxed max-w-md">
                         Paste this directly into your Outlook, Gmail, or Apple Mail signature settings.
                     </p>
                 </div>
-            </div>
-        </div>
+            }
+        />
     );
 }
