@@ -28,7 +28,12 @@ export default function LoginPage() {
             } else {
                 await loginWithPassword(email, password);
             }
-            router.push('/dashboard');
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('plan') === 'pro') {
+                router.push('/dashboard?upgrade=true');
+            } else {
+                router.push('/dashboard');
+            }
         } catch (err) {
             const errMessage = err instanceof Error ? err.message : 'Authentication failed. Please check your credentials.';
             console.error(err);
@@ -43,7 +48,12 @@ export default function LoginPage() {
         setError('');
         try {
             await loginWithGoogle();
-            router.push('/dashboard');
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('plan') === 'pro') {
+                router.push('/dashboard?upgrade=true');
+            } else {
+                router.push('/dashboard');
+            }
         } catch (err) {
             const errMessage = err instanceof Error ? err.message : 'Google Sign-In failed.';
             console.error(err);
@@ -58,7 +68,12 @@ export default function LoginPage() {
         setError('');
         try {
             await login('demo@tinytask.app', 'Demo User');
-            router.push('/dashboard');
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('plan') === 'pro') {
+                router.push('/dashboard?upgrade=true');
+            } else {
+                router.push('/dashboard');
+            }
         } catch (err) {
             const errMessage = err instanceof Error ? err.message : 'Demo Sign-In failed.';
             console.error(err);

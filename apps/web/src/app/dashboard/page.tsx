@@ -17,8 +17,14 @@ export default function DashboardPage() {
     useEffect(() => {
         if (!isLoading && !user) {
             router.push('/login');
+        } else if (!isLoading && user) {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('upgrade') === 'true') {
+                router.replace('/dashboard');
+                upgradeToPro();
+            }
         }
-    }, [user, isLoading, router]);
+    }, [user, isLoading, router, upgradeToPro]);
 
     const handleManageBilling = async () => {
         setIsPortalLoading(true);
