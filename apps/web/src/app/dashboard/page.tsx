@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
-import { Zap, Crown, Box, FileText, QrCode, Loader2 } from 'lucide-react';
+import { Zap, Crown, Box, FileText, QrCode, Loader2, ShieldAlert } from 'lucide-react';
 
 export default function DashboardPage() {
     const { user, isLoading, upgradeToPro } = useAuth();
@@ -77,6 +77,12 @@ export default function DashboardPage() {
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
+                    {user.role === 'admin' && (
+                        <Button onClick={() => router.push('/dashboard/admin')} variant="outline" className="gap-2 font-semibold border-rose-200 bg-rose-50/30 text-rose-700 hover:bg-rose-50/50">
+                            <ShieldAlert className="w-4 h-4 text-rose-600" />
+                            Admin Panel
+                        </Button>
+                    )}
                     {user.plan === 'free' ? (
                         <Button onClick={upgradeToPro} className="gap-2 bg-rose-600 hover:bg-rose-700 text-white border-none shadow-xs font-semibold">
                             <Zap className="w-4 h-4" />
@@ -172,6 +178,12 @@ export default function DashboardPage() {
                     <FileText className="w-6 h-6" />
                     Word Formatter
                 </Button>
+                {user.role === 'admin' && (
+                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 border-rose-200 bg-rose-50/10 text-rose-800 hover:bg-rose-50/20" onClick={() => router.push('/dashboard/admin')}>
+                        <ShieldAlert className="w-6 h-6 text-rose-600" />
+                        Admin Support Panel
+                    </Button>
+                )}
             </div>
         </div>
     );

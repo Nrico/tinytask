@@ -12,18 +12,19 @@ import {
 import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 
 export type UserPlan = 'free' | 'pro';
+export type UserRole = 'user' | 'admin';
 
 export interface User {
     id: string;
     name: string;
     email: string;
     plan: UserPlan;
+    role: UserRole;
 }
 
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
-    login: (email: string, name: string) => Promise<void>;
     loginWithPassword: (email: string, password: string) => Promise<void>;
     signUp: (email: string, password: string, name: string) => Promise<void>;
     loginWithGoogle: () => Promise<void>;
@@ -52,6 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             name: data.name || firebaseUser.displayName || 'User',
                             email: firebaseUser.email || '',
                             plan: data.plan || 'free',
+                            role: data.role || 'user',
                         });
                     } else {
                         // Create baseline doc if not exists
@@ -59,6 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             name: firebaseUser.displayName || 'User',
                             email: firebaseUser.email || '',
                             plan: 'free' as UserPlan,
+                            role: 'user' as UserRole,
                             createdAt: new Date().toISOString(),
                         };
                         await setDoc(userRef, newDoc);
@@ -67,6 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             name: newDoc.name,
                             email: newDoc.email,
                             plan: newDoc.plan,
+                            role: newDoc.role,
                         });
                     }
                     setIsLoading(false);
@@ -96,31 +100,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             name,
             email,
             plan: 'free',
+            role: 'user',
             createdAt: new Date().toISOString(),
         });
     };
 
     const loginWithGoogle = async () => {
         await signInWithPopup(auth, googleProvider);
-    };
-
-    // Legacy mock login compatibility
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const login = async (email: string, _name: string) => {
-        if (email === 'demo@tinytask.app') {
-            try {
-                await signInWithEmailAndPassword(auth, 'demo@tinytask.app', 'demoPassword123');
-            } catch {
-                // If demo account doesn't exist yet, we register it
-                try {
-                    await signUp('demo@tinytask.app', 'demoPassword123', 'Demo User');
-                } catch {
-                    // Fallback
-                }
-            }
-        } else {
-            throw new Error("Password required for standard accounts. Please use loginWithPassword or loginWithGoogle.");
-        }
     };
 
     const logout = async () => {
@@ -160,7 +146,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         <AuthContext.Provider value={{ 
             user, 
             isLoading, 
-            login, 
             loginWithPassword, 
             signUp, 
             loginWithGoogle, 

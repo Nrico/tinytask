@@ -13,7 +13,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const { loginWithPassword, signUp, loginWithGoogle, login } = useAuth();
+    const { loginWithPassword, signUp, loginWithGoogle } = useAuth();
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
@@ -63,25 +63,7 @@ export default function LoginPage() {
         }
     };
 
-    const handleDemoLogin = async () => {
-        setIsSubmitting(true);
-        setError('');
-        try {
-            await login('demo@tinytask.app', 'Demo User');
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('plan') === 'pro') {
-                router.push('/dashboard?upgrade=true');
-            } else {
-                router.push('/dashboard');
-            }
-        } catch (err) {
-            const errMessage = err instanceof Error ? err.message : 'Demo Sign-In failed.';
-            console.error(err);
-            setError(errMessage);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+
 
     return (
         <div className="container mx-auto flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center px-4">
@@ -187,10 +169,6 @@ export default function LoginPage() {
                     <div className="grid grid-cols-1 gap-2">
                         <Button variant="outline" type="button" disabled={isSubmitting} onClick={handleGoogleLogin}>
                             Sign In with Google
-                        </Button>
-                        
-                        <Button variant="outline" type="button" disabled={isSubmitting} onClick={handleDemoLogin} className="text-slate-500">
-                            Use Demo Account
                         </Button>
                     </div>
                 </div>

@@ -1,15 +1,31 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // Helper function to check if the requesting user is an admin
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
     match /users/{userId} {
-      // Users can only read their own user record
-      allow read: if request.auth != null && request.auth.uid == userId;
+      // Users can read their own user record; admins can read all user records
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
       
-      // Users can initialize or update their own profile, but they cannot self-upgrade their plan to Pro
-      allow create, update: if request.auth != null && request.auth.uid == userId 
-                            && (!request.resource.data.keys().has('plan') 
-                                || request.resource.data.plan == 'free' 
-                                || (resource != null && resource.data.plan == request.resource.data.plan));
+      // Users can initialize their own document, defaulting plan to free and role to user
+      allow create: if request.auth != null && request.auth.uid == userId 
+                    && (!request.resource.data.keys().has('role') || request.resource.data.role == 'user')
+                    && (!request.resource.data.keys().has('plan') || request.resource.data.plan == 'free');
+
+      // Users can update their profile but cannot change their role or upgrade their plan to Pro; admins have unrestricted update rights
+      allow update: if request.auth != null && (
+        (request.auth.uid == userId 
+         && (!request.resource.data.keys().has('role') || request.resource.data.role == resource.data.role)
+         && (!request.resource.data.keys().has('plan') || request.resource.data.plan == 'free' || request.resource.data.plan == resource.data.plan)
+        ) 
+        || isAdmin()
+      );
     }
   }
 }
