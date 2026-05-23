@@ -120,19 +120,12 @@ export default function Home() {
           />
           <ToolCard
             title="Brochure Builder"
-            description="Design and print tri-fold brochures with ease."
+            description="Design and print tri-fold and bi-fold brochures with ease."
             icon={<BookOpen className="w-6 h-6 text-sky-600" />}
             href="/tools/brochure-builder"
             isPreview
           />
-          <ToolCard
-            title="Bi-Fold Brochure"
-            description="Design simple 4-panel brochures."
-            icon={<BookOpen className="w-6 h-6 text-blue-500" />}
-            href="/tools/bi-fold-brochure"
-            isNew
-            isPreview
-          />
+
           <ToolCard
             title="Greeting Card"
             description="Create folded greeting cards."

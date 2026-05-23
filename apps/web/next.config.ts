@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
     "@tinytask/brand",
     "@tinytask/ui",
     "@tinytask/utils",
-    "@tinytask/tool-bi-fold-brochure",
     "@tinytask/tool-brochure-builder",
+
     "@tinytask/tool-excel-scrubber",
     "@tinytask/tool-greeting-card",
     "@tinytask/tool-invoice-swift",

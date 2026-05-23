@@ -45,11 +45,7 @@ export function Header() {
                                             <BookOpen className="h-4 w-4 text-sky-500" /> Brochure Builder
                                         </Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/tools/bi-fold-brochure" className="cursor-pointer w-full flex items-center gap-2">
-                                            <BookOpen className="h-4 w-4 text-blue-500" /> Bi-Fold Brochure
-                                        </Link>
-                                    </DropdownMenuItem>
+
                                     <DropdownMenuItem asChild>
                                         <Link href="/tools/greeting-card" className="cursor-pointer w-full flex items-center gap-2">
                                             <Heart className="h-4 w-4 text-red-500" /> Greeting Card

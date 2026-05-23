@@ -14,16 +14,11 @@ export const TOOL_HELP: Record<string, ToolHelpData> = {
     },
     "/tools/brochure-builder": {
         title: "How to use Brochure Builder",
-        description: "Design tri-fold brochures. Edit each of the 6 panels, preview the fold, and print double-sided.",
+        description: "Design bi-fold and tri-fold brochures. Edit panels, select your layout type, and print double-sided.",
         imageUrl: "https://placehold.co/600x338/e2e8f0/475569?text=Brochure+Builder+Demo",
         videoUrl: "https://youtube.com",
     },
-    "/tools/bi-fold-brochure": {
-        title: "How to use Bi-Fold Brochure",
-        description: "Create simple 4-panel brochures. Perfect for programs and menus. Supports landscape printing.",
-        imageUrl: "https://placehold.co/600x338/e2e8f0/475569?text=Bi-Fold+Demo",
-        videoUrl: "https://youtube.com",
-    },
+
     "/tools/greeting-card": {
         title: "How to use Greeting Card Builder",
         description: "Make custom greeting cards. The top panels are inverted automatically so they fold correctly.",
