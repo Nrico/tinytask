@@ -4,8 +4,9 @@
   "private": true,
   "main": "src/page.tsx",
   "dependencies": {
-    "@tinytask/ui": "*",
     "@tinytask/brand": "*",
-    "@tinytask/utils": "*"
+    "@tinytask/ui": "*",
+    "@tinytask/utils": "*",
+    "jsbarcode": "^3.12.3"
   }
 }

@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@tinytask/ui/buttons/button';
 import { Input } from '@tinytask/ui/forms/input';
 import { Label } from '@tinytask/ui/forms/label';
 import { Card, CardContent } from '@tinytask/ui/cards/card';
-import { ArrowLeft, Printer, Plus, Trash2, FileText } from 'lucide-react';
+import { ArrowLeft, Printer, Plus, Trash2, FileText, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 
 interface LineItem {
@@ -17,6 +17,7 @@ interface LineItem {
 
 export default function InvoiceSwiftPage() {
     // State
+    const [logo, setLogo] = useState<string | null>(null);
     const [companyName, setCompanyName] = useState('My Company');
     const [companyDetails, setCompanyDetails] = useState('123 Business Rd\nCity, State, Zip');
     const [clientName, setClientName] = useState('Client Name');
@@ -53,6 +54,17 @@ export default function InvoiceSwiftPage() {
 
     const handlePrint = () => {
         window.print();
+    };
+
+    const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setLogo(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
@@ -97,9 +109,34 @@ export default function InvoiceSwiftPage() {
                         <CardContent className="p-6 space-y-4">
                             <h3 className="font-semibold">Parties</h3>
                             <div className="grid gap-4">
-                                <div className="space-y-2">
-                                    <Label>My Company</Label>
-                                    <Input value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company Name" />
+                                <div className="space-y-2 pb-4 border-b">
+                                    <Label className="flex items-center gap-1.5"><ImageIcon className="w-4 h-4 text-primary" /> Company Logo</Label>
+                                    {logo ? (
+                                        <div className="flex items-center gap-4 mt-1.5">
+                                            <img src={logo} alt="Logo preview" className="max-h-12 max-w-[150px] object-contain border rounded p-1 bg-white" />
+                                            <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setLogo(null)}>
+                                                Remove Logo
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <input
+                                            id="logo-upload"
+                                            type="file"
+                                            accept="image/*"
+                                            className="mt-1.5 block w-full text-xs text-slate-500
+                                                file:mr-4 file:py-2 file:px-4
+                                                file:rounded-md file:border-0
+                                                file:text-xs file:font-semibold
+                                                file:bg-secondary file:text-secondary-foreground
+                                                hover:file:bg-secondary/85 cursor-pointer"
+                                            onChange={handleLogoUpload}
+                                        />
+                                    )}
+                                </div>
+
+                                <div className="space-y-2 pt-2">
+                                    <Label>My Company Details</Label>
+                                    <Input value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company Name" className="mb-2" />
                                     <textarea
                                         className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                         value={companyDetails}
@@ -107,9 +144,10 @@ export default function InvoiceSwiftPage() {
                                         placeholder="Address, Phone, Email..."
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label>Client</Label>
-                                    <Input value={clientName} onChange={e => setClientName(e.target.value)} placeholder="Client Name" />
+
+                                <div className="space-y-2 border-t pt-4">
+                                    <Label>Client Details</Label>
+                                    <Input value={clientName} onChange={e => setClientName(e.target.value)} placeholder="Client Name" className="mb-2" />
                                     <textarea
                                         className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                         value={clientDetails}
@@ -188,9 +226,12 @@ export default function InvoiceSwiftPage() {
                                 <h2 className="text-4xl font-bold text-slate-800 mb-2">INVOICE</h2>
                                 <p className="text-slate-500">#{invoiceNumber}</p>
                             </div>
-                            <div className="text-right">
-                                <h3 className="font-bold text-lg">{companyName}</h3>
-                                <div className="text-sm text-slate-600 whitespace-pre-line">{companyDetails}</div>
+                            <div className="text-right flex flex-col items-end gap-1.5">
+                                {logo && (
+                                    <img src={logo} alt="Company Logo" className="max-h-16 max-w-[200px] object-contain mb-3" />
+                                )}
+                                <h3 className="font-bold text-lg leading-tight">{companyName}</h3>
+                                <div className="text-sm text-slate-600 whitespace-pre-line leading-relaxed">{companyDetails}</div>
                             </div>
                         </div>
 
@@ -199,7 +240,7 @@ export default function InvoiceSwiftPage() {
                             <div>
                                 <p className="text-sm font-bold text-slate-400 uppercase mb-1">Bill To</p>
                                 <h3 className="font-bold text-lg">{clientName}</h3>
-                                <div className="text-sm text-slate-600 whitespace-pre-line">{clientDetails}</div>
+                                <div className="text-sm text-slate-600 whitespace-pre-line leading-relaxed">{clientDetails}</div>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm font-bold text-slate-400 uppercase mb-1">Date</p>

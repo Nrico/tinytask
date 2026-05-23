@@ -5,7 +5,7 @@ import { Button } from '@tinytask/ui/buttons/button';
 import { Input } from '@tinytask/ui/forms/input';
 import { Label } from '@tinytask/ui/forms/label';
 import { Card, CardContent } from '@tinytask/ui/cards/card';
-import { ArrowLeft, Copy, Check, Mail, Phone, Globe, MapPin } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Mail, Phone, Globe, MapPin, Image as ImageIcon, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SignatureSmithPage() {
@@ -20,7 +20,14 @@ export default function SignatureSmithPage() {
     const [template, setTemplate] = useState('sidebar'); // simple, sidebar, card
     const [copied, setCopied] = useState(false);
 
+    // Image/Avatar State
+    const [avatarType, setAvatarType] = useState<'url' | 'upload'>('url');
+    const [avatarUrl, setAvatarUrl] = useState('');
+    const [avatarBase64, setAvatarBase64] = useState<string | null>(null);
+
     const previewRef = useRef<HTMLDivElement>(null);
+
+    const activeImage = avatarType === 'url' ? avatarUrl : avatarBase64;
 
     const handleCopy = () => {
         if (!previewRef.current) return;
@@ -47,6 +54,17 @@ export default function SignatureSmithPage() {
         }
     };
 
+    const handleLocalImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarBase64(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     // Render Template Logic
     const renderSignature = () => {
         const styles = {
@@ -63,13 +81,22 @@ export default function SignatureSmithPage() {
                 <table style={{ fontFamily: 'Arial, sans-serif', color: '#1f2937' }} cellPadding="0" cellSpacing="0">
                     <tbody>
                         <tr>
-                            <td style={{ paddingBottom: '8px' }}>
+                            {activeImage && (
+                                <td style={{ paddingRight: '16px', verticalAlign: 'top' }}>
+                                    <img 
+                                        src={activeImage} 
+                                        alt={name} 
+                                        style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} 
+                                    />
+                                </td>
+                            )}
+                            <td style={{ paddingBottom: '8px', verticalAlign: 'top' }}>
                                 <h3 style={styles.name}>{name}</h3>
                                 <p style={styles.title}>{title} | {company}</p>
                             </td>
                         </tr>
                         <tr>
-                            <td style={{ borderTop: `2px solid ${color}`, paddingTop: '8px' }}>
+                            <td colSpan={activeImage ? 2 : 1} style={{ borderTop: `2px solid ${color}`, paddingTop: '8px' }}>
                                 <table cellPadding="0" cellSpacing="0">
                                     <tbody>
                                         <tr>
@@ -102,6 +129,15 @@ export default function SignatureSmithPage() {
                 <table style={{ fontFamily: 'Arial, sans-serif', color: '#1f2937' }} cellPadding="0" cellSpacing="0">
                     <tbody>
                         <tr>
+                            {activeImage && (
+                                <td style={{ paddingRight: '16px', verticalAlign: 'middle' }}>
+                                    <img 
+                                        src={activeImage} 
+                                        alt={name} 
+                                        style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} 
+                                    />
+                                </td>
+                            )}
                             <td style={{ borderLeft: `4px solid ${color}`, paddingLeft: '15px' }}>
                                 <h3 style={styles.name}>{name}</h3>
                                 <p style={{ ...styles.title, marginBottom: '8px' }}>{title}</p>
@@ -135,13 +171,22 @@ export default function SignatureSmithPage() {
 
         if (template === 'card') {
             return (
-                <table style={{ fontFamily: 'Arial, sans-serif', color: '#1f2937', border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden' }} cellPadding="0" cellSpacing="0" width="400">
+                <table style={{ fontFamily: 'Arial, sans-serif', color: '#1f2937', border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden' }} cellPadding="0" cellSpacing="0" width="450">
                     <tbody>
                         <tr>
-                            <td style={{ backgroundColor: color, height: '10px' }} colSpan={2}></td>
+                            <td style={{ backgroundColor: color, height: '10px' }} colSpan={activeImage ? 3 : 2}></td>
                         </tr>
                         <tr>
-                            <td style={{ padding: '20px' }}>
+                            {activeImage && (
+                                <td style={{ padding: '20px', paddingRight: '0px', verticalAlign: 'top', width: '84px' }}>
+                                    <img 
+                                        src={activeImage} 
+                                        alt={name} 
+                                        style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover', display: 'block' }} 
+                                    />
+                                </td>
+                            )}
+                            <td style={{ padding: '20px', verticalAlign: 'top' }}>
                                 <h3 style={{ ...styles.name, fontSize: '20px' }}>{name}</h3>
                                 <p style={{ ...styles.title, color: '#6b7280', fontWeight: 'normal' }}>{title}</p>
                                 <p style={{ ...styles.company, fontWeight: 'bold', marginTop: '4px' }}>{company}</p>
@@ -199,7 +244,72 @@ export default function SignatureSmithPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
+                            {/* Avatar Section */}
+                            <div className="space-y-4 border-t pt-4">
+                                <h3 className="font-semibold flex items-center gap-1.5"><ImageIcon className="w-4 h-4 text-primary" /> Profile Image / Avatar</h3>
+                                
+                                <div className="flex bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+                                    <button
+                                        className={`flex-1 py-1.5 rounded-md transition-all ${avatarType === 'url' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
+                                        onClick={() => setAvatarType('url')}
+                                    >
+                                        Hosted Image URL
+                                    </button>
+                                    <button
+                                        className={`flex-1 py-1.5 rounded-md transition-all ${avatarType === 'upload' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
+                                        onClick={() => setAvatarType('upload')}
+                                    >
+                                        Upload Image File
+                                    </button>
+                                </div>
+
+                                {avatarType === 'url' ? (
+                                    <div className="space-y-2">
+                                        <Label htmlFor="avatar-url">Public Image URL</Label>
+                                        <Input 
+                                            id="avatar-url"
+                                            value={avatarUrl} 
+                                            onChange={e => setAvatarUrl(e.target.value)} 
+                                            placeholder="e.g. https://mywebsite.com/photo.png"
+                                            className="text-xs"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        <Label htmlFor="avatar-upload">Upload Local Photo</Label>
+                                        {avatarBase64 ? (
+                                            <div className="flex items-center gap-4">
+                                                <img src={avatarBase64} alt="Avatar preview" className="w-12 h-12 object-cover rounded-full border p-0.5 bg-white" />
+                                                <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setAvatarBase64(null)}>
+                                                    Remove Photo
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <input
+                                                id="avatar-upload"
+                                                type="file"
+                                                accept="image/*"
+                                                className="block w-full text-xs text-slate-500
+                                                    file:mr-4 file:py-2 file:px-4
+                                                    file:rounded-md file:border-0
+                                                    file:text-xs file:font-semibold
+                                                    file:bg-secondary file:text-secondary-foreground
+                                                    hover:file:bg-secondary/85 cursor-pointer"
+                                                onChange={handleLocalImage}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+
+                                <div className="bg-amber-50 border border-amber-200/60 rounded-lg p-3 flex gap-2 items-start text-xs text-amber-800">
+                                    <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <strong>Email Client Compatibility:</strong> A hosted public URL is highly recommended. Some mail apps (such as Gmail) block local base64 attachments, which can make uploaded images appear broken.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4 border-t pt-4">
                                 <h3 className="font-semibold">Contact Info</h3>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
@@ -221,13 +331,13 @@ export default function SignatureSmithPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="space-y-4 border-t pt-4">
                                 <h3 className="font-semibold">Style</h3>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <Label>Brand Color</Label>
                                         <div className="flex items-center gap-2">
-                                            <Input type="color" value={color} onChange={e => setColor(e.target.value)} className="w-12 h-10 p-1" />
+                                            <Input type="color" value={color} onChange={e => setColor(e.target.value)} className="w-12 h-10 p-1 cursor-pointer" />
                                             <span className="text-sm font-mono text-muted-foreground">{color}</span>
                                         </div>
                                     </div>
@@ -257,7 +367,7 @@ export default function SignatureSmithPage() {
                 <div className="space-y-6">
                     <Card className="bg-slate-50 border-2 border-dashed">
                         <CardContent className="p-8 flex items-center justify-center min-h-[300px]">
-                            <div className="bg-white p-8 shadow-sm rounded-lg w-full max-w-lg">
+                            <div className="bg-white p-8 shadow-sm rounded-lg w-full max-w-lg overflow-auto">
                                 <div ref={previewRef}>
                                     {renderSignature()}
                                 </div>
