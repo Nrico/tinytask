@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,10 +13,21 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const { loginWithPassword, signUp, loginWithGoogle } = useAuth();
+    const { user, isLoading, loginWithPassword, signUp, loginWithGoogle } = useAuth();
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        if (!isLoading && user) {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('plan') === 'pro') {
+                router.push('/dashboard?upgrade=true');
+            } else {
+                router.push('/dashboard');
+            }
+        }
+    }, [user, isLoading, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
