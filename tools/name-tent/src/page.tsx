@@ -163,6 +163,8 @@ export default function NameTentPage() {
                         margin: 0 !important;
                         padding: 0 !important;
                         background: #ffffff !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                     }
                     body * { visibility: hidden !important; }
                     #printable-area, #printable-area * { visibility: visible !important; }

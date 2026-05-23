@@ -437,6 +437,8 @@ export default function BrochureBuilderPage() {
                         margin: 0 !important;
                         padding: 0 !important;
                         background: #ffffff !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                     }
                     body * { visibility: hidden !important; }
                     #brochure-print-area, #brochure-print-area * { visibility: visible !important; }
