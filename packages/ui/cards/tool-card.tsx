@@ -1,12 +1,17 @@
 import Link from "next/link"
 import React from "react"
 
-export function ToolCard({ icon, title, description, href, isNew }: { icon: React.ReactNode, title: string, description: string, href: string, isNew?: boolean }) {
+export function ToolCard({ icon, title, description, href, isNew, isPreview }: { icon: React.ReactNode, title: string, description: string, href: string, isNew?: boolean, isPreview?: boolean }) {
     return (
         <Link href={href} className="group relative overflow-hidden rounded-xl border bg-background p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-            {isNew && (
+            {isNew && !isPreview && (
                 <span className="absolute top-3 right-3 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                     New
+                </span>
+            )}
+            {isPreview && (
+                <span className="absolute top-3 right-3 bg-amber-500/10 text-amber-700 border border-amber-200/50 text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    Labs
                 </span>
             )}
             <div className="flex flex-col gap-4">

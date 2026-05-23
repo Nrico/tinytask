@@ -36,12 +36,6 @@ export const TOOL_HELP: Record<string, ToolHelpData> = {
         imageUrl: "https://placehold.co/600x338/e2e8f0/475569?text=Name+Tent+Demo",
         videoUrl: "https://youtube.com",
     },
-    "/tools/sign-generator": {
-        title: "How to use Sign Generator",
-        description: "Generate OSHA-compliant safety signs. Choose a template, customize text, and print.",
-        imageUrl: "https://placehold.co/600x338/e2e8f0/475569?text=Sign+Generator+Demo",
-        videoUrl: "https://youtube.com",
-    },
     "/tools/label-creator": {
         title: "How to use Label Creator",
         description: "Design Avery labels. Use 'Mail Merge' to import CSV contacts or 'Single Design' to replicate one label.",

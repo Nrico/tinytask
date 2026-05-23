@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
     "@tinytask/tool-name-tent",
     "@tinytask/tool-pixel-pruner",
     "@tinytask/tool-qr-generator",
-    "@tinytask/tool-sign-generator",
     "@tinytask/tool-signature-smith",
     "@tinytask/tool-table-tuner",
     "@tinytask/tool-team-taggler",

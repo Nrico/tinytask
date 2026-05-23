@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
-import { User, LogOut, ChevronDown, FileText, Globe, Mail, Image as ImageIcon, BookOpen, Heart, Users, Tent, Table, QrCode, Tags, AlertTriangle, FileSpreadsheet, Zap } from "lucide-react";
+import { User, LogOut, ChevronDown, FileText, Globe, Mail, Image as ImageIcon, BookOpen, Heart, Users, Tent, Table, QrCode, Tags, FileSpreadsheet, Zap } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -58,11 +58,6 @@ export function Header() {
                                     <DropdownMenuItem asChild>
                                         <Link href="/tools/name-tent" className="cursor-pointer w-full flex items-center gap-2">
                                             <Tent className="h-4 w-4 text-rose-500" /> Name Tent Maker
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/tools/sign-generator" className="cursor-pointer w-full flex items-center gap-2">
-                                            <AlertTriangle className="h-4 w-4 text-orange-500" /> Sign Generator
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
