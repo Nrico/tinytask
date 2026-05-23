@@ -1,12 +1,12 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@tinytask/ui/buttons/button";
 import { Input } from "@tinytask/ui/forms/input";
 import { Label } from "@tinytask/ui/forms/label";
 import { ColorPicker } from "@tinytask/ui/forms/color-picker";
 import { ToolLayout } from "@tinytask/ui/layouts/tool-layout";
-import { BookOpen, Printer, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import { Printer, AlignLeft, AlignCenter, AlignRight, ZoomIn, ZoomOut, Maximize2, Move } from "lucide-react";
 import { cn } from "@tinytask/utils";
 
 interface Panel {
@@ -44,6 +44,154 @@ export default function BrochureBuilderPage() {
     const panels = layout === 'trifold' ? trifoldPanels : bifoldPanels;
     const activePanel = panels.find(p => p.id === activePanelId)!;
 
+    // Viewport Size, Zoom & Pan State
+    const viewportRef = useRef<HTMLDivElement>(null);
+    const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+    const [zoom, setZoom] = useState(60);
+    const [pan, setPan] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
+    const dragStart = useRef({ x: 0, y: 0 });
+
+    useEffect(() => {
+        if (!viewportRef.current) return;
+        const observer = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                setViewportSize({
+                    width: entry.contentRect.width,
+                    height: entry.contentRect.height
+                });
+            }
+        });
+        observer.observe(viewportRef.current);
+        return () => observer.disconnect();
+    }, []);
+
+    const focusActivePanelId = (panelId: number, currentZoom: number = zoom) => {
+        const scale = currentZoom / 100;
+        let targetPanX = 0;
+        let targetPanY = 0;
+
+        if (layout === 'trifold') {
+            if ([0, 4, 5].includes(panelId)) {
+                targetPanY = 309 * scale;
+                if (panelId === 5) targetPanX = 280 * scale;
+                if (panelId === 4) targetPanX = 0;
+                if (panelId === 0) targetPanX = -280 * scale;
+            } else {
+                targetPanY = -309 * scale;
+                if (panelId === 1) targetPanX = 280 * scale;
+                if (panelId === 2) targetPanX = 0;
+                if (panelId === 3) targetPanX = -280 * scale;
+            }
+        } else {
+            if ([0, 3].includes(panelId)) {
+                targetPanY = 309 * scale;
+                if (panelId === 3) targetPanX = 210 * scale;
+                if (panelId === 0) targetPanX = -210 * scale;
+            } else {
+                targetPanY = -309 * scale;
+                if (panelId === 1) targetPanX = 210 * scale;
+                if (panelId === 2) targetPanX = -210 * scale;
+            }
+        }
+
+        setPan({ x: targetPanX, y: targetPanY });
+    };
+
+    const focusActivePanel = (currentZoom: number = zoom) => {
+        focusActivePanelId(activePanelId, currentZoom);
+    };
+
+    const handleFitToScreen = () => {
+        if (!viewportSize.width || !viewportSize.height) return;
+        
+        const canvasWidth = 840;
+        const canvasHeight = 1212; // 594 * 2 + 24 gap
+        
+        const fitWidthScale = (viewportSize.width - 48) / canvasWidth;
+        const fitHeightScale = (viewportSize.height - 48) / canvasHeight;
+        
+        const newZoom = Math.max(15, Math.min(200, Math.floor(Math.min(fitWidthScale, fitHeightScale) * 100)));
+        setZoom(newZoom);
+        setPan({ x: 0, y: 0 });
+    };
+
+    const handleFitSheet = () => {
+        if (!viewportSize.width || !viewportSize.height) return;
+        
+        const canvasWidth = 840;
+        const canvasHeight = 594;
+        
+        const fitWidthScale = (viewportSize.width - 48) / canvasWidth;
+        const fitHeightScale = (viewportSize.height - 48) / canvasHeight;
+        
+        const newZoom = Math.max(15, Math.min(200, Math.floor(Math.min(fitWidthScale, fitHeightScale) * 100)));
+        setZoom(newZoom);
+        focusActivePanelId(activePanelId, newZoom);
+    };
+
+    // Auto-fit on first load or layout change
+    useEffect(() => {
+        if (viewportSize.width > 0 && viewportSize.height > 0) {
+            handleFitToScreen();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [viewportSize.width, viewportSize.height, layout]);
+
+    // Auto-slide to panel when activePanelId changes
+    useEffect(() => {
+        focusActivePanel(zoom);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activePanelId]);
+
+    // Drag-to-pan handlers
+    const handleMouseDown = (e: React.MouseEvent) => {
+        if (e.button !== 0) return;
+        const target = e.target as HTMLElement;
+        if (target.closest('button') || target.closest('input') || target.closest('textarea')) {
+            return;
+        }
+        setIsDragging(true);
+        dragStart.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        setPan({
+            x: e.clientX - dragStart.current.x,
+            y: e.clientY - dragStart.current.y
+        });
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('button') || target.closest('input') || target.closest('textarea')) {
+            return;
+        }
+        if (e.touches.length === 1) {
+            setIsDragging(true);
+            dragStart.current = { x: e.touches[0].clientX - pan.x, y: e.touches[0].clientY - pan.y };
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging) return;
+        if (e.touches.length === 1) {
+            setPan({
+                x: e.touches[0].clientX - dragStart.current.x,
+                y: e.touches[0].clientY - dragStart.current.y
+            });
+        }
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+    };
+
     const handlePanelUpdate = (key: keyof Panel, value: string) => {
         if (layout === 'trifold') {
             setTrifoldPanels(trifoldPanels.map(p => p.id === activeTrifoldId ? { ...p, [key]: value } : p));
@@ -71,6 +219,7 @@ export default function BrochureBuilderPage() {
                     } else {
                         setActiveBifoldId(panelId);
                     }
+                    focusActivePanelId(panelId, zoom);
                 }}
             >
                 <div className={cn(
@@ -93,9 +242,32 @@ export default function BrochureBuilderPage() {
                 @media print {
                     body * { visibility: hidden !important; }
                     #brochure-print-area, #brochure-print-area * { visibility: visible !important; }
-                    #brochure-print-area { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; }
-                    .print-sheet { width: 100vw !important; height: 100vh !important; page-break-after: always !important; display: flex !important; flex-direction: row !important; }
-                    .print-panel { flex: 1 !important; height: 100% !important; border: none !important; padding: 1in !important; }
+                    #brochure-print-area {
+                        position: absolute !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        width: 100% !important;
+                        transform: none !important;
+                        display: block !important;
+                        gap: 0 !important;
+                    }
+                    .print-sheet {
+                        width: 100vw !important;
+                        height: 100vh !important;
+                        page-break-after: always !important;
+                        display: flex !important;
+                        flex-direction: row !important;
+                        transform: none !important;
+                        border: none !important;
+                        box-shadow: none !important;
+                        border-radius: 0 !important;
+                    }
+                    .print-panel {
+                        flex: 1 !important;
+                        height: 100% !important;
+                        border: none !important;
+                        padding: 1in !important;
+                    }
                     header, footer, nav, aside { display: none !important; }
                 }
             `}} />
@@ -141,6 +313,7 @@ export default function BrochureBuilderPage() {
                                             } else {
                                                 setActiveBifoldId(p.id);
                                             }
+                                            focusActivePanelId(p.id, zoom);
                                         }}
                                         className={cn(
                                             "h-12 rounded-lg border text-xs flex items-center justify-center text-center p-1 transition-all",
@@ -207,65 +380,135 @@ export default function BrochureBuilderPage() {
                     </div>
                 }
                 previewContent={
-                    <div id="brochure-print-area" className="flex flex-col gap-10 w-full items-center my-auto">
-                        
-                        {/* Outside Sheet */}
-                        <div className="flex flex-col items-center gap-2.5 w-full max-w-4xl">
-                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest print:hidden">
-                                {layout === 'trifold' ? "Outside Sheet (Flap / Back / Front)" : "Outside Sheet (Back / Front)"}
-                            </span>
-                            <div className="print-sheet bg-white shadow-lg w-full aspect-[1.414] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-slate-100">
-                                {layout === 'trifold' ? (
-                                    <>
-                                        {/* Left 1/3: Inside Flap (Panel 5) */}
-                                        <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(5)}</div>
-                                        {/* Center 1/3: Back Cover (Panel 4) */}
-                                        <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(4)}</div>
-                                        {/* Right 1/3: Front Cover (Panel 0) */}
-                                        <div className="flex-1 h-full print-panel">{renderPanel(0)}</div>
-                                    </>
-                                ) : (
-                                    <>
-                                        {/* Left: Back Cover (Panel 3) */}
-                                        <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(3)}</div>
-                                        {/* Right: Front Cover (Panel 0) */}
-                                        <div className="flex-1 h-full print-panel">{renderPanel(0)}</div>
-                                    </>
-                                )}
+                    <div className="w-full h-full flex flex-col select-none overflow-hidden relative">
+                        {/* Top Canvas Toolbar */}
+                        <div className="flex-shrink-0 flex flex-wrap gap-3 items-center justify-between border-b pb-3 mb-4 select-none print:hidden">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Brochure Canvas</span>
+                                <span className="text-[10px] bg-slate-100 border text-slate-500 rounded px-1.5 py-0.5 font-mono flex items-center gap-1">
+                                    <Move className="w-3 h-3 text-slate-400 animate-pulse" /> Drag to pan
+                                </span>
+                            </div>
+
+                            {/* Controls */}
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setZoom(Math.max(15, zoom - 10))}
+                                    className="p-1 rounded hover:bg-slate-200 border bg-white shadow-sm transition-colors text-slate-600 disabled:opacity-50 flex items-center justify-center w-7 h-7"
+                                    disabled={zoom <= 15}
+                                >
+                                    <ZoomOut className="w-3.5 h-3.5" />
+                                </button>
+                                <span className="text-xs font-mono font-bold w-12 text-center text-slate-700 bg-slate-100 px-2 py-0.5 rounded border select-none">
+                                    {zoom}%
+                                </span>
+                                <button
+                                    onClick={() => setZoom(Math.min(200, zoom + 10))}
+                                    className="p-1 rounded hover:bg-slate-200 border bg-white shadow-sm transition-colors text-slate-600 disabled:opacity-50 flex items-center justify-center w-7 h-7"
+                                    disabled={zoom >= 200}
+                                >
+                                    <ZoomIn className="w-3.5 h-3.5" />
+                                </button>
+
+                                <div className="h-4 w-px bg-slate-200 mx-1" />
+
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleFitToScreen}
+                                    className="text-xs px-2.5 h-8 font-medium"
+                                >
+                                    Fit All
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleFitSheet}
+                                    className="text-xs px-2.5 h-8 font-medium"
+                                >
+                                    Center Active
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => { setZoom(100); setPan({ x: 0, y: 0 }); }}
+                                    className="text-xs px-2.5 h-8 font-medium"
+                                >
+                                    <Maximize2 className="w-3.5 h-3.5 mr-1" /> 100%
+                                </Button>
                             </div>
                         </div>
 
-                        {/* Inside Sheet */}
-                        <div className="flex flex-col items-center gap-2.5 w-full max-w-4xl">
-                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest print:hidden">
-                                {layout === 'trifold' ? "Inside Sheet (Left / Center / Right)" : "Inside Sheet (Left / Right)"}
-                            </span>
-                            <div className="print-sheet bg-white shadow-lg w-full aspect-[1.414] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-slate-100">
-                                {layout === 'trifold' ? (
-                                    <>
-                                        {/* Left 1/3: Inside Left (Panel 1) */}
-                                        <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(1)}</div>
-                                        {/* Center 1/3: Inside Center (Panel 2) */}
-                                        <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(2)}</div>
-                                        {/* Right 1/3: Inside Right (Panel 3) */}
-                                        <div className="flex-1 h-full print-panel">{renderPanel(3)}</div>
-                                    </>
-                                ) : (
-                                    <>
-                                        {/* Left: Inside Left (Panel 1) */}
-                                        <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(1)}</div>
-                                        {/* Right: Inside Right (Panel 2) */}
-                                        <div className="flex-1 h-full print-panel">{renderPanel(2)}</div>
-                                    </>
-                                )}
+                        {/* Viewport Frame */}
+                        <div 
+                            ref={viewportRef}
+                            className="flex-1 w-full border border-slate-200 bg-slate-50/50 rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                        >
+                            {/* Inner Transformed Content Box */}
+                            <div 
+                                id="brochure-print-area"
+                                className="flex flex-col gap-6 items-center flex-shrink-0"
+                                style={{
+                                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom / 100})`,
+                                    transformOrigin: 'center center',
+                                    transition: isDragging ? 'none' : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+                                }}
+                            >
+                                {/* Outside Sheet */}
+                                <div className="flex flex-col items-center gap-2 w-[840px] select-none">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:hidden">
+                                        {layout === 'trifold' ? "Outside Sheet (Flap / Back / Front)" : "Outside Sheet (Back / Front)"}
+                                    </span>
+                                    <div className="print-sheet bg-white shadow-lg w-[840px] h-[594px] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-slate-200 select-none">
+                                        {layout === 'trifold' ? (
+                                            <>
+                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(5)}</div>
+                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(4)}</div>
+                                                <div className="flex-1 h-full print-panel">{renderPanel(0)}</div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(3)}</div>
+                                                <div className="flex-1 h-full print-panel">{renderPanel(0)}</div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Inside Sheet */}
+                                <div className="flex flex-col items-center gap-2 w-[840px] select-none">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:hidden">
+                                        {layout === 'trifold' ? "Inside Sheet (Left / Center / Right)" : "Inside Sheet (Left / Right)"}
+                                    </span>
+                                    <div className="print-sheet bg-white shadow-lg w-[840px] h-[594px] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-slate-200 select-none">
+                                        {layout === 'trifold' ? (
+                                            <>
+                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(1)}</div>
+                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(2)}</div>
+                                                <div className="flex-1 h-full print-panel">{renderPanel(3)}</div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(1)}</div>
+                                                <div className="flex-1 h-full print-panel">{renderPanel(2)}</div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 }
                 actions={
                     <div className="w-full text-center space-y-2">
-                        <Button onClick={handlePrint} className="w-full gap-2 bg-sky-600 hover:bg-sky-700 text-white" size="lg">
+                        <Button onClick={handlePrint} className="w-full gap-2 bg-sky-600 hover:bg-sky-700 text-white shadow-sm" size="lg">
                             <Printer className="w-5 h-5" /> Print Brochure
                         </Button>
                         <p className="text-[10px] text-muted-foreground select-none">Prints 2 pages (Duplex/double-sided required)</p>
@@ -275,3 +518,4 @@ export default function BrochureBuilderPage() {
         </>
     );
 }
+
