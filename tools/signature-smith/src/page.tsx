@@ -301,10 +301,33 @@ export default function SignatureSmithPage() {
                                     </div>
                                 )}
 
-                                <div className="bg-amber-50 border border-amber-200/60 rounded-lg p-3 flex gap-2 items-start text-xs text-amber-800">
+                                <div className="bg-amber-50 border border-amber-200/60 rounded-lg p-4 flex gap-2.5 items-start text-xs text-amber-800 leading-relaxed">
                                     <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                                    <div>
-                                        <strong>Email Client Compatibility:</strong> A hosted public URL is highly recommended. Some mail apps (such as Gmail) block local base64 attachments, which can make uploaded images appear broken.
+                                    <div className="space-y-2">
+                                        <p className="font-semibold text-amber-900">Email Client Compatibility Notice</p>
+                                        <p>
+                                            A hosted public URL is highly recommended. Many mail apps (such as Gmail) block base64 image strings, which can cause uploaded local images to appear broken in your signature.
+                                        </p>
+                                        <div className="pt-2 border-t border-amber-200/50 space-y-1.5">
+                                            <p className="font-semibold text-amber-900 flex items-center gap-1">
+                                                ☁️ Want us to host it for you?
+                                            </p>
+                                            <p>
+                                                Unlock secure, reliable cloud hosting for your signature images and logos by becoming a <strong>TinyTask Pro</strong> subscriber, or support our work by buying us a coffee!
+                                            </p>
+                                            <div className="flex gap-2 pt-0.5">
+                                                <Link href="/pricing">
+                                                    <Button size="sm" className="h-7 text-[10px] px-3 bg-amber-700 hover:bg-amber-800 text-white border-none">
+                                                        Go Pro
+                                                    </Button>
+                                                </Link>
+                                                <a href="https://buymeacoffee.com" target="_blank" rel="noopener noreferrer">
+                                                    <Button size="sm" variant="outline" className="h-7 text-[10px] px-3 border-amber-300 text-amber-900 bg-white hover:bg-amber-100">
+                                                        Buy us a coffee
+                                                    </Button>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
