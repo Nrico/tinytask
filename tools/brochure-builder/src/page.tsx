@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@tinytask/ui/buttons/button";
-import { Input } from "@tinytask/ui/forms/input";
 import { Label } from "@tinytask/ui/forms/label";
 import { ColorPicker } from "@tinytask/ui/forms/color-picker";
 import { ToolLayout } from "@tinytask/ui/layouts/tool-layout";
@@ -17,26 +16,167 @@ interface Panel {
     bg: string;
 }
 
+function RichTextEditor({ value, onChange }: { value: string; onChange: (val: string) => void }) {
+    const editorRef = useRef<HTMLDivElement>(null);
+    const [paletteOpen, setPaletteOpen] = useState(false);
+
+    // Sync HTML from state to editor ref ONLY if they differ
+    useEffect(() => {
+        if (editorRef.current && editorRef.current.innerHTML !== value) {
+            editorRef.current.innerHTML = value;
+        }
+    }, [value]);
+
+    const handleInput = () => {
+        if (editorRef.current) {
+            onChange(editorRef.current.innerHTML);
+        }
+    };
+
+    const execCommand = (command: string, valueStr: string = '') => {
+        document.execCommand(command, false, valueStr);
+        handleInput();
+        if (editorRef.current) {
+            editorRef.current.focus();
+        }
+    };
+
+    const colors = [
+        { name: 'Dark Slate', value: '#1e293b' },
+        { name: 'Sky Blue', value: '#0284c7' },
+        { name: 'Emerald', value: '#059669' },
+        { name: 'Rose Red', value: '#e11d48' },
+        { name: 'Amber', value: '#d97706' },
+        { name: 'Purple', value: '#7c3aed' },
+        { name: 'Coal Black', value: '#000000' }
+    ];
+
+    return (
+        <div className="border rounded-lg overflow-hidden bg-background flex flex-col shadow-sm focus-within:ring-2 focus-within:ring-sky-500 transition-shadow">
+            {/* Formatting Toolbar */}
+            <div className="flex flex-wrap gap-1 p-2 bg-slate-50 border-b select-none items-center">
+                <button
+                    type="button"
+                    onClick={() => execCommand('bold')}
+                    className="p-1.5 rounded hover:bg-slate-200 transition-colors text-xs font-bold text-slate-700 w-8 h-8 flex items-center justify-center cursor-pointer"
+                    title="Bold (Ctrl+B)"
+                >
+                    B
+                </button>
+                <button
+                    type="button"
+                    onClick={() => execCommand('italic')}
+                    className="p-1.5 rounded hover:bg-slate-200 transition-colors text-xs italic text-slate-700 w-8 h-8 flex items-center justify-center cursor-pointer"
+                    title="Italic (Ctrl+I)"
+                >
+                    I
+                </button>
+                
+                <div className="h-4 w-px bg-slate-200 mx-1" />
+
+                <button
+                    type="button"
+                    onClick={() => execCommand('formatBlock', '<h1>')}
+                    className="p-1 rounded hover:bg-slate-200 transition-colors text-[10px] font-black text-slate-700 h-8 px-1.5 cursor-pointer"
+                    title="Heading 1"
+                >
+                    H1
+                </button>
+                <button
+                    type="button"
+                    onClick={() => execCommand('formatBlock', '<h2>')}
+                    className="p-1 rounded hover:bg-slate-200 transition-colors text-[10px] font-bold text-slate-700 h-8 px-1.5 cursor-pointer"
+                    title="Heading 2"
+                >
+                    H2
+                </button>
+                <button
+                    type="button"
+                    onClick={() => execCommand('formatBlock', '<p>')}
+                    className="p-1 rounded hover:bg-slate-200 transition-colors text-[10px] text-slate-500 h-8 px-1.5 cursor-pointer"
+                    title="Paragraph Text"
+                >
+                    Body
+                </button>
+
+                <div className="h-4 w-px bg-slate-200 mx-1" />
+
+                <button
+                    type="button"
+                    onClick={() => execCommand('insertUnorderedList')}
+                    className="p-1 rounded hover:bg-slate-200 transition-colors text-[10px] text-slate-700 h-8 px-1.5 flex items-center justify-center font-bold cursor-pointer"
+                    title="Bullet List"
+                >
+                    • List
+                </button>
+
+                <div className="h-4 w-px bg-slate-200 mx-1" />
+
+                {/* Color dropdown selector */}
+                <div className="relative">
+                    <button
+                        type="button"
+                        onClick={() => setPaletteOpen(!paletteOpen)}
+                        className="p-1 rounded hover:bg-slate-200 transition-colors text-[10px] text-slate-700 h-8 px-1.5 flex items-center gap-1 font-semibold cursor-pointer"
+                        title="Text Color"
+                    >
+                        <span className="w-3 h-3 rounded-full border border-slate-300 bg-red-500 inline-block" />
+                        Color
+                    </button>
+                    {paletteOpen && (
+                        <>
+                            <div className="fixed inset-0 z-30" onClick={() => setPaletteOpen(false)} />
+                            <div className="absolute left-0 mt-1 bg-white border shadow-lg rounded-md p-1.5 grid grid-cols-4 gap-1 z-40 w-32">
+                                {colors.map(c => (
+                                    <button
+                                        key={c.value}
+                                        type="button"
+                                        onClick={() => {
+                                            execCommand('foreColor', c.value);
+                                            setPaletteOpen(false);
+                                        }}
+                                        className="w-6 h-6 rounded-full border border-slate-200 hover:scale-110 transition-transform cursor-pointer"
+                                        style={{ backgroundColor: c.value }}
+                                        title={c.name}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
+
+            {/* Editable Content Area */}
+            <div
+                ref={editorRef}
+                contentEditable
+                onInput={handleInput}
+                className="w-full p-4 outline-none min-h-[160px] max-h-[300px] overflow-y-auto text-sm leading-relaxed bg-white prose prose-slate max-w-none prose-sm rich-editor-content"
+            />
+        </div>
+    );
+}
+
 export default function BrochureBuilderPage() {
     const [layout, setLayout] = useState<'trifold' | 'bifold'>('trifold');
 
-    // States for Tri-Fold Panels (6 panels)
+    // States for Tri-Fold Panels (6 panels) - Content initialized as clean HTML
     const [trifoldPanels, setTrifoldPanels] = useState<Panel[]>([
-        { id: 0, title: "Front Cover", content: "Welcome to Our Services\n\nProfessional Solutions for Your Needs", align: "center", bg: "#ffffff" },
-        { id: 1, title: "Inside Left", content: "Our Mission\n\nTo provide high quality services efficiently.", align: "left", bg: "#ffffff" },
-        { id: 2, title: "Inside Center", content: "Core Values\n\n- Integrity\n- Innovation\n- Excellence", align: "left", bg: "#ffffff" },
-        { id: 3, title: "Inside Right", content: "Contact Us\n\n123 Business Rd.\nCity, State 12345\n\n(555) 123-4567", align: "left", bg: "#ffffff" },
-        { id: 4, title: "Back Cover", content: "Visit our website at:\nwww.example.com", align: "center", bg: "#f8fafc" },
-        { id: 5, title: "Inside Flap", content: "Why Choose Us?\n\nWe have over 20 years of experience.", align: "left", bg: "#f1f5f9" },
+        { id: 0, title: "Front Cover", content: "<h1>Welcome to Our Services</h1><p>Professional Solutions for Your Needs</p>", align: "center", bg: "#ffffff" },
+        { id: 1, title: "Inside Left", content: "<h1>Our Mission</h1><p>To provide high quality services efficiently.</p>", align: "left", bg: "#ffffff" },
+        { id: 2, title: "Inside Center", content: "<h1>Core Values</h1><ul><li>Integrity</li><li>Innovation</li><li>Excellence</li></ul>", align: "left", bg: "#ffffff" },
+        { id: 3, title: "Inside Right", content: "<h1>Contact Us</h1><p>123 Business Rd.<br>City, State 12345</p><p><strong>(555) 123-4567</strong></p>", align: "left", bg: "#ffffff" },
+        { id: 4, title: "Back Cover", content: "<p>Visit our website at:</p><p><strong style=\"color:#0284c7;\">www.example.com</strong></p>", align: "center", bg: "#f8fafc" },
+        { id: 5, title: "Inside Flap", content: "<h1>Why Choose Us?</h1><p>We have over 20 years of experience.</p>", align: "left", bg: "#f1f5f9" },
     ]);
     const [activeTrifoldId, setActiveTrifoldId] = useState(0);
 
-    // States for Bi-Fold Panels (4 panels)
+    // States for Bi-Fold Panels (4 panels) - Content initialized as clean HTML
     const [bifoldPanels, setBifoldPanels] = useState<Panel[]>([
-        { id: 0, title: "Front Cover", content: "Welcome to Our Event\n\nJoin us for a special celebration.", align: "center", bg: "#ffffff" },
-        { id: 1, title: "Inside Left", content: "Schedule of Events\n\n10:00 AM - Welcome\n11:00 AM - Keynote\n12:00 PM - Lunch", align: "left", bg: "#ffffff" },
-        { id: 2, title: "Inside Right", content: "Guest Speakers\n\n- Jane Doe\n- John Smith\n\nSpecial thanks to our sponsors.", align: "left", bg: "#ffffff" },
-        { id: 3, title: "Back Cover", content: "Contact Us\n\nwww.example.com\n(555) 123-4567", align: "center", bg: "#f8fafc" },
+        { id: 0, title: "Front Cover", content: "<h1>Welcome to Our Event</h1><p>Join us for a special celebration.</p>", align: "center", bg: "#ffffff" },
+        { id: 1, title: "Inside Left", content: "<h1>Schedule of Events</h1><ul><li>10:00 AM - Welcome</li><li>11:00 AM - Keynote</li><li>12:00 PM - Lunch</li></ul>", align: "left", bg: "#ffffff" },
+        { id: 2, title: "Inside Right", content: "<h1>Guest Speakers</h1><p>- Jane Doe<br>- John Smith</p><p>Special thanks to our sponsors.</p>", align: "left", bg: "#ffffff" },
+        { id: 3, title: "Back Cover", content: "<h1>Contact Us</h1><p>www.example.com<br><strong>(555) 123-4567</strong></p>", align: "center", bg: "#f8fafc" },
     ]);
     const [activeBifoldId, setActiveBifoldId] = useState(0);
 
@@ -148,7 +288,7 @@ export default function BrochureBuilderPage() {
     const handleMouseDown = (e: React.MouseEvent) => {
         if (e.button !== 0) return;
         const target = e.target as HTMLElement;
-        if (target.closest('button') || target.closest('input') || target.closest('textarea')) {
+        if (target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('[contenteditable="true"]')) {
             return;
         }
         setIsDragging(true);
@@ -169,7 +309,7 @@ export default function BrochureBuilderPage() {
 
     const handleTouchStart = (e: React.TouchEvent) => {
         const target = e.target as HTMLElement;
-        if (target.closest('button') || target.closest('input') || target.closest('textarea')) {
+        if (target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('[contenteditable="true"]')) {
             return;
         }
         if (e.touches.length === 1) {
@@ -209,7 +349,7 @@ export default function BrochureBuilderPage() {
         return (
             <div
                 className={cn(
-                    "h-full w-full p-6 md:p-8 flex flex-col overflow-hidden relative border-r border-dashed border-slate-300 last:border-r-0 cursor-pointer hover:bg-slate-50/10 transition-colors",
+                    "h-full w-full p-6 md:p-8 flex flex-col overflow-hidden relative border-r border-slate-200 last:border-r-0 cursor-pointer hover:bg-slate-50/10 transition-colors",
                     activePanelId === panelId ? "bg-slate-50/5" : ""
                 )}
                 style={{ backgroundColor: p.bg, textAlign: p.align }}
@@ -222,13 +362,20 @@ export default function BrochureBuilderPage() {
                     focusActivePanelId(panelId, zoom);
                 }}
             >
+                {/* Active Highlight Border - Hiden on Print */}
                 <div className={cn(
-                    "absolute inset-0 pointer-events-none border-4 transition-colors",
+                    "absolute inset-0 pointer-events-none border-4 transition-colors print:hidden",
                     activePanelId === panelId ? 'border-sky-500/50' : 'border-transparent'
                 )}></div>
-                <h3 className="font-bold text-lg md:text-xl mb-4 text-slate-800 leading-tight">{p.title}</h3>
-                <div className="whitespace-pre-wrap text-xs md:text-sm text-slate-600 leading-relaxed flex-1">{p.content}</div>
-                <div className="mt-auto pt-4 text-[10px] text-slate-300 font-mono text-center uppercase tracking-widest select-none">
+                
+                {/* Formatted Content Area */}
+                <div 
+                    className="brochure-rich-content text-xs md:text-sm text-slate-600 leading-relaxed flex-1"
+                    dangerouslySetInnerHTML={{ __html: p.content }}
+                />
+
+                {/* Tracking Footer - Hidden on Print */}
+                <div className="mt-auto pt-4 text-[10px] text-slate-300 font-mono text-center uppercase tracking-widest select-none print:hidden">
                     {p.title === "Front Cover" ? "Front Cover" : p.title === "Back Cover" ? "Back Cover" : p.title === "Inside Flap" ? "Inside Flap" : "Inside Panel"}
                 </div>
             </div>
@@ -237,8 +384,50 @@ export default function BrochureBuilderPage() {
 
     return (
         <>
-            {/* Print Styles */}
+            {/* Print & Rich Editor Styles */}
             <style dangerouslySetInnerHTML={{ __html: `
+                /* Rich Text Styles inside panels */
+                .rich-editor-content:empty::before {
+                    content: "Enter panel text here...";
+                    color: #94a3b8;
+                    pointer-events: none;
+                    display: block;
+                }
+                .brochure-rich-content h1 {
+                    font-size: 1.4rem;
+                    font-weight: 800;
+                    margin-top: 0.25rem;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.25;
+                    color: #0f172a;
+                }
+                .brochure-rich-content h2 {
+                    font-size: 1.15rem;
+                    font-weight: 700;
+                    margin-top: 0.25rem;
+                    margin-bottom: 0.4rem;
+                    line-height: 1.3;
+                    color: #1e293b;
+                }
+                .brochure-rich-content p {
+                    margin-bottom: 0.5rem;
+                }
+                .brochure-rich-content ul {
+                    list-style-type: disc;
+                    padding-left: 1.25rem;
+                    margin-bottom: 0.5rem;
+                }
+                .brochure-rich-content li {
+                    margin-bottom: 0.25rem;
+                }
+                .brochure-rich-content strong {
+                    font-weight: 700;
+                    color: inherit;
+                }
+                .brochure-rich-content em {
+                    font-style: italic;
+                }
+
                 @media print {
                     @page {
                         size: landscape;
@@ -330,7 +519,7 @@ export default function BrochureBuilderPage() {
                                             focusActivePanelId(p.id, zoom);
                                         }}
                                         className={cn(
-                                            "h-12 rounded-lg border text-xs flex items-center justify-center text-center p-1 transition-all",
+                                            "h-12 rounded-lg border text-xs flex items-center justify-center text-center p-1 transition-all cursor-pointer",
                                             activePanelId === p.id
                                                 ? 'border-sky-500 ring-1 ring-sky-500 bg-sky-50 text-sky-700 font-semibold'
                                                 : 'border-border hover:bg-slate-50 text-muted-foreground'
@@ -342,26 +531,13 @@ export default function BrochureBuilderPage() {
                             </div>
                         </div>
 
-                        {/* Panel Editor Controls */}
+                        {/* Rich Content Editor */}
                         <div className="space-y-4 border-t pt-4">
                             <div className="space-y-2">
-                                <Label htmlFor="panel-title">Panel Title</Label>
-                                <Input
-                                    id="panel-title"
-                                    type="text"
-                                    value={activePanel.title}
-                                    onChange={(e) => handlePanelUpdate('title', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label htmlFor="panel-content">Content</Label>
-                                <textarea
-                                    id="panel-content"
+                                <Label>Panel Content Editor</Label>
+                                <RichTextEditor
                                     value={activePanel.content}
-                                    onChange={(e) => handlePanelUpdate('content', e.target.value)}
-                                    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-sky-500 outline-none h-40 text-sm bg-background text-foreground leading-relaxed"
-                                    placeholder="Enter panel text..."
+                                    onChange={(val) => handlePanelUpdate('content', val)}
                                 />
                             </div>
 
@@ -373,7 +549,7 @@ export default function BrochureBuilderPage() {
                                             key={align}
                                             onClick={() => handlePanelUpdate('align', align)}
                                             className={cn(
-                                                "flex-1 p-2 flex justify-center hover:bg-slate-50 transition-colors",
+                                                "flex-1 p-2 flex justify-center hover:bg-slate-50 transition-colors cursor-pointer",
                                                 activePanel.align === align ? 'bg-slate-100 text-slate-800 font-semibold' : 'text-slate-400'
                                             )}
                                         >
@@ -408,7 +584,7 @@ export default function BrochureBuilderPage() {
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => setZoom(Math.max(15, zoom - 10))}
-                                    className="p-1 rounded hover:bg-slate-200 border bg-white shadow-sm transition-colors text-slate-600 disabled:opacity-50 flex items-center justify-center w-7 h-7"
+                                    className="p-1 rounded hover:bg-slate-200 border bg-white shadow-sm transition-colors text-slate-600 disabled:opacity-50 flex items-center justify-center w-7 h-7 cursor-pointer"
                                     disabled={zoom <= 15}
                                 >
                                     <ZoomOut className="w-3.5 h-3.5" />
@@ -418,7 +594,7 @@ export default function BrochureBuilderPage() {
                                 </span>
                                 <button
                                     onClick={() => setZoom(Math.min(200, zoom + 10))}
-                                    className="p-1 rounded hover:bg-slate-200 border bg-white shadow-sm transition-colors text-slate-600 disabled:opacity-50 flex items-center justify-center w-7 h-7"
+                                    className="p-1 rounded hover:bg-slate-200 border bg-white shadow-sm transition-colors text-slate-600 disabled:opacity-50 flex items-center justify-center w-7 h-7 cursor-pointer"
                                     disabled={zoom >= 200}
                                 >
                                     <ZoomIn className="w-3.5 h-3.5" />
@@ -532,4 +708,3 @@ export default function BrochureBuilderPage() {
         </>
     );
 }
-
