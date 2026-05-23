@@ -6,7 +6,9 @@ import JsBarcode from "jsbarcode"
 import { Button } from "@tinytask/ui/buttons/button"
 import { Input } from "@tinytask/ui/forms/input"
 import { Label } from "@tinytask/ui/forms/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@tinytask/ui/cards/card"
+import { Card, CardContent } from "@tinytask/ui/cards/card"
+import { ColorPicker } from "@tinytask/ui/forms/color-picker"
+import { ToolLayout } from "@tinytask/ui/layouts/tool-layout"
 import { Download, QrCode, ScanLine } from "lucide-react"
 
 export default function QrGeneratorPage() {
@@ -69,106 +71,79 @@ export default function QrGeneratorPage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-10 max-w-4xl sm:px-6 lg:px-8">
-            <div className="grid gap-8 md:grid-cols-2">
+        <ToolLayout
+            title="QR & Barcode Generator"
+            description="Generate QR codes and barcodes instantly."
+            sidebarContent={
                 <div className="space-y-6">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Code Baker</h1>
-                        <p className="text-muted-foreground">
-                            Generate QR codes and barcodes instantly.
-                        </p>
-                    </div>
-
-                    <div className="space-y-4">
-                        <div className="flex gap-4">
+                    <div className="space-y-2">
+                        <Label>Code Type</Label>
+                        <div className="flex gap-2">
                             <Button
                                 variant={codeType === 'qr' ? 'default' : 'outline'}
                                 onClick={() => setCodeType('qr')}
-                                className="flex-1 gap-2"
+                                className="flex-1 gap-2 text-xs"
+                                size="sm"
                             >
-                                <QrCode className="w-4 h-4" /> QR Code
+                                <QrCode className="w-3.5 h-3.5" /> QR Code
                             </Button>
                             <Button
                                 variant={codeType === 'barcode' ? 'default' : 'outline'}
                                 onClick={() => setCodeType('barcode')}
-                                className="flex-1 gap-2"
+                                className="flex-1 gap-2 text-xs"
+                                size="sm"
                             >
-                                <ScanLine className="w-4 h-4" /> Barcode
+                                <ScanLine className="w-3.5 h-3.5" /> Barcode
                             </Button>
                         </div>
+                    </div>
 
+                    <div className="space-y-2">
+                        <Label htmlFor="content">Content</Label>
+                        <Input
+                            id="content"
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            placeholder={codeType === 'qr' ? "https://example.com" : "123456789"}
+                        />
+                    </div>
+
+                    {codeType === 'qr' && (
                         <div className="space-y-2">
-                            <Label htmlFor="content">Content</Label>
+                            <Label htmlFor="size">Size (px)</Label>
                             <Input
-                                id="content"
-                                value={text}
-                                onChange={(e) => setText(e.target.value)}
-                                placeholder={codeType === 'qr' ? "https://example.com" : "123456789"}
+                                id="size"
+                                type="number"
+                                value={size}
+                                onChange={(e) => setSize(Number(e.target.value))}
+                                min={128}
+                                max={1024}
                             />
                         </div>
+                    )}
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="size">Size (px)</Label>
-                                <Input
-                                    id="size"
-                                    type="number"
-                                    value={size}
-                                    onChange={(e) => setSize(Number(e.target.value))}
-                                    min={128}
-                                    max={1024}
-                                    disabled={codeType === 'barcode'} // Barcode size is auto-fit
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="color">Bar Color</Label>
-                                <div className="flex gap-2">
-                                    <Input
-                                        id="color"
-                                        type="color"
-                                        value={color}
-                                        onChange={(e) => setColor(e.target.value)}
-                                        className="h-10 w-12 p-1 cursor-pointer"
-                                    />
-                                    <Input
-                                        value={color}
-                                        onChange={(e) => setColor(e.target.value)}
-                                        className="flex-1 font-mono text-xs"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="bgColor">Background Color</Label>
-                                <div className="flex gap-2">
-                                    <Input
-                                        id="bgColor"
-                                        type="color"
-                                        value={bgColor}
-                                        onChange={(e) => setBgColor(e.target.value)}
-                                        className="h-10 w-12 p-1 cursor-pointer"
-                                    />
-                                    <Input
-                                        value={bgColor}
-                                        onChange={(e) => setBgColor(e.target.value)}
-                                        className="flex-1 font-mono text-xs"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                    <div className="space-y-4 border-t pt-4">
+                        <ColorPicker
+                            id="fg-color"
+                            label="Foreground Color"
+                            value={color}
+                            onChange={setColor}
+                        />
+                        <ColorPicker
+                            id="bg-color"
+                            label="Background Color"
+                            value={bgColor}
+                            onChange={setBgColor}
+                        />
                     </div>
                 </div>
-
-                <div className="flex flex-col items-center justify-center space-y-6">
-                    <Card className="w-full max-w-sm">
-                        <CardHeader>
-                            <CardTitle className="text-center">Preview</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex flex-col items-center justify-center p-6">
+            }
+            previewContent={
+                <div className="flex flex-col items-center justify-center space-y-6 w-full max-w-sm">
+                    <Card className="w-full">
+                        <CardContent className="flex flex-col items-center justify-center p-8 bg-slate-50/50">
                             <div 
-                                className="relative flex items-center justify-center overflow-hidden rounded-lg border bg-white p-4 shadow-sm" 
+                                className="relative flex items-center justify-center overflow-hidden rounded-xl border bg-white p-6 shadow-sm" 
                                 style={{ backgroundColor: bgColor, minHeight: '200px', minWidth: '200px', width: '100%' }}
                             >
                                 {codeType === 'qr' ? (
@@ -180,7 +155,7 @@ export default function QrGeneratorPage() {
                                         bgColor={bgColor}
                                         level={"H"}
                                         includeMargin={true}
-                                        style={{ width: "100%", height: "auto", maxWidth: "256px" }}
+                                        style={{ width: "100%", height: "auto", maxWidth: "220px" }}
                                     />
                                 ) : (
                                     <canvas
@@ -193,12 +168,12 @@ export default function QrGeneratorPage() {
                         </CardContent>
                     </Card>
 
-                    <Button onClick={downloadCode} className="w-full max-w-sm" size="lg">
+                    <Button onClick={downloadCode} className="w-full" size="lg">
                         <Download className="mr-2 h-4 w-4" />
                         Download PNG
                     </Button>
                 </div>
-            </div>
-        </div>
-    )
+            }
+        />
+    );
 }

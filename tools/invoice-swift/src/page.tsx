@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import { Button } from '@tinytask/ui/buttons/button';
 import { Input } from '@tinytask/ui/forms/input';
 import { Label } from '@tinytask/ui/forms/label';
-import { Card, CardContent } from '@tinytask/ui/cards/card';
-import { ArrowLeft, Printer, Plus, Trash2, FileText, Image as ImageIcon } from 'lucide-react';
-import Link from 'next/link';
+import { FileUploader } from '@tinytask/ui/forms/file-uploader';
+import { ToolLayout } from '@tinytask/ui/layouts/tool-layout';
+import { Printer, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
 
 interface LineItem {
     id: string;
@@ -25,6 +25,8 @@ export default function InvoiceSwiftPage() {
     const [invoiceNumber, setInvoiceNumber] = useState('INV-001');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [taxRate, setTaxRate] = useState(0);
+    const [currency, setCurrency] = useState('$');
+    const [paymentTerms, setPaymentTerms] = useState('Payment is due within 30 days of invoice date.');
     const [lineItems, setLineItems] = useState<LineItem[]>([
         { id: '1', description: 'Service Rendered', quantity: 1, rate: 100 }
     ]);
@@ -56,88 +58,74 @@ export default function InvoiceSwiftPage() {
         window.print();
     };
 
-    const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setLogo(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     return (
-        <div className="container mx-auto px-4 py-8 max-w-7xl sm:px-6 lg:px-8">
-            <div className="mb-8 print:hidden">
-                <Link href="/" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 mb-4">
-                    <ArrowLeft className="w-4 h-4" /> Back to Home
-                </Link>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Invoice Swift</h1>
-                        <p className="text-muted-foreground">Create professional invoices instantly.</p>
-                    </div>
-                    <Button onClick={handlePrint}>
-                        <Printer className="w-4 h-4 mr-2" /> Print Invoice
-                    </Button>
-                </div>
-            </div>
+        <>
+            {/* Print Styles */}
+            <style dangerouslySetInnerHTML={{ __html: `
+                @media print {
+                    body * { visibility: hidden !important; }
+                    #invoice-print-area, #invoice-print-area * { visibility: visible !important; }
+                    #invoice-print-area { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; }
+                    header, footer, nav, aside { display: none !important; }
+                }
+            `}} />
 
-            <div className="grid lg:grid-cols-2 gap-8">
-                {/* Editor Column */}
-                <div className="space-y-6 print:hidden h-fit overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
-                    <Card>
-                        <CardContent className="p-6 space-y-4">
-                            <h3 className="font-semibold flex items-center gap-2">
-                                <FileText className="w-4 h-4" /> Invoice Details
-                            </h3>
-                            <div className="grid grid-cols-2 gap-4">
+            <ToolLayout
+                title="Invoice Swift"
+                description="Create and print professional invoices instantly."
+                sidebarContent={
+                    <div className="space-y-6">
+                        {/* Invoice Details */}
+                        <div className="space-y-4">
+                            <h3 className="font-semibold text-slate-800 text-sm">Invoice Details</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Invoice #</Label>
-                                    <Input value={invoiceNumber} onChange={e => setInvoiceNumber(e.target.value)} />
+                                    <Label htmlFor="invoice-num">Invoice #</Label>
+                                    <Input id="invoice-num" value={invoiceNumber} onChange={e => setInvoiceNumber(e.target.value)} />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Date</Label>
-                                    <Input type="date" value={date} onChange={e => setDate(e.target.value)} />
+                                    <Label htmlFor="invoice-date">Date</Label>
+                                    <Input id="invoice-date" type="date" value={date} onChange={e => setDate(e.target.value)} />
                                 </div>
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
 
-                    <Card>
-                        <CardContent className="p-6 space-y-4">
-                            <h3 className="font-semibold">Parties</h3>
-                            <div className="grid gap-4">
-                                <div className="space-y-2 pb-4 border-b">
-                                    <Label className="flex items-center gap-1.5"><ImageIcon className="w-4 h-4 text-primary" /> Company Logo</Label>
-                                    {logo ? (
-                                        <div className="flex items-center gap-4 mt-1.5">
-                                            <img src={logo} alt="Logo preview" className="max-h-12 max-w-[150px] object-contain border rounded p-1 bg-white" />
-                                            <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setLogo(null)}>
-                                                Remove Logo
-                                            </Button>
-                                        </div>
-                                    ) : (
-                                        <input
-                                            id="logo-upload"
-                                            type="file"
-                                            accept="image/*"
-                                            className="mt-1.5 block w-full text-xs text-slate-500
-                                                file:mr-4 file:py-2 file:px-4
-                                                file:rounded-md file:border-0
-                                                file:text-xs file:font-semibold
-                                                file:bg-secondary file:text-secondary-foreground
-                                                hover:file:bg-secondary/85 cursor-pointer"
-                                            onChange={handleLogoUpload}
-                                        />
-                                    )}
+                        {/* Company Logo Section */}
+                        <div className="space-y-4 border-t pt-4">
+                            <Label className="flex items-center gap-1.5"><ImageIcon className="w-4 h-4 text-primary" /> Company Logo</Label>
+                            {logo ? (
+                                <div className="flex items-center gap-4 mt-1.5">
+                                    <img src={logo} alt="Logo preview" className="max-h-12 max-w-[150px] object-contain border rounded p-1 bg-white" />
+                                    <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive/10" onClick={() => setLogo(null)}>
+                                        Remove Logo
+                                    </Button>
                                 </div>
+                            ) : (
+                                <FileUploader
+                                    onFileSelect={(file) => {
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => {
+                                            setLogo(reader.result as string);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }}
+                                    accept="image/*"
+                                    allowedExtensions={['.png', '.jpg', '.jpeg', '.gif', '.webp']}
+                                    description="Supports PNG, JPG, or WEBP"
+                                    icon={<ImageIcon className="w-8 h-8 text-slate-400" />}
+                                />
+                            )}
+                        </div>
 
-                                <div className="space-y-2 pt-2">
-                                    <Label>My Company Details</Label>
-                                    <Input value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company Name" className="mb-2" />
+                        {/* Parties */}
+                        <div className="space-y-4 border-t pt-4">
+                            <h3 className="font-semibold text-slate-800 text-sm">Parties</h3>
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="company-name">My Company Details</Label>
+                                    <Input id="company-name" value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company Name" className="mb-2" />
                                     <textarea
+                                        id="company-details"
                                         className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                         value={companyDetails}
                                         onChange={e => setCompanyDetails(e.target.value)}
@@ -146,9 +134,10 @@ export default function InvoiceSwiftPage() {
                                 </div>
 
                                 <div className="space-y-2 border-t pt-4">
-                                    <Label>Client Details</Label>
-                                    <Input value={clientName} onChange={e => setClientName(e.target.value)} placeholder="Client Name" className="mb-2" />
+                                    <Label htmlFor="client-name">Client Details</Label>
+                                    <Input id="client-name" value={clientName} onChange={e => setClientName(e.target.value)} placeholder="Client Name" className="mb-2" />
                                     <textarea
+                                        id="client-details"
                                         className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                         value={clientDetails}
                                         onChange={e => setClientDetails(e.target.value)}
@@ -156,149 +145,201 @@ export default function InvoiceSwiftPage() {
                                     />
                                 </div>
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
 
-                    <Card>
-                        <CardContent className="p-6 space-y-4">
-                            <div className="flex justify-between items-center">
-                                <h3 className="font-semibold">Line Items</h3>
-                                <Button size="sm" variant="outline" onClick={addLineItem}>
-                                    <Plus className="w-4 h-4 mr-2" /> Add Item
-                                </Button>
-                            </div>
-                            <div className="space-y-4">
-                                {lineItems.map((item, index) => (
-                                    <div key={item.id} className="grid grid-cols-12 gap-2 items-start p-2 border rounded-md bg-muted/20">
-                                        <div className="col-span-6 space-y-1">
-                                            <Label className="text-xs">Description</Label>
-                                            <Input
-                                                value={item.description}
-                                                onChange={e => updateLineItem(item.id, 'description', e.target.value)}
-                                                placeholder="Item description"
-                                            />
-                                        </div>
-                                        <div className="col-span-2 space-y-1">
-                                            <Label className="text-xs">Qty</Label>
-                                            <Input
-                                                type="number"
-                                                value={item.quantity}
-                                                onChange={e => updateLineItem(item.id, 'quantity', Number(e.target.value))}
-                                            />
-                                        </div>
-                                        <div className="col-span-3 space-y-1">
-                                            <Label className="text-xs">Rate</Label>
-                                            <Input
-                                                type="number"
-                                                value={item.rate}
-                                                onChange={e => updateLineItem(item.id, 'rate', Number(e.target.value))}
-                                            />
-                                        </div>
-                                        <div className="col-span-1 pt-6 flex justify-center">
-                                            <Button variant="ghost" size="icon" onClick={() => removeLineItem(item.id)} className="text-destructive h-8 w-8">
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="pt-4 border-t">
-                                <div className="flex items-center justify-end gap-2">
-                                    <Label>Tax Rate (%)</Label>
+                        {/* Style / Currency */}
+                        <div className="space-y-4 border-t pt-4">
+                            <h3 className="font-semibold text-slate-800 text-sm">Settings</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="currency-select">Currency</Label>
+                                    <select
+                                        id="currency-select"
+                                        value={currency}
+                                        onChange={e => setCurrency(e.target.value)}
+                                        className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    >
+                                        <option value="$">USD ($)</option>
+                                        <option value="€">EUR (€)</option>
+                                        <option value="£">GBP (£)</option>
+                                        <option value="¥">JPY/CNY (¥)</option>
+                                        <option value="₹">INR (₹)</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="tax-rate">Tax Rate (%)</Label>
                                     <Input
+                                        id="tax-rate"
                                         type="number"
-                                        className="w-24 text-right"
+                                        className="text-right"
                                         value={taxRate}
                                         onChange={e => setTaxRate(Number(e.target.value))}
                                     />
                                 </div>
                             </div>
-                        </CardContent>
-                    </Card>
-                </div>
-
-                {/* Preview / Print Column */}
-                <div className="print:w-full print:absolute print:top-0 print:left-0 print:m-0">
-                    <div className="bg-white text-black p-8 shadow-lg border rounded-lg min-h-[800px] print:shadow-none print:border-none print:rounded-none">
-                        {/* Invoice Header */}
-                        <div className="flex justify-between items-start mb-12">
-                            <div>
-                                <h2 className="text-4xl font-bold text-slate-800 mb-2">INVOICE</h2>
-                                <p className="text-slate-500">#{invoiceNumber}</p>
-                            </div>
-                            <div className="text-right flex flex-col items-end gap-1.5">
-                                {logo && (
-                                    <img src={logo} alt="Company Logo" className="max-h-16 max-w-[200px] object-contain mb-3" />
-                                )}
-                                <h3 className="font-bold text-lg leading-tight">{companyName}</h3>
-                                <div className="text-sm text-slate-600 whitespace-pre-line leading-relaxed">{companyDetails}</div>
-                            </div>
                         </div>
 
-                        {/* Client & Date */}
-                        <div className="flex justify-between mb-12">
-                            <div>
-                                <p className="text-sm font-bold text-slate-400 uppercase mb-1">Bill To</p>
-                                <h3 className="font-bold text-lg">{clientName}</h3>
-                                <div className="text-sm text-slate-600 whitespace-pre-line leading-relaxed">{clientDetails}</div>
+                        {/* Line Items */}
+                        <div className="space-y-4 border-t pt-4">
+                            <div className="flex justify-between items-center">
+                                <h3 className="font-semibold text-slate-800 text-sm">Line Items</h3>
+                                <Button size="sm" variant="outline" onClick={addLineItem} className="h-8 text-xs gap-1">
+                                    <Plus className="w-3.5 h-3.5" /> Add Item
+                                </Button>
                             </div>
-                            <div className="text-right">
-                                <p className="text-sm font-bold text-slate-400 uppercase mb-1">Date</p>
-                                <p className="font-medium">{new Date(date).toLocaleDateString()}</p>
-                            </div>
-                        </div>
-
-                        {/* Line Items Table */}
-                        <table className="w-full mb-8">
-                            <thead>
-                                <tr className="border-b-2 border-slate-200">
-                                    <th className="text-left py-3 font-bold text-slate-600">Description</th>
-                                    <th className="text-right py-3 font-bold text-slate-600 w-24">Qty</th>
-                                    <th className="text-right py-3 font-bold text-slate-600 w-32">Rate</th>
-                                    <th className="text-right py-3 font-bold text-slate-600 w-32">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <div className="space-y-3">
                                 {lineItems.map((item) => (
-                                    <tr key={item.id} className="border-b border-slate-100">
-                                        <td className="py-4 text-slate-700">{item.description || 'Item'}</td>
-                                        <td className="py-4 text-right text-slate-700">{item.quantity}</td>
-                                        <td className="py-4 text-right text-slate-700">${item.rate.toFixed(2)}</td>
-                                        <td className="py-4 text-right font-medium text-slate-800">
-                                            ${(item.quantity * item.rate).toFixed(2)}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-
-                        {/* Totals */}
-                        <div className="flex justify-end">
-                            <div className="w-64 space-y-2">
-                                <div className="flex justify-between text-slate-600">
-                                    <span>Subtotal</span>
-                                    <span>${subtotal.toFixed(2)}</span>
-                                </div>
-                                {taxRate > 0 && (
-                                    <div className="flex justify-between text-slate-600">
-                                        <span>Tax ({taxRate}%)</span>
-                                        <span>${taxAmount.toFixed(2)}</span>
+                                    <div key={item.id} className="p-3 border rounded-lg bg-slate-50/50 space-y-3 relative group">
+                                        <button 
+                                            onClick={() => removeLineItem(item.id)} 
+                                            className="absolute top-2 right-2 p-1 text-slate-400 hover:text-red-500 rounded-md hover:bg-slate-100 transition-colors"
+                                            title="Delete item"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                        <div className="space-y-1.5 pr-6">
+                                            <Label className="text-xs font-semibold text-slate-600">Item Description</Label>
+                                            <Input
+                                                value={item.description}
+                                                onChange={e => updateLineItem(item.id, 'description', e.target.value)}
+                                                placeholder="e.g. Service Rendered"
+                                                className="bg-white text-xs h-9"
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="space-y-1.5">
+                                                <Label className="text-xs font-semibold text-slate-600">Qty</Label>
+                                                <Input
+                                                    type="number"
+                                                    value={item.quantity}
+                                                    onChange={e => updateLineItem(item.id, 'quantity', Number(e.target.value))}
+                                                    className="bg-white text-xs h-9"
+                                                />
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <Label className="text-xs font-semibold text-slate-600">Rate</Label>
+                                                <Input
+                                                    type="number"
+                                                    value={item.rate}
+                                                    onChange={e => updateLineItem(item.id, 'rate', Number(e.target.value))}
+                                                    className="bg-white text-xs h-9"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
-                                <div className="flex justify-between font-bold text-xl text-slate-800 pt-4 border-t border-slate-200">
-                                    <span>Total</span>
-                                    <span>${total.toFixed(2)}</span>
-                                </div>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Footer */}
-                        <div className="mt-20 pt-8 border-t border-slate-100 text-center text-slate-400 text-sm">
-                            <p>Thank you for your business!</p>
+                        {/* Payment Terms */}
+                        <div className="space-y-2 border-t pt-4">
+                            <Label htmlFor="payment-terms">Payment Terms / Notes</Label>
+                            <textarea
+                                id="payment-terms"
+                                className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                value={paymentTerms}
+                                onChange={e => setPaymentTerms(e.target.value)}
+                                placeholder="Payment terms or notes..."
+                            />
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                }
+                previewContent={
+                    <div className="w-full max-w-3xl my-auto p-4 md:p-0">
+                        <div id="invoice-print-area" className="bg-white text-black p-8 md:p-12 shadow-lg border rounded-xl min-h-[840px] print:shadow-none print:border-none print:rounded-none">
+                            {/* Invoice Header */}
+                            <div className="flex justify-between items-start mb-12">
+                                <div>
+                                    <h2 className="text-4xl font-extrabold text-slate-800 tracking-tight mb-2">INVOICE</h2>
+                                    <p className="text-sm font-medium text-slate-500">#{invoiceNumber}</p>
+                                </div>
+                                <div className="text-right flex flex-col items-end gap-1.5">
+                                    {logo && (
+                                        <img src={logo} alt="Company Logo" className="max-h-16 max-w-[200px] object-contain mb-3" />
+                                    )}
+                                    <h3 className="font-bold text-lg leading-tight text-slate-800">{companyName}</h3>
+                                    <div className="text-xs text-slate-500 whitespace-pre-line leading-relaxed">{companyDetails}</div>
+                                </div>
+                            </div>
+
+                            {/* Client & Date */}
+                            <div className="flex justify-between mb-12 border-t border-slate-100 pt-6">
+                                <div>
+                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Bill To</p>
+                                    <h3 className="font-bold text-base text-slate-800">{clientName}</h3>
+                                    <div className="text-xs text-slate-500 whitespace-pre-line leading-relaxed mt-1">{clientDetails}</div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Date</p>
+                                    <p className="font-semibold text-sm text-slate-800">{new Date(date).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+
+                            {/* Line Items Table */}
+                            <table className="w-full mb-8">
+                                <thead>
+                                    <tr className="border-b-2 border-slate-200">
+                                        <th className="text-left py-3 text-xs font-bold text-slate-600 uppercase tracking-wider">Description</th>
+                                        <th className="text-right py-3 text-xs font-bold text-slate-600 uppercase tracking-wider w-24">Qty</th>
+                                        <th className="text-right py-3 text-xs font-bold text-slate-600 uppercase tracking-wider w-32">Rate</th>
+                                        <th className="text-right py-3 text-xs font-bold text-slate-600 uppercase tracking-wider w-32">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {lineItems.map((item) => (
+                                        <tr key={item.id} className="border-b border-slate-100">
+                                            <td className="py-4 text-sm text-slate-700">{item.description || 'Item'}</td>
+                                            <td className="py-4 text-sm text-right text-slate-700">{item.quantity}</td>
+                                            <td className="py-4 text-sm text-right text-slate-700">{currency}{item.rate.toFixed(2)}</td>
+                                            <td className="py-4 text-sm text-right font-medium text-slate-800">
+                                                {currency}{(item.quantity * item.rate).toFixed(2)}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            {/* Totals */}
+                            <div className="flex justify-end pt-4 border-t border-slate-100">
+                                <div className="w-64 space-y-2.5">
+                                    <div className="flex justify-between text-sm text-slate-500">
+                                        <span>Subtotal</span>
+                                        <span className="font-medium text-slate-800">{currency}{subtotal.toFixed(2)}</span>
+                                    </div>
+                                    {taxRate > 0 && (
+                                        <div className="flex justify-between text-sm text-slate-500">
+                                            <span>Tax ({taxRate}%)</span>
+                                            <span className="font-medium text-slate-800">{currency}{taxAmount.toFixed(2)}</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between font-bold text-lg text-slate-800 pt-4 border-t border-slate-200">
+                                        <span>Total</span>
+                                        <span>{currency}{total.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Payment Terms & Notes */}
+                            {paymentTerms && (
+                                <div className="mt-12 pt-6 border-t border-slate-100">
+                                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Terms & Instructions</h4>
+                                    <p className="text-xs text-slate-500 whitespace-pre-line leading-relaxed">{paymentTerms}</p>
+                                </div>
+                            )}
+
+                            {/* Footer */}
+                            <div className="mt-20 pt-6 border-t border-slate-100 text-center text-slate-400 text-xs tracking-wide uppercase">
+                                <p>Thank you for your business!</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                actions={
+                    <Button onClick={handlePrint} className="w-full gap-2 bg-indigo-600 hover:bg-indigo-700 text-white" size="lg">
+                        <Printer className="w-5 h-5" /> Print Invoice
+                    </Button>
+                }
+            />
+        </>
     );
 }
