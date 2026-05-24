@@ -46,7 +46,6 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { HowToGuide } from "@/components/layout/how-to-guide";
 
 interface ToolItem {
     slug: string;
@@ -577,7 +576,6 @@ export function Header() {
                     </div>
 
                     <nav className="flex items-center gap-1">
-                        <HowToGuide />
                         {user ? (
                             <>
                                 <Link href="/dashboard">
