@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TinyTask | Tiny tools for big tasks</title>
+  <meta name="description" content="TinyTask is a suite of simple, practical tools that help you clean files, format data, build documents, and get work done faster." />
+  <style>
+    :root {
+      --paper: #f7efe0;
+      --paper-2: #fff9ed;
+      --paper-3: #f2e4c8;
+      --kraft: #b8834d;
+      --kraft-2: #d2a06b;
+      --kraft-dark: #6f4c2c;
+      --teal: #087b82;
+      --teal-dark: #045e64;
+      --teal-soft: #d7eeee;
+      --ink: #171717;
+      --muted: #6b665d;
+      --border: #dfd0b8;
+      --shadow: 0 14px 34px rgba(82, 54, 28, 0.12);
+      --shadow-soft: 0 8px 18px rgba(82, 54, 28, 0.10);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.5), transparent 22rem),
+        radial-gradient(circle at 80% 10%, rgba(212, 160, 107, 0.13), transparent 20rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0)),
+        var(--paper);
+      background-attachment: fixed;
+      line-height: 1.5;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.34;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(rgba(92, 63, 34, 0.11) 0.7px, transparent 0.7px),
+        radial-gradient(rgba(255, 255, 255, 0.55) 0.8px, transparent 0.8px);
+      background-position: 0 0, 12px 9px;
+      background-size: 18px 18px, 22px 22px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 249, 237, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(111, 76, 44, 0.16);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 36px));
+      height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.55rem;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 34px;
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      background: var(--kraft);
+      border: 1px solid rgba(80, 50, 22, 0.2);
+      border-radius: 7px;
+      box-shadow: inset 0 0 16px rgba(255,255,255,0.18), var(--shadow-soft);
+    }
+
+    .logo-mark::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: -8px;
+      width: 18px;
+      height: 9px;
+      background: var(--kraft);
+      border: 1px solid rgba(80, 50, 22, 0.16);
+      border-bottom: 0;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .face {
+      position: relative;
+      width: 21px;
+      height: 13px;
+    }
+
+    .face::before,
+    .face::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      width: 4px;
+      height: 4px;
+      background: #1f1710;
+      border-radius: 50%;
+    }
+
+    .face::before { left: 1px; }
+    .face::after { right: 1px; }
+
+    .face span {
+      position: absolute;
+      left: 5px;
+      bottom: 0;
+      width: 11px;
+      height: 6px;
+      border: 2px solid #1f1710;
+      border-top: 0;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.94rem;
+      font-weight: 650;
+    }
+
+    .nav-link {
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: #25211c;
+    }
+
+    .nav-link:hover {
+      background: rgba(183, 131, 77, 0.13);
+    }
+
+    .chev {
+      font-size: 0.72rem;
+      margin-left: 4px;
+      color: var(--muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+
+    .search {
+      width: 240px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      color: #7c776d;
+      font-size: 0.88rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .search svg {
+      flex: 0 0 auto;
+    }
+
+    .button,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover,
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .button-primary {
+      color: white;
+      background: var(--teal);
+      border-color: var(--teal-dark);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.14), 0 8px 18px rgba(8, 123, 130, 0.20);
+    }
+
+    .button-primary:hover {
+      background: var(--teal-dark);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--ink);
+    }
+
+    .sign-in {
+      font-weight: 750;
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    .section {
+      width: min(var(--max), calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      align-items: center;
+      gap: 48px;
+      padding: 72px 0 56px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      margin-bottom: 18px;
+      color: var(--teal-dark);
+      background: rgba(215, 238, 238, 0.75);
+      border: 1px solid rgba(8, 123, 130, 0.18);
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 610px;
+      font-size: clamp(3.35rem, 7vw, 6.25rem);
+      line-height: 0.96;
+      letter-spacing: -0.08em;
+    }
+
+    .hero h1 span {
+      color: var(--teal);
+      display: block;
+    }
+
+    .hero p {
+      max-width: 560px;
+      margin: 24px 0 28px;
+      color: #4f4a43;
+      font-size: clamp(1.02rem, 1.5vw, 1.2rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 380px;
+    }
+
+    .clipboard {
+      position: absolute;
+      left: 6%;
+      top: 22px;
+      width: 230px;
+      padding: 42px 26px 28px;
+      transform: rotate(-4deg);
+      background: #c4905a;
+      border: 1px solid rgba(88, 56, 27, 0.18);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .clip {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      width: 64px;
+      height: 48px;
+      transform: translateX(-50%);
+      background: linear-gradient(#9e9285, #6e655c);
+      border-radius: 18px 18px 10px 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.16);
+    }
+
+    .clip::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      width: 13px;
+      height: 13px;
+      transform: translateX(-50%);
+      border: 4px solid #6e655c;
+      background: var(--paper);
+      border-radius: 50%;
+    }
+
+    .check-paper {
+      padding: 20px 16px;
+      background: var(--paper-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: inset 0 1px 10px rgba(111, 76, 44, 0.08);
+    }
+
+    .check-paper ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: grid;
+      gap: 13px;
+      color: #4d473f;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .check-paper li {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .check-paper li::before {
+      content: "✓";
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .folder-hero {
+      position: absolute;
+      right: 10%;
+      top: 88px;
+      width: 330px;
+      height: 224px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.14), transparent 32%),
+        var(--kraft);
+      border: 1px solid rgba(88, 56, 27, 0.25);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .folder-hero::before {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: -34px;
+      width: 142px;
+      height: 42px;
+      background: var(--kraft);
+      border: 1px solid rgba(88, 56, 27, 0.22);
+      border-bottom: 0;
+      border-radius: 18px 18px 0 0;
+    }
+
+    .folder-hero::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 58px;
+      height: 58px;
+      background: rgba(255, 235, 197, 0.32);
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+      border-radius: 0 20px 0 0;
+    }
+
+    .folder-face {
+      transform: scale(2.05);
+    }
+
+    .note {
+      position: absolute;
+      background: var(--paper-2);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      color: #2d2924;
+      font-weight: 750;
+    }
+
+    .note::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 30%;
+      width: 94px;
+      height: 24px;
+      background: rgba(213, 184, 134, 0.65);
+      transform: rotate(4deg);
+      border-radius: 2px;
+    }
+
+    .note-white {
+      right: 0;
+      top: 40px;
+      width: 225px;
+      padding: 30px 26px;
+      transform: rotate(4deg);
+      font-size: 1.04rem;
+      line-height: 1.55;
+    }
+
+    .note-teal {
+      right: 12%;
+      bottom: 12px;
+      width: 154px;
+      padding: 25px 20px;
+      background: #6fb6b8;
+      border-color: rgba(0,0,0,0.08);
+      transform: rotate(5deg);
+      font-size: 0.96rem;
+      line-height: 1.4;
+    }
+
+    .paper-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 19px;
+      color: #33271d;
+      background: #ead7b4;
+      border: 1px solid rgba(111, 76, 44, 0.12);
+      border-radius: 4px;
+      box-shadow: var(--shadow-soft);
+      font-size: 0.96rem;
+      font-weight: 850;
+      transform: rotate(-1deg);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .category-grid,
+    .tool-grid,
+    .why-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .category-grid {
+      grid-template-columns: repeat(6, 1fr);
+      margin-bottom: 34px;
+    }
+
+    .tool-grid {
+      grid-template-columns: repeat(6, 1fr);
+      margin-bottom: 26px;
+    }
+
+    .why-grid {
+      grid-template-columns: repeat(4, 1fr);
+      margin-bottom: 34px;
+    }
+
+    .card {
+      position: relative;
+      background: rgba(255, 250, 240, 0.82);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .category-card {
+      min-height: 132px;
+      padding: 24px 20px 18px;
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      gap: 8px;
+    }
+
+    .category-card::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: 16px;
+      width: 44px;
+      height: 9px;
+      background: #c69358;
+      border-radius: 3px 3px 0 0;
+      transform: rotate(1deg);
+    }
+
+    .icon {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+
+    .category-card h3,
+    .tool-card h3,
+    .why-card h3,
+    .price-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .count {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 9px;
+      color: var(--teal-dark);
+      background: var(--teal-soft);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 850;
+    }
+
+    .tool-card {
+      min-height: 178px;
+      padding: 22px 18px 18px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 8px;
+    }
+
+    .tool-card .icon {
+      background: rgba(8, 123, 130, 0.08);
+      border-radius: 10px;
+      padding: 6px;
+    }
+
+    .tool-card p,
+    .why-card p,
+    .price-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .try-link {
+      color: var(--teal-dark);
+      font-size: 0.88rem;
+      font-weight: 850;
+    }
+
+    .left-heading {
+      justify-content: flex-start;
+    }
+
+    .why-card {
+      min-height: 105px;
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 22px;
+    }
+
+    .why-card .icon {
+      width: 48px;
+      height: 48px;
+      margin: 0;
+    }
+
+    .pricing-wrap {
+      max-width: 620px;
+      margin: 0 auto 58px;
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .price-card {
+      padding: 24px;
+    }
+
+    .price-card.pro {
+      border: 2px solid var(--teal);
+    }
+
+    .badge {
+      position: absolute;
+      top: -12px;
+      right: 18px;
+      padding: 5px 10px;
+      color: white;
+      background: var(--teal);
+      border-radius: 7px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .price {
+      margin: 18px 0;
+      font-size: 2.35rem;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .price small {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .price-card .button {
+      width: 100%;
+      min-height: 42px;
+    }
+
+    .footer {
+      background: #b8834d;
+      color: #2c1d12;
+      border-top: 1px solid rgba(111, 76, 44, 0.22);
+    }
+
+    .footer-inner {
+      width: min(var(--max), calc(100% - 36px));
+      min-height: 84px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .footer .logo {
+      font-size: 1.15rem;
+    }
+
+    .footer .logo-mark {
+      width: 28px;
+      height: 23px;
+      box-shadow: none;
+    }
+
+    .footer .logo-mark::before {
+      top: -6px;
+      width: 14px;
+      height: 7px;
+    }
+
+    .footer .face {
+      transform: scale(0.62);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .social {
+      display: flex;
+      gap: 8px;
+    }
+
+    .social a {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      color: #f7efe0;
+      background: rgba(44, 29, 18, 0.82);
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 0.78rem;
+    }
+
+    .mobile-menu {
+      display: none;
+      margin-left: auto;
+      width: 42px;
+      height: 42px;
+      background: var(--paper-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .mobile-menu span,
+    .mobile-menu::before,
+    .mobile-menu::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 4px auto;
+      background: #2b241d;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 1040px) {
+      .nav-links,
+      .search,
+      .sign-in {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+        place-content: center;
+      }
+
+      .nav-actions {
+        margin-left: auto;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding-top: 46px;
+      }
+
+      .hero-art {
+        min-height: 420px;
+      }
+
+      .folder-hero {
+        right: 13%;
+      }
+
+      .category-grid,
+      .tool-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        width: min(100% - 24px, var(--max));
+        height: 64px;
+      }
+
+      .nav-actions .button-primary {
+        display: none;
+      }
+
+      .section,
+      .footer-inner {
+        width: min(100% - 24px, var(--max));
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 16vw, 4.2rem);
+      }
+
+      .hero-art {
+        min-height: 360px;
+      }
+
+      .clipboard {
+        width: 190px;
+        left: 0;
+      }
+
+      .folder-hero {
+        width: 245px;
+        height: 175px;
+        right: 0;
+        top: 110px;
+      }
+
+      .note-white {
+        display: none;
+      }
+
+      .note-teal {
+        right: 5%;
+        bottom: 5px;
+      }
+
+      .category-grid,
+      .tool-grid,
+      .why-grid,
+      .price-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-card {
+        min-height: auto;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 0;
+      }
+
+      .footer-links {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#" class="logo" aria-label="TinyTask home">
+        <span class="logo-mark" aria-hidden="true"><span class="face"><span></span></span></span>
+        TinyTask
+      </a>
+
+      <div class="nav-links">
+        <a class="nav-link" href="#categories">Tools <span class="chev">⌄</span></a>
+        <a class="nav-link" href="#featured">Collections <span class="chev">⌄</span></a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+        <a class="nav-link" href="#why">About</a>
+      </div>
+
+      <div class="nav-actions">
+        <div class="search" role="search" aria-label="Search all tools">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.2-4.2m1.2-5.3a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>Search all tools...</span>
+        </div>
+        <a class="sign-in" href="#">Sign in</a>
+        <a class="button button-primary" href="#pricing">Get started</a>
+        <button class="mobile-menu" aria-label="Open menu"><span></span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section hero">
+      <div>
+        <div class="eyebrow">Simple tools. Real work.</div>
+        <h1>Tiny tools for <span>big tasks.</span></h1>
+        <p>A suite of simple, practical tools that help you clean files, format data, build documents, and get work done faster.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#categories">Explore tools</a>
+          <a class="button button-secondary" href="#pricing">View pricing</a>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="clipboard">
+          <div class="clip"></div>
+          <div class="check-paper">
+            <ul>
+              <li>Clean data</li>
+              <li>Format files</li>
+              <li>Build docs</li>
+              <li>Ship work</li>
+            </ul>
+          </div>
+        </div>
+        <div class="folder-hero">
+          <span class="face folder-face"><span></span></span>
+        </div>
+        <div class="note note-white">Simple tools.<br>Real results. ♡</div>
+        <div class="note note-teal">Get more done with less effort.</div>
+      </div>
+    </section>
+
+    <section class="section" id="categories" aria-labelledby="categories-title">
+      <div class="section-heading">
+        <h2 id="categories-title" class="paper-label">Browse by category</h2>
+      </div>
+      <div class="category-grid">
+        <article class="card category-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6V3Z" stroke="currentColor" stroke-width="2"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Office &amp; Print</h3>
+          <span class="count">7 tools</span>
+        </article>
+        <article class="card category-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4V4Z" stroke="currentColor" stroke-width="2"/><path d="M4 10h16M10 4v16" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>Data &amp; Sheets</h3>
+          <span class="count">6 tools</span>
+        </article>
+        <article class="card category-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14M12 5v14M9 19h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Text &amp; Content</h3>
+          <span class="count">6 tools</span>
+        </article>
+        <article class="card category-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm12 0h4v4h-4v-4Zm-2 5h2v1h-2v-1Z" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>Digital Assets</h3>
+          <span class="count">6 tools</span>
+        </article>
+        <article class="card category-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>Email &amp; Signatures</h3>
+          <span class="count">3 tools</span>
+        </article>
+        <article class="card category-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9S14.5 18.3 12 21c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3Z" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>Utilities</h3>
+          <span class="count">5 tools</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="featured" aria-labelledby="featured-title">
+      <div class="section-heading left-heading">
+        <h2 id="featured-title" class="paper-label">Featured tools</h2>
+      </div>
+      <div class="tool-grid">
+        <article class="card tool-card">
+          <span class="icon" style="color:#d82f8b" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="2"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>Signature Smith</h3>
+          <p>Create professional email signatures in seconds.</p>
+          <a class="try-link" href="#">Try it →</a>
+        </article>
+        <article class="card tool-card">
+          <span class="icon" style="color:#00a76f" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6V3Z" stroke="currentColor" stroke-width="2"/><path d="M14 3v5h5M12 10v8M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Invoice Swift</h3>
+          <p>Generate clean PDF invoices with tax calculations.</p>
+          <a class="try-link" href="#">Try it →</a>
+        </article>
+        <article class="card tool-card">
+          <span class="icon" style="color:#00a76f" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4V4Z" stroke="currentColor" stroke-width="2"/><path d="M4 10h16M10 4v16" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>Excel Data Scrubber</h3>
+          <p>Clean, format, and manipulate Excel and CSV data.</p>
+          <a class="try-link" href="#">Try it →</a>
+        </article>
+        <article class="card tool-card">
+          <span class="icon" style="color:#2378ff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm12 0h4v4h-4v-4Z" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>QR &amp; Barcode Generator</h3>
+          <p>Generate high-resolution codes instantly.</p>
+          <a class="try-link" href="#">Try it →</a>
+        </article>
+        <article class="card tool-card">
+          <span class="icon" style="color:#7944d9" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14M12 5v14M9 19h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Word Formatter</h3>
+          <p>Format Word documents for consistency.</p>
+          <a class="try-link" href="#">Try it →</a>
+        </article>
+        <article class="card tool-card">
+          <span class="icon" style="color:#2378ff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5V5Z" stroke="currentColor" stroke-width="2"/><path d="m7 17 4-5 3 3 2-2 2 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 9.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <h3>Image Optimizer</h3>
+          <p>Compress and optimize images for the web.</p>
+          <a class="try-link" href="#">Try it →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="why" aria-labelledby="why-title">
+      <div class="section-heading left-heading">
+        <h2 id="why-title" class="paper-label">Why TinyTask?</h2>
+      </div>
+      <div class="why-grid">
+        <article class="card why-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M20.8 7.8c0 5.2-8.8 11.2-8.8 11.2S3.2 13 3.2 7.8A4.4 4.4 0 0 1 11 5a4.4 4.4 0 0 1 9.8 2.8Z" stroke="currentColor" stroke-width="2"/></svg></span>
+          <div><h3>Simple</h3><p>Easy to use. No clutter. Just tools that work.</p></div>
+        </article>
+        <article class="card why-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m13 2-8 12h7l-1 8 8-12h-7l1-8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <div><h3>Fast</h3><p>Built for speed and accuracy you can count on.</p></div>
+        </article>
+        <article class="card why-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-width="2"/><path d="M6 11h12v10H6V11Z" stroke="currentColor" stroke-width="2"/><path d="M12 15v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <div><h3>Private</h3><p>Your files stay on your device. We don’t store data.</p></div>
+        </article>
+        <article class="card why-card">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <div><h3>Useful</h3><p>Practical tools for everyday tasks and big projects.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section pricing-wrap" id="pricing" aria-labelledby="pricing-title">
+      <div class="section-heading">
+        <h2 id="pricing-title" class="paper-label">Simple pricing</h2>
+      </div>
+      <div class="price-grid">
+        <article class="card price-card">
+          <h3>Free</h3>
+          <p>Essential tools for everyday tasks.</p>
+          <div class="price">$0 <small>/mo</small></div>
+          <a class="button button-secondary" href="#">Get started</a>
+        </article>
+        <article class="card price-card pro">
+          <span class="badge">POPULAR</span>
+          <h3>Pro</h3>
+          <p>More tools, unlimited exports, priority support.</p>
+          <div class="price">$9 <small>/mo</small></div>
+          <a class="button button-primary" href="#">Upgrade to Pro</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="#" class="logo" aria-label="TinyTask home">
+        <span class="logo-mark" aria-hidden="true"><span class="face"><span></span></span></span>
+        TinyTask
+      </a>
+      <small>© 2025 TinyTask. All rights reserved.</small>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#categories">Tools</a>
+        <a href="#featured">Collections</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#why">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </nav>
+      <div class="social" aria-label="Social links">
+        <a href="#" aria-label="X">X</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Email">@</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

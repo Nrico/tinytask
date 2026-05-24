@@ -47,7 +47,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-interface ToolItem {
+export interface ToolItem {
     slug: string;
     name: string;
     description: string;
@@ -56,7 +56,7 @@ interface ToolItem {
     keywords: string[];
 }
 
-const ALL_TOOLS: ToolItem[] = [
+export const ALL_TOOLS: ToolItem[] = [
     // Office & Print Docs
     {
         slug: "invoice-swift",
@@ -278,6 +278,7 @@ export function Header() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const searchContainerRef = useRef<HTMLDivElement>(null);
     const [toolsMenuOpen, setToolsMenuOpen] = useState(false);
+    const [collectionsMenuOpen, setCollectionsMenuOpen] = useState(false);
 
     // Fuzzy match search queries
     useEffect(() => {
@@ -383,94 +384,105 @@ export function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 print:hidden">
+        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-card/88 backdrop-blur-[14px] supports-[backdrop-filter]:bg-card/60 print:hidden shadow-sm">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-14 items-center justify-between">
                 
                 {/* Left Brand and Navigation Dropdowns */}
                 <div className="flex items-center gap-6">
-                    <Link href="/" className="flex items-center space-x-2">
-                        <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-indigo-600 to-sky-500 bg-clip-text text-transparent">TinyTask</span>
+                    <Link href="/" className="logo group flex items-center gap-2 select-none cursor-pointer">
+                        <span className="logo-mark" aria-hidden="true">
+                            <span className="face"><span></span></span>
+                        </span>
+                        <span className="font-extrabold text-xl tracking-tight text-foreground">TinyTask</span>
                     </Link>
                     
                     <nav className="hidden md:flex items-center space-x-4 text-sm font-medium">
                         {/* Tools Mega Menu */}
                         <DropdownMenu open={toolsMenuOpen} onOpenChange={setToolsMenuOpen}>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 gap-1 hover:bg-slate-100/60 select-none cursor-pointer">
+                                <Button variant="ghost" className="h-8 gap-1 hover:bg-muted/60 select-none cursor-pointer text-foreground/80 hover:text-foreground">
                                     Tools <ChevronDown className="h-3.5 w-3.5 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-[700px] lg:w-[860px] p-6 max-h-[85vh] overflow-y-auto" align="start">
+                            <DropdownMenuContent className="w-[700px] lg:w-[860px] p-6 max-h-[85vh] overflow-y-auto bg-card border-border shadow-lg" align="start">
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                                     
                                     {/* Column 1: Print & Design */}
                                     <div>
-                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-1.5 border-b pb-1">
+                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-muted-foreground/80 mb-3 px-2 flex items-center gap-1.5 border-b border-border pb-1">
                                             <FileText className="w-3.5 h-3.5 text-rose-500" /> Office & Print
                                         </h3>
                                         <div className="space-y-1">
                                             {printTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
-                                                    <t.icon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
-                                                    <div className="min-w-0">
-                                                        <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
-                                                        <div className="text-[10px] text-slate-400 line-clamp-1">{t.description}</div>
-                                                    </div>
-                                                </Link>
+                                                <DropdownMenuItem asChild key={t.slug}>
+                                                    <Link href={`/tools/${t.slug}`} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors w-full cursor-pointer focus:bg-muted/80">
+                                                        <t.icon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
+                                                        <div className="min-w-0">
+                                                            <div className="text-xs font-semibold text-foreground truncate">{t.name}</div>
+                                                            <div className="text-[10px] text-muted-foreground line-clamp-1">{t.description}</div>
+                                                        </div>
+                                                    </Link>
+                                                </DropdownMenuItem>
                                             ))}
                                         </div>
                                     </div>
 
                                     {/* Column 2: Data & Tables */}
                                     <div>
-                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-1.5 border-b pb-1">
+                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-muted-foreground/80 mb-3 px-2 flex items-center gap-1.5 border-b border-border pb-1">
                                             <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-500" /> Data & Sheets
                                         </h3>
                                         <div className="space-y-1">
                                             {dataTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
-                                                    <t.icon className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                                                    <div className="min-w-0">
-                                                        <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
-                                                        <div className="text-[10px] text-slate-400 line-clamp-1">{t.description}</div>
-                                                    </div>
-                                                </Link>
+                                                <DropdownMenuItem asChild key={t.slug}>
+                                                    <Link href={`/tools/${t.slug}`} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors w-full cursor-pointer focus:bg-muted/80">
+                                                        <t.icon className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                                                        <div className="min-w-0">
+                                                            <div className="text-xs font-semibold text-foreground truncate">{t.name}</div>
+                                                            <div className="text-[10px] text-muted-foreground line-clamp-1">{t.description}</div>
+                                                        </div>
+                                                    </Link>
+                                                </DropdownMenuItem>
                                             ))}
                                         </div>
                                     </div>
 
                                     {/* Column 3: Text & Formatting */}
                                     <div>
-                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-1.5 border-b pb-1">
+                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-muted-foreground/80 mb-3 px-2 flex items-center gap-1.5 border-b border-border pb-1">
                                             <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Text Cleaners
                                         </h3>
                                         <div className="space-y-1">
                                             {textTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
-                                                    <t.icon className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
-                                                    <div className="min-w-0">
-                                                        <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
-                                                        <div className="text-[10px] text-slate-400 line-clamp-1">{t.description}</div>
-                                                    </div>
-                                                </Link>
+                                                <DropdownMenuItem asChild key={t.slug}>
+                                                    <Link href={`/tools/${t.slug}`} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors w-full cursor-pointer focus:bg-muted/80">
+                                                        <t.icon className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
+                                                        <div className="min-w-0">
+                                                            <div className="text-xs font-semibold text-foreground truncate">{t.name}</div>
+                                                            <div className="text-[10px] text-muted-foreground line-clamp-1">{t.description}</div>
+                                                        </div>
+                                                    </Link>
+                                                </DropdownMenuItem>
                                             ))}
                                         </div>
                                     </div>
 
                                     {/* Column 4: Assets & Utils */}
                                     <div>
-                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-1.5 border-b pb-1">
+                                        <h3 className="font-bold text-[11px] uppercase tracking-wider text-muted-foreground/80 mb-3 px-2 flex items-center gap-1.5 border-b border-border pb-1">
                                             <QrCode className="w-3.5 h-3.5 text-blue-500" /> Digital Assets
                                         </h3>
                                         <div className="space-y-1">
                                             {digitalTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
-                                                    <t.icon className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                                                    <div className="min-w-0">
-                                                        <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
-                                                        <div className="text-[10px] text-slate-400 line-clamp-1">{t.description}</div>
-                                                    </div>
-                                                </Link>
+                                                <DropdownMenuItem asChild key={t.slug}>
+                                                    <Link href={`/tools/${t.slug}`} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors w-full cursor-pointer focus:bg-muted/80">
+                                                        <t.icon className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                                                        <div className="min-w-0">
+                                                            <div className="text-xs font-semibold text-foreground truncate">{t.name}</div>
+                                                            <div className="text-[10px] text-muted-foreground line-clamp-1">{t.description}</div>
+                                                        </div>
+                                                    </Link>
+                                                </DropdownMenuItem>
                                             ))}
                                         </div>
                                     </div>
@@ -480,22 +492,22 @@ export function Header() {
                         </DropdownMenu>
 
                         {/* Collections menu */}
-                        <DropdownMenu>
+                        <DropdownMenu open={collectionsMenuOpen} onOpenChange={setCollectionsMenuOpen}>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 gap-1 hover:bg-slate-100/60 select-none cursor-pointer">
+                                <Button variant="ghost" className="h-8 gap-1 hover:bg-muted/60 select-none cursor-pointer text-foreground/80 hover:text-foreground">
                                     Collections <ChevronDown className="h-3.5 h-3.5 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56" align="start">
-                                <DropdownMenuLabel>Industry Portals</DropdownMenuLabel>
+                            <DropdownMenuContent className="w-56 bg-card border-border shadow-lg" align="start">
+                                <DropdownMenuLabel className="text-muted-foreground">Industry Portals</DropdownMenuLabel>
                                 <DropdownMenuGroup>
                                     <DropdownMenuItem asChild>
-                                        <Link href="/collections/florist" className="cursor-pointer w-full flex items-center gap-2">
+                                        <Link href="/collections/florist" onClick={() => setCollectionsMenuOpen(false)} className="cursor-pointer w-full flex items-center gap-2 focus:bg-muted/80 text-foreground">
                                             <Heart className="h-4 w-4 text-rose-500" /> Florist Suite
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
-                                        <Link href="/collections/productivity" className="cursor-pointer w-full flex items-center gap-2">
+                                        <Link href="/collections/productivity" onClick={() => setCollectionsMenuOpen(false)} className="cursor-pointer w-full flex items-center gap-2 focus:bg-muted/80 text-foreground">
                                             <Zap className="h-4 w-4 text-amber-500" /> General Productivity
                                         </Link>
                                     </DropdownMenuItem>
@@ -503,8 +515,8 @@ export function Header() {
                             </DropdownMenuContent>
                         </DropdownMenu>
 
-                        <Link href="/pricing" className="transition-colors hover:text-foreground/80 text-foreground/60">Pricing</Link>
-                        <Link href="/about" className="transition-colors hover:text-foreground/80 text-foreground/60">About</Link>
+                        <Link href="/pricing" className="transition-colors hover:text-foreground text-foreground/60">Pricing</Link>
+                        <Link href="/about" className="transition-colors hover:text-foreground text-foreground/60">About</Link>
                     </nav>
                 </div>
 
@@ -514,7 +526,7 @@ export function Header() {
                     {/* Header Fuzzy Search Bar */}
                     <div ref={searchContainerRef} className="relative w-full max-w-[140px] sm:max-w-[200px] md:max-w-[280px]">
                         <div className="relative">
-                            <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none" />
+                            <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground/60 pointer-events-none" />
                             <input
                                 type="text"
                                 placeholder="Search all 25 tools..."
@@ -525,14 +537,14 @@ export function Header() {
                                 }}
                                 onFocus={() => setSearchFocused(true)}
                                 onKeyDown={handleKeyDown}
-                                className="w-full pl-9 pr-4 py-1.5 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 rounded-lg text-xs focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-all placeholder-slate-400"
+                                className="w-full pl-9 pr-4 py-1.5 bg-background border border-border rounded-lg text-xs focus:bg-card focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder-muted-foreground/50 text-foreground"
                             />
                         </div>
 
                         {/* Search dropdown popover overlay */}
                         {searchFocused && searchResults.length > 0 && (
-                            <div className="absolute top-full right-0 left-0 md:left-auto md:w-[320px] mt-1.5 bg-white border border-slate-200 rounded-lg shadow-lg z-50 overflow-hidden max-h-[360px] overflow-y-auto animate-in fade-in slide-in-from-top-1">
-                                <div className="p-2 border-b bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                            <div className="absolute top-full right-0 left-0 md:left-auto md:w-[320px] mt-1.5 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden max-h-[360px] overflow-y-auto animate-in fade-in slide-in-from-top-1">
+                                <div className="p-2 border-b border-border bg-muted/30 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                                     Matches ({searchResults.length})
                                 </div>
                                 {searchResults.map((t, idx) => (
@@ -544,8 +556,8 @@ export function Header() {
                                             setSearchFocused(false);
                                         }}
                                         className={cn(
-                                            "flex items-start gap-2.5 p-2.5 text-left border-b last:border-0 transition-colors",
-                                            idx === selectedIndex ? "bg-slate-50" : "hover:bg-slate-50/50"
+                                            "flex items-start gap-2.5 p-2.5 text-left border-b border-border last:border-0 transition-colors",
+                                            idx === selectedIndex ? "bg-muted/80" : "hover:bg-muted/40"
                                         )}
                                     >
                                         <t.icon className={cn(
@@ -555,13 +567,13 @@ export function Header() {
                                             t.category === 'text' ? 'text-indigo-500' : 'text-blue-500'
                                         )} />
                                         <div className="min-w-0 flex-1">
-                                            <div className="text-xs font-semibold text-slate-800 flex items-center justify-between">
+                                            <div className="text-xs font-semibold text-foreground flex items-center justify-between">
                                                 <span className="truncate">{t.name}</span>
-                                                <span className="text-[8px] px-1 py-0.2 bg-slate-100 rounded text-slate-500 uppercase tracking-wide flex-shrink-0">
+                                                <span className="text-[8px] px-1 py-0.2 bg-muted/65 rounded text-muted-foreground uppercase tracking-wide flex-shrink-0">
                                                     {t.category === 'print' ? 'print' : t.category === 'data' ? 'sheets' : t.category === 'text' ? 'text' : 'assets'}
                                                 </span>
                                             </div>
-                                            <div className="text-[10px] text-slate-400 truncate mt-0.5">{t.description}</div>
+                                            <div className="text-[10px] text-muted-foreground truncate mt-0.5">{t.description}</div>
                                         </div>
                                     </Link>
                                 ))}
@@ -569,7 +581,7 @@ export function Header() {
                         )}
 
                         {searchFocused && searchQuery.trim() && searchResults.length === 0 && (
-                            <div className="absolute top-full right-0 left-0 md:left-auto md:w-[320px] mt-1.5 bg-white border border-slate-200 rounded-lg shadow-lg z-50 p-4 text-center text-xs text-slate-400">
+                            <div className="absolute top-full right-0 left-0 md:left-auto md:w-[320px] mt-1.5 bg-card border border-border rounded-lg shadow-lg z-50 p-4 text-center text-xs text-muted-foreground">
                                 No tools found matching &quot;{searchQuery}&quot;
                             </div>
                         )}
@@ -579,22 +591,22 @@ export function Header() {
                         {user ? (
                             <>
                                 <Link href="/dashboard">
-                                    <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+                                    <Button variant="ghost" size="sm" className="gap-1.5 text-xs text-foreground/80 hover:text-foreground hover:bg-muted/60">
                                         <User className="h-3.5 w-3.5" />
                                         Dashboard
                                     </Button>
                                 </Link>
-                                <Button variant="ghost" size="sm" onClick={logout} className="h-8 w-8 p-0">
-                                    <LogOut className="h-3.5 w-3.5 text-slate-400 hover:text-slate-600" />
+                                <Button variant="ghost" size="sm" onClick={logout} className="h-8 w-8 p-0 hover:bg-muted/60 text-muted-foreground hover:text-foreground">
+                                    <LogOut className="h-3.5 w-3.5" />
                                 </Button>
                             </>
                         ) : (
                             <>
                                 <Link href="/login" className="hidden sm:inline-block">
-                                    <Button variant="ghost" size="sm" className="text-xs">Sign In</Button>
+                                    <Button variant="ghost" size="sm" className="text-xs text-foreground/80 hover:text-foreground hover:bg-muted/60">Sign In</Button>
                                 </Link>
                                 <Link href="/login">
-                                    <Button size="sm" className="text-xs h-8">Get Started</Button>
+                                    <Button size="sm" className="text-xs h-8 bg-primary hover:bg-primary/90 text-primary-foreground">Get Started</Button>
                                 </Link>
                             </>
                         )}

@@ -1,44 +1,60 @@
 /* TinyTask Brand Colors */
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(240 10% 3.9%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(240 10% 3.9%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(240 10% 3.9%);
-  --primary: hsl(262.1 83.3% 57.8%);
-  --primary-foreground: hsl(210 20% 98%);
-  --secondary: hsl(240 4.8% 95.9%);
-  --secondary-foreground: hsl(240 5.9% 10%);
-  --muted: hsl(240 4.8% 95.9%);
-  --muted-foreground: hsl(240 3.8% 46.1%);
-  --accent: hsl(240 4.8% 95.9%);
-  --accent-foreground: hsl(240 5.9% 10%);
+  --background: #f7efe0;
+  --foreground: #171717;
+  --card: #fff9ed;
+  --card-foreground: #171717;
+  --popover: #fff9ed;
+  --popover-foreground: #171717;
+  --primary: #087b82;
+  --primary-foreground: #fff9ed;
+  --secondary: #f2e4c8;
+  --secondary-foreground: #171717;
+  --muted: #f2e4c8;
+  --muted-foreground: #6b665d;
+  --accent: #f2e4c8;
+  --accent-foreground: #171717;
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(240 5.9% 90%);
-  --input: hsl(240 5.9% 90%);
-  --ring: hsl(262.1 83.3% 57.8%);
+  --border: #dfd0b8;
+  --input: #dfd0b8;
+  --ring: #087b82;
+  
+  --kraft: #b8834d;
+  --kraft-2: #d2a06b;
+  --kraft-dark: #6f4c2c;
+  --teal-soft: #d7eeee;
+  --shadow: 0 14px 34px rgba(82, 54, 28, 0.12);
+  --shadow-soft: 0 8px 18px rgba(82, 54, 28, 0.10);
+  --radius: 18px;
 }
 
 .dark {
-  --background: hsl(240 10% 3.9%);
-  --foreground: hsl(0 0% 98%);
-  --card: hsl(240 10% 3.9%);
-  --card-foreground: hsl(0 0% 98%);
-  --popover: hsl(240 10% 3.9%);
-  --popover-foreground: hsl(0 0% 98%);
-  --primary: hsl(263.4 70% 50.4%);
-  --primary-foreground: hsl(210 20% 98%);
-  --secondary: hsl(240 3.7% 15.9%);
-  --secondary-foreground: hsl(0 0% 98%);
-  --muted: hsl(240 3.7% 15.9%);
-  --muted-foreground: hsl(240 5% 64.9%);
-  --accent: hsl(240 3.7% 15.9%);
-  --accent-foreground: hsl(0 0% 98%);
+  --background: #231d19;
+  --foreground: #f2e4c8;
+  --card: #2e2520;
+  --card-foreground: #f2e4c8;
+  --popover: #2e2520;
+  --popover-foreground: #f2e4c8;
+  --primary: #6fb6b8;
+  --primary-foreground: #171717;
+  --secondary: #3e322b;
+  --secondary-foreground: #f2e4c8;
+  --muted: #3e322b;
+  --muted-foreground: #a59a8c;
+  --accent: #3e322b;
+  --accent-foreground: #f2e4c8;
   --destructive: hsl(0 62.8% 30.6%);
   --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(240 3.7% 15.9%);
-  --input: hsl(240 3.7% 15.9%);
-  --ring: hsl(263.4 70% 50.4%);
+  --border: #4a3d35;
+  --input: #4a3d35;
+  --ring: #6fb6b8;
+
+  --kraft: #865f37;
+  --kraft-2: #a57849;
+  --kraft-dark: #4d331b;
+  --teal-soft: rgba(111, 182, 184, 0.15);
+  --shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 8px 18px rgba(0, 0, 0, 0.25);
+  --radius: 18px;
 }

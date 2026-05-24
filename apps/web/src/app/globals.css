@@ -37,5 +37,310 @@
 
   body {
     @apply bg-background text-foreground;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.45), transparent 22rem),
+      radial-gradient(circle at 80% 10%, rgba(212, 160, 107, 0.12), transparent 20rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+      var(--background);
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.05), transparent 22rem),
+      radial-gradient(circle at 80% 10%, rgba(111, 76, 44, 0.15), transparent 20rem),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)),
+      var(--background);
+    background-attachment: fixed;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(rgba(92, 63, 34, 0.11) 0.7px, transparent 0.7px),
+      radial-gradient(rgba(255, 255, 255, 0.55) 0.8px, transparent 0.8px);
+    background-position: 0 0, 12px 9px;
+    background-size: 18px 18px, 22px 22px;
+    z-index: 100;
+  }
+
+  .dark body::before {
+    opacity: 0.18;
+    mix-blend-mode: screen;
+    background-image:
+      radial-gradient(rgba(242, 228, 200, 0.08) 0.7px, transparent 0.7px),
+      radial-gradient(rgba(0, 0, 0, 0.3) 0.8px, transparent 0.8px);
+  }
+
+  /* Don't render texture patterns or gradients during print */
+  @media print {
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    body::before {
+      display: none !important;
+    }
+  }
+}
+
+/* Custom design classes */
+@layer utilities {
+  /* Logo Mark */
+  .logo-mark {
+    width: 42px;
+    height: 34px;
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    background: var(--kraft);
+    border: 1px solid rgba(80, 50, 22, 0.2);
+    border-radius: 7px;
+    box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.15), var(--shadow-soft);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .logo-mark::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: -8px;
+    width: 18px;
+    height: 9px;
+    background: var(--kraft);
+    border: 1px solid rgba(80, 50, 22, 0.16);
+    border-bottom: 0;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .face {
+    position: relative;
+    width: 21px;
+    height: 13px;
+  }
+
+  .face::before,
+  .face::after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    width: 4px;
+    height: 4px;
+    background: #1f1710;
+    border-radius: 50%;
+  }
+
+  .face::before { left: 1px; }
+  .face::after { right: 1px; }
+
+  .face span {
+    position: absolute;
+    left: 5px;
+    bottom: 0;
+    width: 11px;
+    height: 6px;
+    border: 2px solid #1f1710;
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+    transition: height 0.2s ease, border-radius 0.2s ease;
+  }
+
+  .logo-mark:hover .face span {
+    height: 7px;
+    border-radius: 0 0 14px 14px;
+  }
+
+  /* Folder Category Cards */
+  .category-card {
+    position: relative;
+    min-height: 132px;
+    padding: 24px 20px 18px;
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  }
+
+  .category-card::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 16px;
+    width: 44px;
+    height: 9px;
+    background: var(--kraft-2);
+    border-radius: 3px 3px 0 0;
+    transform: rotate(1deg);
+    transition: transform 0.2s ease;
+  }
+
+  .category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .category-card:hover::before {
+    transform: rotate(3deg) translateY(-1px);
+  }
+
+  /* Tactile Note Callouts */
+  .note {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    color: var(--foreground);
+    font-weight: 700;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .note::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 30%;
+    width: 94px;
+    height: 24px;
+    background: rgba(213, 184, 134, 0.45);
+    transform: rotate(4deg);
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+  }
+
+  .note:hover {
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  .note-white {
+    padding: 28px 24px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .note-teal {
+    background: #6fb6b8;
+    color: #171717;
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .note-teal::before {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Paper Label Headings */
+  .paper-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 19px;
+    color: #33271d;
+    background: #ead7b4;
+    border: 1px solid rgba(111, 76, 44, 0.12);
+    border-radius: 4px;
+    box-shadow: var(--shadow-soft);
+    font-size: 0.96rem;
+    font-weight: 800;
+    transform: rotate(-1deg);
+  }
+
+  .dark .paper-label {
+    color: #f2e4c8;
+    background: #4a3d35;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Clipboard */
+  .clipboard {
+    position: relative;
+    padding: 42px 26px 28px;
+    background: #c4905a;
+    border: 1px solid rgba(88, 56, 27, 0.18);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .clip {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 64px;
+    height: 48px;
+    transform: translateX(-50%);
+    background: linear-gradient(#9e9285, #6e655c);
+    border-radius: 18px 18px 10px 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+  }
+
+  .clip::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 13px;
+    height: 13px;
+    transform: translateX(-50%);
+    border: 4px solid #6e655c;
+    background: var(--background);
+    border-radius: 50%;
+  }
+
+  .check-paper {
+    padding: 20px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: inset 0 1px 10px rgba(111, 76, 44, 0.08);
+  }
+
+  /* Folder Hero Graphic */
+  .folder-hero {
+    position: absolute;
+    right: 10%;
+    top: 88px;
+    width: 330px;
+    height: 224px;
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 32%),
+      var(--kraft);
+    border: 1px solid rgba(88, 56, 27, 0.25);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+  }
+
+  .folder-hero::before {
+    content: "";
+    position: absolute;
+    left: 28px;
+    top: -34px;
+    width: 142px;
+    height: 42px;
+    background: var(--kraft);
+    border: 1px solid rgba(88, 56, 27, 0.22);
+    border-bottom: 0;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .folder-hero::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 58px;
+    height: 58px;
+    background: rgba(255, 235, 197, 0.32);
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    border-radius: 0 20px 0 0;
   }
 }
