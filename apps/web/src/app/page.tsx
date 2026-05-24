@@ -68,37 +68,13 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Interactive cardboard clipboard + folder layout */}
-                <div className="relative min-h-[380px] w-full hidden lg:block select-none" aria-hidden="true">
-                    {/* Clipboard */}
-                    <div className="clipboard absolute left-[6%] top-[22px] w-[230px] -rotate-4">
-                        <div className="clip"></div>
-                        <div className="check-paper">
-                            <ul className="grid gap-3 text-xs font-bold text-[#4d473f] dark:text-[#f2e4c8]/90">
-                                <li className="flex items-center gap-2">✓ Clean data</li>
-                                <li className="flex items-center gap-2">✓ Format files</li>
-                                <li className="flex items-center gap-2">✓ Build docs</li>
-                                <li className="flex items-center gap-2">✓ Ship work</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    {/* Folder */}
-                    <div className="folder-hero">
-                        <span className="logo-mark scale-[2.05]" aria-hidden="true">
-                            <span className="face"><span></span></span>
-                        </span>
-                    </div>
-
-                    {/* Sticky note white */}
-                    <div className="note note-white absolute right-0 top-[40px] w-[225px] rotate-4 rounded-lg p-7 text-sm font-bold shadow-md">
-                        Simple tools.<br />Real results. ♡
-                    </div>
-
-                    {/* Sticky note teal */}
-                    <div className="note note-teal absolute right-[12%] bottom-[12px] w-[154px] rotate-5 rounded-lg p-5 text-xs font-bold shadow-md">
-                        Get more done with less effort.
-                    </div>
+                {/* Visual Hero Image */}
+                <div className="hidden lg:flex items-center justify-center w-full min-h-[380px] select-none" aria-hidden="true">
+                    <img 
+                        src="/hero_image_1.jpg" 
+                        alt="TinyTask Mockup" 
+                        className="w-full max-w-lg object-contain rounded-2xl shadow-md border border-border/40 hover:-translate-y-1 transition-all duration-300"
+                    />
                 </div>
             </section>
 
