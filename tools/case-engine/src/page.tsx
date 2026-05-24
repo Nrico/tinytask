@@ -208,6 +208,20 @@ export default function CaseEnginePage() {
     <ToolLayout
       title="Quick Case Engine"
       description="Instantly convert word list or text paragraphs into uppercase, lowercase, sentence case, or standard publishing title casing."
+      faqs={[
+        {
+          question: "What is Sentence Case vs Title Case?",
+          answer: "Sentence Case capitalizes only the first letter of each sentence, similar to standard paragraphs. Title Case capitalizes the first letter of every word, excluding prepositions and minor words like 'the', 'and', or 'of'."
+        },
+        {
+          question: "Can this tool convert programming casing styles?",
+          answer: "Yes, the Quick Case Engine can convert text to camelCase, kebab-case (hyphenated), and snake_case (underscored) formats for developers and database naming structures."
+        },
+        {
+          question: "Does the Case Engine support bulk paragraph formatting?",
+          answer: "Yes. You can paste whole articles or lists. The tool processes each line and paragraph dynamically while maintaining formatting."
+        }
+      ]}
       sidebarContent={
         <div className="space-y-6">
           <div className="space-y-2">

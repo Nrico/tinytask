@@ -85,6 +85,20 @@ export default function QrGeneratorPage() {
         <ToolLayout
             title="QR & Barcode Generator"
             description="Generate QR codes and barcodes instantly."
+            faqs={[
+                {
+                    question: "Are my generated QR codes and barcodes safe and secure?",
+                    answer: "Absolutely. All code generation runs 100% client-side inside your browser. No contents or URLs are sent to external servers, protecting your privacy."
+                },
+                {
+                    question: "What kinds of content can I encode in a QR code?",
+                    answer: "You can encode website URLs, plain text, contact information, email addresses, phone numbers, or Wi-Fi login credentials."
+                },
+                {
+                    question: "Can I customize the colors of the QR code or barcode?",
+                    answer: "Yes. You can change both the foreground and background colors to match your brand kit or design preferences. Just ensure there is enough contrast for scanners to read them properly."
+                }
+            ]}
             sidebarContent={
                 <div className="space-y-6">
                     <div className="space-y-2">

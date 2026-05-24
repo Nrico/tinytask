@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { SignPreview } from './components/sign-preview';
 import { SignControls } from './components/sign-controls';
 import { signTemplates, SignType } from './lib/sign-templates';
+import { ToolLayout } from '@tinytask/ui/layouts/tool-layout';
 
 const TEMPLATE_EXAMPLES: Record<SignType, { headerText: string; headline: string; bodyText: string; icon: string }> = {
     danger: {
@@ -109,8 +110,7 @@ export default function SignGeneratorPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl sm:px-6 lg:px-8">
-      
+    <>
       {/* Print-specific style to force landscape/portrait orientation during printing */}
       <style dangerouslySetInnerHTML={{ __html: `
         @media print {
@@ -168,15 +168,24 @@ export default function SignGeneratorPage() {
         }
       `}} />
 
-      <div className="mb-8 space-y-2 print:hidden">
-        <h1 className="text-3xl font-bold tracking-tight">Sign Generator</h1>
-        <p className="text-muted-foreground">
-          Create professional warning signs, office notices, parking displays, and announcement sheets.
-        </p>
-      </div>
-
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1 print:hidden">
+      <ToolLayout
+        title="Sign Generator"
+        description="Create professional warning signs, office notices, parking displays, and announcement sheets."
+        faqs={[
+          {
+            question: "Can I print these signs in landscape or portrait orientation?",
+            answer: "Yes. You can toggle between Portrait (vertical) and Landscape (horizontal) orientations. Make sure to set your system print dialog orientation matching the selection for the best layout scale."
+          },
+          {
+            question: "Is there a charge to print or download these templates?",
+            answer: "No, all templates on TinyTask are 100% free, run fully client-side, and can be printed directly from your browser."
+          },
+          {
+            question: "Can I create signs for parking or office announcements?",
+            answer: "Yes. TinyTask supports standard OSHA safety signs (Danger, Warning, Caution, Notice, Safety First) as well as modern office templates like Closed Notices, Class Cancellations, Reserved Parking, and Custom notices."
+          }
+        ]}
+        sidebarContent={
           <SignControls
             templateId={templateId}
             onTemplateChange={handleTemplateChange}
@@ -198,20 +207,20 @@ export default function SignGeneratorPage() {
             onBorderColorChange={setBorderColor}
             onPrint={handlePrint}
           />
-        </div>
-
-        <div className="lg:col-span-2 flex items-start justify-center bg-muted/10 rounded-xl p-4 print:p-0 print:bg-white print:block">
-          <SignPreview
-            template={template}
-            orientation={orientation}
-            headerText={headerText}
-            headline={headline}
-            bodyText={bodyText}
-            icon={icon}
-          />
-        </div>
-      </div>
-
-    </div>
+        }
+        previewContent={
+          <div className="flex items-start justify-center bg-muted/10 rounded-xl p-4 print:p-0 print:bg-white print:block w-full max-w-2xl">
+            <SignPreview
+              template={template}
+              orientation={orientation}
+              headerText={headerText}
+              headline={headline}
+              bodyText={bodyText}
+              icon={icon}
+            />
+          </div>
+        }
+      />
+    </>
   );
 }

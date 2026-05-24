@@ -831,6 +831,20 @@ export default function GreetingCardPage() {
             <ToolLayout
                 title="Greeting Card Maker"
                 description="Design folded greeting cards (Vertical Book Fold or Horizontal Tent Fold) with high-quality styling."
+                faqs={[
+                    {
+                        question: "Why is the top panel upside down in the Greeting Card print preview?",
+                        answer: "The top panel is automatically inverted so that when you fold the printed sheet in half, both the outside cover and inside greeting face upward correctly."
+                    },
+                    {
+                        question: "What type of paper is recommended for printing greeting cards?",
+                        answer: "Heavy cardstock (60lb to 110lb) is ideal for greeting cards to ensure they fold nicely and stand up on their own."
+                    },
+                    {
+                        question: "Can I personalize the front cover and inside messages?",
+                        answer: "Yes. You can choose from various preset themes (Birthday, Thank You, Holiday, Congratulations) and customize the front header, inner message, signatures, and template colors."
+                    }
+                ]}
                 sidebarContent={
                     <div className="space-y-6">
                         {/* Preset templates */}
