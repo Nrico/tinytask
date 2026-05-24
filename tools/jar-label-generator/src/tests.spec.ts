@@ -9,7 +9,7 @@ test.describe("Jar Label Generator tool interface tests", () => {
     await expect(heading).toContainText("Jar Label Generator");
     
     // Verify privacy note exists
-    const privacyNote = page.locator("text=privacy");
+    const privacyNote = page.locator("text=Privacy Note");
     await expect(privacyNote).toBeVisible();
     
     // Verify preview card container exists
