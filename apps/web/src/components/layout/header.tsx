@@ -278,6 +278,7 @@ export function Header() {
     const [searchFocused, setSearchFocused] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const searchContainerRef = useRef<HTMLDivElement>(null);
+    const [toolsMenuOpen, setToolsMenuOpen] = useState(false);
 
     // Fuzzy match search queries
     useEffect(() => {
@@ -394,10 +395,10 @@ export function Header() {
                     
                     <nav className="hidden md:flex items-center space-x-4 text-sm font-medium">
                         {/* Tools Mega Menu */}
-                        <DropdownMenu>
+                        <DropdownMenu open={toolsMenuOpen} onOpenChange={setToolsMenuOpen}>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="h-8 gap-1 hover:bg-slate-100/60 select-none cursor-pointer">
-                                    Tools <ChevronDown className="h-3.5 h-3.5 opacity-50" />
+                                    Tools <ChevronDown className="h-3.5 w-3.5 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-[700px] lg:w-[860px] p-6 max-h-[85vh] overflow-y-auto" align="start">
@@ -410,7 +411,7 @@ export function Header() {
                                         </h3>
                                         <div className="space-y-1">
                                             {printTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
                                                     <t.icon className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
                                                     <div className="min-w-0">
                                                         <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
@@ -428,7 +429,7 @@ export function Header() {
                                         </h3>
                                         <div className="space-y-1">
                                             {dataTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
                                                     <t.icon className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                                                     <div className="min-w-0">
                                                         <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
@@ -446,7 +447,7 @@ export function Header() {
                                         </h3>
                                         <div className="space-y-1">
                                             {textTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
                                                     <t.icon className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
                                                     <div className="min-w-0">
                                                         <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
@@ -464,7 +465,7 @@ export function Header() {
                                         </h3>
                                         <div className="space-y-1">
                                             {digitalTools.map(t => (
-                                                <Link href={`/tools/${t.slug}`} key={t.slug} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                                                <Link href={`/tools/${t.slug}`} key={t.slug} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors">
                                                     <t.icon className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
                                                     <div className="min-w-0">
                                                         <div className="text-xs font-semibold text-slate-800 truncate">{t.name}</div>
