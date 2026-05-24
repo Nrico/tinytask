@@ -21,6 +21,90 @@ export default function QrGeneratorPage() {
     const [bgColor, setBgColor] = useState("#ffffff");
     const [codeType, setCodeType] = useState<'qr' | 'barcode'>('qr');
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // Load initial state on mount from URL or LocalStorage
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search);
+            const urlText = params.get("text");
+            const urlSize = params.get("size");
+            const urlColor = params.get("color");
+            const urlBgColor = params.get("bgColor");
+            const urlCodeType = params.get("codeType") as 'qr' | 'barcode' | null;
+
+            const cachedData = localStorage.getItem("tinytask:qr-generator");
+            let cached: any = {};
+            if (cachedData) {
+                try {
+                    cached = JSON.parse(cachedData);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            if (urlText !== null) setText(urlText);
+            else if (cached.text !== undefined) setText(cached.text);
+
+            if (urlSize !== null) setSize(Number(urlSize));
+            else if (cached.size !== undefined) setSize(cached.size);
+
+            if (urlColor !== null) setColor(urlColor);
+            else if (cached.color !== undefined) setColor(cached.color);
+
+            if (urlBgColor !== null) setBgColor(urlBgColor);
+            else if (cached.bgColor !== undefined) setBgColor(cached.bgColor);
+
+            if (urlCodeType && ["qr", "barcode"].includes(urlCodeType)) {
+                setCodeType(urlCodeType);
+            } else if (cached.codeType !== undefined) {
+                setCodeType(cached.codeType);
+            }
+
+            setIsLoaded(true);
+        }
+    }, []);
+
+    // Sync state changes back to LocalStorage and URL search params
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        if (typeof window !== "undefined") {
+            const dataToSave = {
+                text,
+                size,
+                color,
+                bgColor,
+                codeType
+            };
+            localStorage.setItem("tinytask:qr-generator", JSON.stringify(dataToSave));
+
+            const params = new URLSearchParams();
+            if (text && text !== "https://example.com") {
+                params.set("text", text);
+            }
+            if (size !== 256) {
+                params.set("size", String(size));
+            }
+            if (color !== "#000000") {
+                params.set("color", color);
+            }
+            if (bgColor !== "#ffffff") {
+                params.set("bgColor", bgColor);
+            }
+            if (codeType !== "qr") {
+                params.set("codeType", codeType);
+            }
+
+            const newSearch = params.toString();
+            const newUrl = newSearch 
+                ? `${window.location.pathname}?${newSearch}`
+                : window.location.pathname;
+                
+            window.history.replaceState({ ...window.history.state }, "", newUrl);
+        }
+    }, [text, size, color, bgColor, codeType, isLoaded]);
+
     // Override colors if in branded session
     useEffect(() => {
         if (isBrandedSession && activeBrandKit) {

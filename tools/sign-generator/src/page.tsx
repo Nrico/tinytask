@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SignPreview } from './components/sign-preview';
 import { SignControls } from './components/sign-controls';
 import { signTemplates, SignType } from './lib/sign-templates';
@@ -81,6 +81,121 @@ export default function SignGeneratorPage() {
   const [headerColor, setHeaderColor] = useState('#4f46e5');
   const [headerTextColor, setHeaderTextColor] = useState('#ffffff');
   const [borderColor, setBorderColor] = useState('#4f46e5');
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load initial state on mount from URL or LocalStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlTemplateId = params.get("templateId") as SignType | null;
+      const urlOrientation = params.get("orientation") as 'portrait' | 'landscape' | null;
+      const urlHeaderText = params.get("headerText");
+      const urlHeadline = params.get("headline");
+      const urlBodyText = params.get("bodyText");
+      const urlIcon = params.get("icon");
+      const urlHeaderColor = params.get("headerColor");
+      const urlHeaderTextColor = params.get("headerTextColor");
+      const urlBorderColor = params.get("borderColor");
+
+      const cachedData = localStorage.getItem("tinytask:sign-generator");
+      let cached: any = {};
+      if (cachedData) {
+        try {
+          cached = JSON.parse(cachedData);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      if (urlTemplateId && ['danger', 'warning', 'caution', 'notice', 'safety', 'parking', 'closed', 'cancelled', 'holiday', 'custom'].includes(urlTemplateId)) {
+        setTemplateId(urlTemplateId);
+      } else if (cached.templateId !== undefined) {
+        setTemplateId(cached.templateId);
+      }
+
+      if (urlOrientation && ['portrait', 'landscape'].includes(urlOrientation)) {
+        setOrientation(urlOrientation);
+      } else if (cached.orientation !== undefined) {
+        setOrientation(cached.orientation);
+      }
+
+      if (urlHeaderText !== null) setHeaderText(urlHeaderText);
+      else if (cached.headerText !== undefined) setHeaderText(cached.headerText);
+
+      if (urlHeadline !== null) setHeadline(urlHeadline);
+      else if (cached.headline !== undefined) setHeadline(cached.headline);
+
+      if (urlBodyText !== null) setBodyText(urlBodyText);
+      else if (cached.bodyText !== undefined) setBodyText(cached.bodyText);
+
+      if (urlIcon !== null) setIcon(urlIcon);
+      else if (cached.icon !== undefined) setIcon(cached.icon);
+
+      if (urlHeaderColor !== null) setHeaderColor(urlHeaderColor);
+      else if (cached.headerColor !== undefined) setHeaderColor(cached.headerColor);
+
+      if (urlHeaderTextColor !== null) setHeaderTextColor(urlHeaderTextColor);
+      else if (cached.headerTextColor !== undefined) setHeaderTextColor(cached.headerTextColor);
+
+      if (urlBorderColor !== null) setBorderColor(urlBorderColor);
+      else if (cached.borderColor !== undefined) setBorderColor(cached.borderColor);
+
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Sync state changes back to LocalStorage and URL search params
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    if (typeof window !== "undefined") {
+      const dataToSave = {
+        templateId,
+        orientation,
+        headerText,
+        headline,
+        bodyText,
+        icon,
+        headerColor,
+        headerTextColor,
+        borderColor
+      };
+      localStorage.setItem("tinytask:sign-generator", JSON.stringify(dataToSave));
+
+      const params = new URLSearchParams();
+      if (templateId !== 'danger') {
+        params.set("templateId", templateId);
+      }
+      if (orientation !== 'portrait') {
+        params.set("orientation", orientation);
+      }
+      if (headerText && headerText !== TEMPLATE_EXAMPLES[templateId]?.headerText) {
+        params.set("headerText", headerText);
+      }
+      if (headline && headline !== TEMPLATE_EXAMPLES[templateId]?.headline) {
+        params.set("headline", headline);
+      }
+      if (bodyText && bodyText !== TEMPLATE_EXAMPLES[templateId]?.bodyText) {
+        params.set("bodyText", bodyText);
+      }
+      if (icon && icon !== TEMPLATE_EXAMPLES[templateId]?.icon) {
+        params.set("icon", icon);
+      }
+      if (templateId === 'custom') {
+        if (headerColor !== '#4f46e5') params.set("headerColor", headerColor);
+        if (headerTextColor !== '#ffffff') params.set("headerTextColor", headerTextColor);
+        if (borderColor !== '#4f46e5') params.set("borderColor", borderColor);
+      }
+
+      const newSearch = params.toString();
+      const newUrl = newSearch 
+        ? `${window.location.pathname}?${newSearch}`
+        : window.location.pathname;
+        
+      window.history.replaceState({ ...window.history.state }, "", newUrl);
+    }
+  }, [templateId, orientation, headerText, headline, bodyText, icon, headerColor, headerTextColor, borderColor, isLoaded]);
 
   const selectedTemplate = signTemplates.find(t => t.id === templateId) || signTemplates[0];
 

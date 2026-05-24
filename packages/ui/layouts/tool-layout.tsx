@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Share2 } from 'lucide-react';
+import { ArrowLeft, Share2, ShieldCheck } from 'lucide-react';
 import { cn } from '@tinytask/utils';
 
 export interface FAQItem {
@@ -56,6 +56,11 @@ export function ToolLayout({
                     <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                         {description}
                     </p>
+                    {/* Privacy Badge */}
+                    <div className="mt-3 flex items-start gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-100/80 rounded-lg p-2 text-[10px] font-medium leading-normal print:hidden select-none">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <span>100% Client-Side: Your data never leaves your computer. No servers, zero logs.</span>
+                    </div>
                     {/* Share Button */}
                     <button
                         onClick={handleShare}

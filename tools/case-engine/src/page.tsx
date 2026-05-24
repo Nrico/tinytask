@@ -45,6 +45,82 @@ export default function CaseEnginePage() {
     lines: 0
   })
 
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Load initial state on mount from URL or LocalStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search)
+      const urlText = params.get("text")
+      const urlStyle = params.get("style") as CaseStyle | null
+      const urlIgnoreMinor = params.get("ignoreMinor")
+      const urlSentenceSpacing = params.get("sentenceSpacing")
+
+      const cachedData = localStorage.getItem("tinytask:case-engine")
+      let cached: any = {}
+      if (cachedData) {
+        try {
+          cached = JSON.parse(cachedData)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+
+      if (urlText !== null) setInputText(urlText)
+      else if (cached.inputText !== undefined) setInputText(cached.inputText)
+
+      if (urlStyle && ["sentence", "title", "upper", "lower", "camel", "kebab", "snake"].includes(urlStyle)) {
+        setCaseStyle(urlStyle)
+      } else if (cached.caseStyle !== undefined) {
+        setCaseStyle(cached.caseStyle)
+      }
+
+      if (urlIgnoreMinor !== null) setIgnoreMinorWords(urlIgnoreMinor === "true")
+      else if (cached.ignoreMinorWords !== undefined) setIgnoreMinorWords(cached.ignoreMinorWords)
+
+      if (urlSentenceSpacing !== null) setStandardSentenceSpacing(urlSentenceSpacing === "true")
+      else if (cached.standardSentenceSpacing !== undefined) setStandardSentenceSpacing(cached.standardSentenceSpacing)
+
+      setIsLoaded(true)
+    }
+  }, [])
+
+  // Sync state changes back to LocalStorage and URL search params
+  useEffect(() => {
+    if (!isLoaded) return
+
+    if (typeof window !== "undefined") {
+      const dataToSave = {
+        inputText,
+        caseStyle,
+        ignoreMinorWords,
+        standardSentenceSpacing
+      }
+      localStorage.setItem("tinytask:case-engine", JSON.stringify(dataToSave))
+
+      const params = new URLSearchParams()
+      if (inputText && inputText !== MOCK_MESSY_TEXT.trim()) {
+        params.set("text", inputText)
+      }
+      if (caseStyle !== "sentence") {
+        params.set("style", caseStyle)
+      }
+      if (ignoreMinorWords !== true) {
+        params.set("ignoreMinor", String(ignoreMinorWords))
+      }
+      if (standardSentenceSpacing !== true) {
+        params.set("sentenceSpacing", String(standardSentenceSpacing))
+      }
+
+      const newSearch = params.toString()
+      const newUrl = newSearch 
+        ? `${window.location.pathname}?${newSearch}`
+        : window.location.pathname
+        
+      window.history.replaceState({ ...window.history.state }, "", newUrl)
+    }
+  }, [inputText, caseStyle, ignoreMinorWords, standardSentenceSpacing, isLoaded])
+
   // Conversion Functions
   const toSentenceCase = (text: string, addSpace: boolean): string => {
     if (!text) return ""

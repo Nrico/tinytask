@@ -363,6 +363,71 @@ export default function GreetingCardPage() {
     const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
     const [zoom, setZoom] = useState(50);
     const [pan, setPan] = useState({ x: 0, y: 0 });
+
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // Load initial state on mount from LocalStorage or URL params
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search);
+            const urlLayout = params.get("layout") as 'book' | 'tent' | null;
+            const urlZoom = params.get("zoom");
+
+            const cachedData = localStorage.getItem("tinytask:greeting-card");
+            let cached: any = {};
+            if (cachedData) {
+                try {
+                    cached = JSON.parse(cachedData);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            if (urlLayout && ['book', 'tent'].includes(urlLayout)) {
+                setLayout(urlLayout);
+            } else if (cached.layout !== undefined) {
+                setLayout(cached.layout);
+            }
+
+            if (urlZoom !== null) setZoom(Number(urlZoom));
+            else if (cached.zoom !== undefined) setZoom(cached.zoom);
+
+            if (cached.panels !== undefined) {
+                setPanels(cached.panels);
+            }
+
+            setIsLoaded(true);
+        }
+    }, []);
+
+    // Sync state changes back to LocalStorage and URL search params
+    useEffect(() => {
+        if (!isLoaded) return;
+
+        if (typeof window !== "undefined") {
+            const dataToSave = {
+                layout,
+                zoom,
+                panels
+            };
+            localStorage.setItem("tinytask:greeting-card", JSON.stringify(dataToSave));
+
+            const params = new URLSearchParams();
+            if (layout !== 'book') {
+                params.set("layout", layout);
+            }
+            if (zoom !== 50) {
+                params.set("zoom", String(zoom));
+            }
+
+            const newSearch = params.toString();
+            const newUrl = newSearch 
+                ? `${window.location.pathname}?${newSearch}`
+                : window.location.pathname;
+                
+            window.history.replaceState({ ...window.history.state }, "", newUrl);
+        }
+    }, [layout, zoom, panels, isLoaded]);
     const [isDragging, setIsDragging] = useState(false);
     const dragStart = useRef({ x: 0, y: 0 });
 
