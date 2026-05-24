@@ -1,0 +1,8 @@
+{
+  "name": "Visual Style Purger",
+  "slug": "visual-style-purger",
+  "description": "Strip inline styling, custom line-heights, and background colors from rich text while preserving clean structural paragraph breaks.",
+  "category": "documents",
+  "status": "active",
+  "sharedTheme": "light"
+}

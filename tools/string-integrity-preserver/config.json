@@ -1,0 +1,8 @@
+{
+  "name": "String Integrity Preserver",
+  "slug": "string-integrity-preserver",
+  "description": "Protect columns from Excel data mutation like dropped leading zeros, scientific notation, or auto-converted dates.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

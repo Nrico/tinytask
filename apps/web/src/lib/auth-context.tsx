@@ -9,7 +9,7 @@ import {
     signInWithPopup, 
     onAuthStateChanged
 } from 'firebase/auth';
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
 
 export type UserPlan = 'free' | 'pro';
 export type UserRole = 'user' | 'admin';
@@ -40,23 +40,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Sync Firestore document state in real-time
     useEffect(() => {
+        let unsubscribeDoc: (() => void) | null = null;
+
         const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+            // Clean up existing Firestore listener if user state transitions
+            if (unsubscribeDoc) {
+                unsubscribeDoc();
+                unsubscribeDoc = null;
+            }
+
             if (firebaseUser) {
                 const userRef = doc(db, 'users', firebaseUser.uid);
                 
-                // Use onSnapshot to listen for real-time updates (e.g. when Stripe webhook completes checkout)
-                const unsubscribeDoc = onSnapshot(userRef, async (docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        setUser({
-                            id: firebaseUser.uid,
-                            name: data.name || firebaseUser.displayName || 'User',
-                            email: firebaseUser.email || '',
-                            plan: data.plan || 'free',
-                            role: data.role || 'user',
-                        });
-                    } else {
-                        // Create baseline doc if not exists
+                try {
+                    // Check existence with a single read first
+                    const docSnap = await getDoc(userRef);
+                    if (!docSnap.exists()) {
+                        // Create baseline profile document
                         const newDoc = {
                             name: firebaseUser.displayName || 'User',
                             email: firebaseUser.email || '',
@@ -65,28 +65,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             createdAt: new Date().toISOString(),
                         };
                         await setDoc(userRef, newDoc);
+                    }
+                } catch (err) {
+                    console.error("Error ensuring user baseline document:", err);
+                }
+
+                // Subscribe to real-time changes
+                unsubscribeDoc = onSnapshot(userRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.data();
                         setUser({
                             id: firebaseUser.uid,
-                            name: newDoc.name,
-                            email: newDoc.email,
-                            plan: newDoc.plan,
-                            role: newDoc.role,
+                            name: data.name || firebaseUser.displayName || 'User',
+                            email: firebaseUser.email || '',
+                            plan: data.plan || 'free',
+                            role: data.role || 'user',
                         });
                     }
                     setIsLoading(false);
                 }, (error) => {
-                    console.error("Error reading user document:", error);
+                    console.error("Error reading user document snapshot:", error);
                     setIsLoading(false);
                 });
-
-                return () => unsubscribeDoc();
             } else {
                 setUser(null);
                 setIsLoading(false);
             }
         });
 
-        return () => unsubscribeAuth();
+        return () => {
+            unsubscribeAuth();
+            if (unsubscribeDoc) {
+                unsubscribeDoc();
+            }
+        };
     }, []);
 
     const loginWithPassword = async (email: string, password: string) => {

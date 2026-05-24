@@ -27,52 +27,12 @@ def replace_placeholders(src_path: str, dest_path: str, context: dict):
     with open(dest_path, "w", encoding="utf-8") as f:
         f.write(rendered)
 
-def register_tool_in_router(slug: str):
-    router_file = os.path.join(settings.workspace_dir, "apps/web/src/app/tools/[slug]/page.tsx")
-    if not os.path.exists(router_file):
-        print(f"Router file not found at: {router_file}")
-        return False
-        
-    with open(router_file, "r", encoding="utf-8") as f:
-        content = f.read()
-        
-    # Check if already registered
-    if f'"@tinytask/tool-{slug}"' in content or f"'@tinytask/tool-{slug}'" in content:
-        print(f"Tool {slug} already registered in router.")
-        return True
-        
-    # 1. Insert into tools mapping
-    tools_marker = "const tools: Record<string, ComponentType> = {"
-    if tools_marker not in content:
-        print("Could not find tools mapping block in router page.")
-        return False
-        
-    content = content.replace(
-        tools_marker,
-        f'{tools_marker}\n  "{slug}": dynamic(() => import("@tinytask/tool-{slug}")),'
-    )
-    
-    # 2. Insert into generateStaticParams
-    static_marker = "return ["
-    if static_marker not in content:
-        print("Could not find generateStaticParams array block in router page.")
-        return False
-        
-    content = content.replace(
-        static_marker,
-        f'{static_marker}\n    {{ slug: "{slug}" }},'
-    )
-    
-    with open(router_file, "w", encoding="utf-8") as f:
-        f.write(content)
-    print(f"Successfully registered tool {slug} in Next.js router.")
-    return True
 
-def run_command(command: str, cwd: str) -> tuple[int, str]:
+def run_command(args: list[str], cwd: str) -> tuple[int, str]:
     try:
         result = subprocess.run(
-            command,
-            shell=True,
+            args,
+            shell=False,
             cwd=cwd,
             capture_output=True,
             text=True,
@@ -136,17 +96,9 @@ def build_tool(slug: str, session: Session) -> bool:
         session.commit()
         return False
         
-    # Register tool in dynamic router page
-    if not register_tool_in_router(slug):
-        opportunity.status = "failed"
-        build_log.status = "failed"
-        build_log.test_results = "Next.js router registration failed."
-        session.commit()
-        return False
-        
     # Run git checkout branch
     git_cwd = settings.workspace_dir
-    run_command(f"git checkout -B tool/{slug}", git_cwd)
+    run_command(["git", "checkout", "-B", f"tool/{slug}"], git_cwd)
     
     # Run workspace link and compilation check
     build_log.status = "testing"
@@ -154,7 +106,7 @@ def build_tool(slug: str, session: Session) -> bool:
     
     print("Linking workspaces and running typescript build check...")
     # Run npm install to link the new workspace package
-    ret, out = run_command("npm install", git_cwd)
+    ret, out = run_command(["npm", "install"], git_cwd)
     if ret != 0:
         build_log.status = "failed"
         build_log.test_results = f"npm install failed:\n{out}"
@@ -169,8 +121,8 @@ def build_tool(slug: str, session: Session) -> bool:
         session.commit()
         
         # Test compiler & build
-        build_ret, build_out = run_command("npm run build", git_cwd)
-        lint_ret, lint_out = run_command("npm run lint", git_cwd)
+        build_ret, build_out = run_command(["npm", "run", "build"], git_cwd)
+        lint_ret, lint_out = run_command(["npm", "run", "lint"], git_cwd)
         
         if build_ret == 0 and lint_ret == 0:
             success = True
@@ -188,7 +140,7 @@ def build_tool(slug: str, session: Session) -> bool:
         if attempt < 2:
             # Simple self-repair patch: clean cache / node_modules or rebuild
             print("Self-repair: running clean and rebuild...")
-            run_command("rm -rf apps/web/.next", git_cwd)
+            shutil.rmtree(os.path.join(git_cwd, "apps/web/.next"), ignore_errors=True)
             
     if not success:
         print("Tool generation failed all self-repair attempts.")
@@ -198,16 +150,16 @@ def build_tool(slug: str, session: Session) -> bool:
         return False
         
     # Commit changes to local branch
-    run_command("git add .", git_cwd)
-    run_command(f'git commit -m "feat(tool): add {opportunity.title} generated tool"', git_cwd)
+    run_command(["git", "add", "."], git_cwd)
+    run_command(["git", "commit", "-m", f"feat(tool): add {opportunity.title} generated tool"], git_cwd)
     
     # Push branch to remote and create Pull Request
-    push_ret, push_out = run_command(f"git push -f -u origin tool/{slug}", git_cwd)
+    push_ret, push_out = run_command(["git", "push", "-f", "-u", "origin", f"tool/{slug}"], git_cwd)
     if push_ret == 0:
         print(f"Successfully pushed branch tool/{slug} to origin.")
         pr_title = f"feat(tool): add {opportunity.title} generated tool"
         pr_body = f"This PR adds the generated `{opportunity.title}` tool.\n\n### Problem\n{opportunity.problem}\n\n### Scope\n{opportunity.mvp_scope}"
-        pr_ret, pr_out = run_command(f'gh pr create --title "{pr_title}" --body "{pr_body}" --head tool/{slug} --base main', git_cwd)
+        pr_ret, pr_out = run_command(["gh", "pr", "create", "--title", pr_title, "--body", pr_body, "--head", f"tool/{slug}", "--base", "main"], git_cwd)
         if pr_ret == 0:
             pr_match = re.search(r'/pull/(\d+)', pr_out)
             if pr_match:
@@ -216,7 +168,7 @@ def build_tool(slug: str, session: Session) -> bool:
         else:
             print(f"Failed to create PR (or it already exists): {pr_out}")
             # If PR already exists, try to get its number
-            pr_list_ret, pr_list_out = run_command(f'gh pr list --head tool/{slug} --json number --jq ".[0].number"', git_cwd)
+            pr_list_ret, pr_list_out = run_command(["gh", "pr", "list", "--head", f"tool/{slug}", "--json", "number", "--jq", ".[0].number"], git_cwd)
             if pr_list_ret == 0 and pr_list_out.strip():
                 try:
                     build_log.pr_number = int(pr_list_out.strip())
@@ -229,7 +181,7 @@ def build_tool(slug: str, session: Session) -> bool:
     # Try Vercel preview deployment or fall back to localhost mock URL
     preview_url = f"http://localhost:3000/tools/{slug}"
     # check if we can run vercel preview
-    vercel_ret, vercel_out = run_command("npx vercel --preview --yes", git_cwd)
+    vercel_ret, vercel_out = run_command(["npx", "vercel", "--preview", "--yes"], git_cwd)
     if vercel_ret == 0:
         # Extract vercel URL from output
         url_match = re.search(r'(https://[a-zA-Z0-9-]+\.vercel\.app)', vercel_out)

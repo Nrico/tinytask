@@ -1,0 +1,8 @@
+{
+  "name": "Email Signature Generator",
+  "slug": "signature-generator",
+  "description": "Build modern email signatures that render consistently in Outlook, Apple Mail, and Gmail using robust table-only HTML.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

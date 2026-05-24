@@ -1,0 +1,8 @@
+{
+  "name": "Quick Case Engine",
+  "slug": "case-engine",
+  "description": "Convert text block casings instantly into Sentence Case, Title Case, UPPERCASE, lowercase, CamelCase, kebab-case, or snake_case.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

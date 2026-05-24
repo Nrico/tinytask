@@ -1,0 +1,8 @@
+{
+  "name": "Data Payload Sanitizer",
+  "slug": "data-payload-sanitizer",
+  "description": "Strip hidden Microsoft Office styling bloat (HTML, XML, RTF tags) from your clipboard, leaving only pure plain text.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

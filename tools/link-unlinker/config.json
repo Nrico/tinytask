@@ -1,0 +1,8 @@
+{
+  "name": "Link Un-linker",
+  "slug": "link-unlinker",
+  "description": "Strip active hyperlinks and anchor tags from rich-text blocks, remove UTM parameters, or extract all URLs into a list.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

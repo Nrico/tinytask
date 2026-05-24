@@ -10,22 +10,24 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      // Users can read their own user record; admins can read all user records
-      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      // 1. Allow users to read their own profile record (No admin helper evaluated)
+      allow read: if request.auth != null && request.auth.uid == userId;
       
-      // Users can initialize their own document, defaulting plan to free and role to user
+      // 2. Allow admins to read any profile record
+      allow read: if isAdmin();
+      
+      // 3. Allow users to create their own record, defaulting plan to free and role to user
       allow create: if request.auth != null && request.auth.uid == userId 
-                    && (!request.resource.data.keys().has('role') || request.resource.data.role == 'user')
-                    && (!request.resource.data.keys().has('plan') || request.resource.data.plan == 'free');
+                    && (!('role' in request.resource.data) || request.resource.data.role == 'user')
+                    && (!('plan' in request.resource.data) || request.resource.data.plan == 'free');
 
-      // Users can update their profile but cannot change their role or upgrade their plan to Pro; admins have unrestricted update rights
-      allow update: if request.auth != null && (
-        (request.auth.uid == userId 
-         && (!request.resource.data.keys().has('role') || request.resource.data.role == resource.data.role)
-         && (!request.resource.data.keys().has('plan') || request.resource.data.plan == 'free' || request.resource.data.plan == resource.data.plan)
-        ) 
-        || isAdmin()
-      );
+      // 4. Allow users to update their own profile fields (locking plan & role from modification/deletion)
+      allow update: if request.auth != null && request.auth.uid == userId 
+                    && request.resource.data.role == resource.data.role
+                    && request.resource.data.plan == resource.data.plan;
+
+      // 5. Allow admins to update or delete any profile record (e.g. promoting roles/plans, deleting profiles)
+      allow update, delete: if isAdmin();
     }
   }
 }

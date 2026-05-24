@@ -1,0 +1,8 @@
+{
+  "name": "Plain-Text List Un-breaker",
+  "slug": "list-unbreaker",
+  "description": "Snap lines to the left margin, remove erratic indentations, and normalize bullet characters into clean plain-text list elements.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

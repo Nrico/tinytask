@@ -1,0 +1,8 @@
+{
+  "name": "Pattern Replacer",
+  "slug": "pattern-replacer",
+  "description": "Find and replace text using custom text, regex patterns, or plain-English checkboxes (Tabs, Line Breaks, double spaces) with yellow highlights.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

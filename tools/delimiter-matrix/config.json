@@ -1,0 +1,8 @@
+{
+  "name": "Delimiter Matrix",
+  "slug": "delimiter-matrix",
+  "description": "Parse and convert messy CSV, TSV, semicolon, or pipe-separated texts into clean tables, markdown, or JSON.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

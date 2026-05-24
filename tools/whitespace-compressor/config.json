@@ -1,0 +1,8 @@
+{
+  "name": "Whitespace Compressor",
+  "slug": "whitespace-compressor",
+  "description": "Clean up double spaces, trailing line breaks, tabs, non-breaking spaces, and invisible zero-width editor characters.",
+  "category": "utilities",
+  "status": "active",
+  "sharedTheme": "light"
+}

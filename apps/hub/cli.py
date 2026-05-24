@@ -69,13 +69,13 @@ def main():
             from config import settings
             
             print("Step 1: Running Next.js build compilation check...")
-            ret_b, out_b = run_command("npm run build", settings.workspace_dir)
+            ret_b, out_b = run_command(["npm", "run", "build"], settings.workspace_dir)
             if ret_b != 0:
                 print(f"Next.js build compilation failed:\n{out_b}")
                 sys.exit(1)
                 
             print("Step 2: Running project linter check...")
-            ret_l, out_l = run_command("npm run lint", settings.workspace_dir)
+            ret_l, out_l = run_command(["npm", "run", "lint"], settings.workspace_dir)
             if ret_l != 0:
                 print(f"Project linting failed:\n{out_l}")
                 sys.exit(1)
@@ -86,7 +86,7 @@ def main():
                 print(f"Playwright test file not found at: {test_path}")
                 sys.exit(1)
                 
-            ret_p, out_p = run_command(f"npx playwright test {test_path}", settings.workspace_dir)
+            ret_p, out_p = run_command(["npx", "playwright", "test", test_path], settings.workspace_dir)
             if ret_p == 0:
                 print("All tests (Build, Lint, Playwright) passed successfully!")
                 sys.exit(0)
