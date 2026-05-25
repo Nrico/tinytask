@@ -162,21 +162,21 @@ export default function BrochureBuilderPage() {
 
     // States for Tri-Fold Panels (6 panels) - Content initialized as clean HTML
     const [trifoldPanels, setTrifoldPanels] = useState<Panel[]>([
-        { id: 0, title: "Front Cover", content: "<h1>Welcome to Our Services</h1><p>Professional Solutions for Your Needs</p>", align: "center", bg: "#ffffff" },
-        { id: 1, title: "Inside Left", content: "<h1>Our Mission</h1><p>To provide high quality services efficiently.</p>", align: "left", bg: "#ffffff" },
-        { id: 2, title: "Inside Center", content: "<h1>Core Values</h1><ul><li>Integrity</li><li>Innovation</li><li>Excellence</li></ul>", align: "left", bg: "#ffffff" },
-        { id: 3, title: "Inside Right", content: "<h1>Contact Us</h1><p>123 Business Rd.<br>City, State 12345</p><p><strong>(555) 123-4567</strong></p>", align: "left", bg: "#ffffff" },
-        { id: 4, title: "Back Cover", content: "<p>Visit our website at:</p><p><strong style=\"color:#0284c7;\">www.example.com</strong></p>", align: "center", bg: "#f8fafc" },
-        { id: 5, title: "Inside Flap", content: "<h1>Why Choose Us?</h1><p>We have over 20 years of experience.</p>", align: "left", bg: "#f1f5f9" },
+        { id: 0, title: "Front Cover", content: "<h1>Welcome to Our Services</h1><p>Professional Solutions for Your Needs</p>", align: "center", bg: "#fff9ed" },
+        { id: 1, title: "Inside Left", content: "<h1>Our Mission</h1><p>To provide high quality services efficiently.</p>", align: "left", bg: "#fff9ed" },
+        { id: 2, title: "Inside Center", content: "<h1>Core Values</h1><ul><li>Integrity</li><li>Innovation</li><li>Excellence</li></ul>", align: "left", bg: "#fff9ed" },
+        { id: 3, title: "Inside Right", content: "<h1>Contact Us</h1><p>123 Business Rd.<br>City, State 12345</p><p><strong>(555) 123-4567</strong></p>", align: "left", bg: "#fff9ed" },
+        { id: 4, title: "Back Cover", content: "<p>Visit our website at:</p><p><strong style=\"color:#087b82;\">www.example.com</strong></p>", align: "center", bg: "#faf4e8" },
+        { id: 5, title: "Inside Flap", content: "<h1>Why Choose Us?</h1><p>We have over 20 years of experience.</p>", align: "left", bg: "#f4ebd8" },
     ]);
     const [activeTrifoldId, setActiveTrifoldId] = useState(0);
 
     // States for Bi-Fold Panels (4 panels) - Content initialized as clean HTML
     const [bifoldPanels, setBifoldPanels] = useState<Panel[]>([
-        { id: 0, title: "Front Cover", content: "<h1>Welcome to Our Event</h1><p>Join us for a special celebration.</p>", align: "center", bg: "#ffffff" },
-        { id: 1, title: "Inside Left", content: "<h1>Schedule of Events</h1><ul><li>10:00 AM - Welcome</li><li>11:00 AM - Keynote</li><li>12:00 PM - Lunch</li></ul>", align: "left", bg: "#ffffff" },
-        { id: 2, title: "Inside Right", content: "<h1>Guest Speakers</h1><p>- Jane Doe<br>- John Smith</p><p>Special thanks to our sponsors.</p>", align: "left", bg: "#ffffff" },
-        { id: 3, title: "Back Cover", content: "<h1>Contact Us</h1><p>www.example.com<br><strong>(555) 123-4567</strong></p>", align: "center", bg: "#f8fafc" },
+        { id: 0, title: "Front Cover", content: "<h1>Welcome to Our Event</h1><p>Join us for a special celebration.</p>", align: "center", bg: "#fff9ed" },
+        { id: 1, title: "Inside Left", content: "<h1>Schedule of Events</h1><ul><li>10:00 AM - Welcome</li><li>11:00 AM - Keynote</li><li>12:00 PM - Lunch</li></ul>", align: "left", bg: "#fff9ed" },
+        { id: 2, title: "Inside Right", content: "<h1>Guest Speakers</h1><p>- Jane Doe<br>- John Smith</p><p>Special thanks to our sponsors.</p>", align: "left", bg: "#fff9ed" },
+        { id: 3, title: "Back Cover", content: "<h1>Contact Us</h1><p>www.example.com<br><strong>(555) 123-4567</strong></p>", align: "center", bg: "#faf4e8" },
     ]);
     const [activeBifoldId, setActiveBifoldId] = useState(0);
 
@@ -349,8 +349,8 @@ export default function BrochureBuilderPage() {
         return (
             <div
                 className={cn(
-                    "h-full w-full p-6 md:p-8 flex flex-col overflow-hidden relative border-r border-slate-200 last:border-r-0 cursor-pointer hover:bg-slate-50/10 transition-colors",
-                    activePanelId === panelId ? "bg-slate-50/5" : ""
+                    "h-full w-full p-6 md:p-8 flex flex-col overflow-hidden relative border-r border-border last:border-r-0 cursor-pointer hover:bg-card/10 transition-colors",
+                    activePanelId === panelId ? "bg-card/10" : ""
                 )}
                 style={{ backgroundColor: p.bg, textAlign: p.align }}
                 onClick={() => {
@@ -634,7 +634,7 @@ export default function BrochureBuilderPage() {
                         {/* Viewport Frame */}
                         <div 
                             ref={viewportRef}
-                            className="flex-1 w-full border border-slate-200 bg-slate-50/50 rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
+                            className="flex-1 w-full border border-border bg-card rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
                             onMouseDown={handleMouseDown}
                             onMouseMove={handleMouseMove}
                             onMouseUp={handleMouseUp}
@@ -658,16 +658,16 @@ export default function BrochureBuilderPage() {
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:hidden">
                                         {layout === 'trifold' ? "Outside Sheet (Flap / Back / Front)" : "Outside Sheet (Back / Front)"}
                                     </span>
-                                    <div className="print-sheet bg-white shadow-lg w-[840px] h-[594px] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-slate-200 select-none">
+                                    <div className="print-sheet bg-white shadow-lg w-[840px] h-[594px] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-border select-none">
                                         {layout === 'trifold' ? (
                                             <>
-                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(5)}</div>
-                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(4)}</div>
+                                                <div className="flex-1 h-full border-r border-border print-panel">{renderPanel(5)}</div>
+                                                <div className="flex-1 h-full border-r border-border print-panel">{renderPanel(4)}</div>
                                                 <div className="flex-1 h-full print-panel">{renderPanel(0)}</div>
                                             </>
                                         ) : (
                                             <>
-                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(3)}</div>
+                                                <div className="flex-1 h-full border-r border-border print-panel">{renderPanel(3)}</div>
                                                 <div className="flex-1 h-full print-panel">{renderPanel(0)}</div>
                                             </>
                                         )}
@@ -679,16 +679,16 @@ export default function BrochureBuilderPage() {
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest print:hidden">
                                         {layout === 'trifold' ? "Inside Sheet (Left / Center / Right)" : "Inside Sheet (Left / Right)"}
                                     </span>
-                                    <div className="print-sheet bg-white shadow-lg w-[840px] h-[594px] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-slate-200 select-none">
+                                    <div className="print-sheet bg-white shadow-lg w-[840px] h-[594px] flex flex-row overflow-hidden print:shadow-none rounded-xl border border-border select-none">
                                         {layout === 'trifold' ? (
                                             <>
-                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(1)}</div>
-                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(2)}</div>
+                                                <div className="flex-1 h-full border-r border-border print-panel">{renderPanel(1)}</div>
+                                                <div className="flex-1 h-full border-r border-border print-panel">{renderPanel(2)}</div>
                                                 <div className="flex-1 h-full print-panel">{renderPanel(3)}</div>
                                             </>
                                         ) : (
                                             <>
-                                                <div className="flex-1 h-full border-r border-slate-200 print-panel">{renderPanel(1)}</div>
+                                                <div className="flex-1 h-full border-r border-border print-panel">{renderPanel(1)}</div>
                                                 <div className="flex-1 h-full print-panel">{renderPanel(2)}</div>
                                             </>
                                         )}
