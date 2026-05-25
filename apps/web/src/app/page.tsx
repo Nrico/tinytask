@@ -45,36 +45,29 @@ export default function Home() {
     return (
         <main className="flex-1">
             {/* Hero Section */}
-            <section className="container mx-auto px-4 py-12 md:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center sm:px-6 lg:px-8">
-                <div className="space-y-6 text-left">
-                    <div className="eyebrow">Simple tools. Real work.</div>
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-foreground">
-                        Tiny tools for <span className="text-primary block mt-1">big tasks.</span>
-                    </h1>
-                    <p className="max-w-[560px] text-base md:text-lg text-muted-foreground leading-relaxed">
-                        A suite of simple, practical tools that help you clean files, format data, build documents, and get work done faster.
-                    </p>
-                    <div className="flex flex-wrap gap-4 pt-2">
-                        <a href="#categories">
-                            <Button size="lg" className="h-11 px-6 bg-primary hover:bg-primary/95 text-primary-foreground font-bold rounded-xl text-sm transition-all shadow-sm">
-                                Explore tools
-                            </Button>
-                        </a>
-                        <a href="#pricing">
-                            <Button size="lg" variant="outline" className="h-11 px-6 border-border hover:bg-muted/30 text-foreground bg-card/50 font-bold rounded-xl text-sm transition-all shadow-sm">
-                                View pricing
-                            </Button>
-                        </a>
+            <section className="relative w-full border-b border-border/20 bg-none lg:bg-[url('/hero_image_1.jpg')] lg:bg-no-repeat lg:bg-cover lg:bg-[position:right_50%] overflow-hidden">
+                <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 sm:px-6 lg:px-8">
+                    <div className="space-y-6 text-left max-w-xl relative z-10">
+                        <div className="eyebrow">Simple tools. Real work.</div>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[0.95] text-foreground">
+                            Tiny tools for <span className="text-primary block mt-1">big tasks.</span>
+                        </h1>
+                        <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-md">
+                            A suite of simple, practical tools that help you clean files, format data, build documents, and get work done faster.
+                        </p>
+                        <div className="flex flex-wrap gap-4 pt-2">
+                            <a href="#categories">
+                                <Button size="lg" className="h-11 px-6 bg-primary hover:bg-primary/95 text-primary-foreground font-bold rounded-xl text-sm transition-all shadow-sm">
+                                    Explore tools
+                                </Button>
+                            </a>
+                            <a href="#pricing">
+                                <Button size="lg" variant="outline" className="h-11 px-6 border-border hover:bg-muted/30 text-foreground bg-card/50 font-bold rounded-xl text-sm transition-all shadow-sm">
+                                    View pricing
+                                </Button>
+                            </a>
+                        </div>
                     </div>
-                </div>
-
-                {/* Visual Hero Image */}
-                <div className="hidden lg:flex items-center justify-center w-full min-h-[380px] select-none" aria-hidden="true">
-                    <img 
-                        src="/hero_image_1.jpg" 
-                        alt="TinyTask Mockup" 
-                        className="w-full max-w-lg object-contain rounded-2xl shadow-md border border-border/40 hover:-translate-y-1 transition-all duration-300"
-                    />
                 </div>
             </section>
 
