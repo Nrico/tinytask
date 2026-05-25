@@ -10,6 +10,20 @@ import { BrandKitProvider } from "@tinytask/ui/brand/brand-context";
 export const metadata: Metadata = {
   title: "TinyTask - Productivity Tools Suite",
   description: "A collection of premium productivity tools for everyday tasks.",
+  metadataBase: new URL("https://tinytask.com"),
+  openGraph: {
+    title: "TinyTask - Productivity Tools Suite",
+    description: "A collection of premium productivity tools for everyday tasks.",
+    url: "https://tinytask.com",
+    siteName: "TinyTask",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TinyTask - Productivity Tools Suite",
+    description: "A collection of premium productivity tools for everyday tasks.",
+  },
 };
 
 export default function RootLayout({
