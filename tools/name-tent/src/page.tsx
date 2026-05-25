@@ -399,7 +399,7 @@ export default function NameTentPage() {
                         {/* Viewport Frame */}
                         <div 
                             ref={viewportRef}
-                            className="flex-1 w-full border border-slate-200 bg-slate-50/50 rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
+                            className="flex-1 w-full border border-border bg-card rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
                             onMouseDown={handleMouseDown}
                             onMouseMove={handleMouseMove}
                             onMouseUp={handleMouseUp}
@@ -424,7 +424,7 @@ export default function NameTentPage() {
                                     names.map((name, index) => (
                                         <div
                                             key={index}
-                                            className="bg-white shadow-lg print:shadow-none w-[297mm] h-[210mm] print:w-screen print:h-screen flex-shrink-0 flex flex-col overflow-hidden relative page-break rounded-xl border border-slate-200"
+                                            className="bg-white shadow-lg print:shadow-none w-[297mm] h-[210mm] print:w-screen print:h-screen flex-shrink-0 flex flex-col overflow-hidden relative page-break rounded-xl border border-border"
                                             style={{ 
                                                 backgroundColor: bgColor
                                             }}

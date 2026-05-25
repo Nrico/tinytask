@@ -1147,7 +1147,7 @@ export default function GreetingCardPage() {
                                 /* Canvas Mode: Flat sheet layout */
                                 <div 
                                     ref={viewportRef}
-                                    className="w-full h-full border border-slate-200 bg-slate-50/50 rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
+                                    className="w-full h-full border border-border bg-card rounded-xl relative overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing shadow-inner"
                                     onMouseDown={handleMouseDown}
                                     onMouseMove={handleMouseMove}
                                     onMouseUp={handleMouseUp}

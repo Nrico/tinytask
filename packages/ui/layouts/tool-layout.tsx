@@ -49,7 +49,7 @@ export function ToolLayout({
     };
 
     return (
-        <div className={cn("flex flex-col lg:flex-row h-[calc(100vh-3.5rem)] overflow-hidden bg-slate-50/50", className)}>
+        <div className={cn("flex flex-col lg:flex-row h-[calc(100vh-3.5rem)] overflow-hidden bg-card/50", className)}>
             {/* Left Sidebar Settings Panel */}
             <aside className="w-full lg:w-80 bg-background border-r flex flex-col shadow-sm z-10 h-full">
                 {/* Sidebar Header */}
@@ -99,12 +99,12 @@ export function ToolLayout({
                             <h3 className="font-semibold text-slate-400 text-[10px] uppercase tracking-wider mb-3">Frequently Asked Questions</h3>
                             <div className="space-y-2">
                                 {faqs.map((faq, idx) => (
-                                    <details key={idx} className="group border border-slate-100 rounded-lg bg-slate-50/50 p-2 text-xs">
+                                    <details key={idx} className="group border border-border/50 rounded-lg bg-card/40 p-2 text-xs">
                                         <summary className="font-semibold text-slate-700 cursor-pointer list-none flex justify-between items-center group-open:text-indigo-600 transition-colors select-none">
                                             <span className="pr-2">{faq.question}</span>
                                             <span className="text-[9px] text-slate-400 group-open:rotate-180 transition-transform">▼</span>
                                         </summary>
-                                        <p className="mt-1.5 text-slate-500 leading-relaxed border-t pt-1.5 border-slate-100">
+                                        <p className="mt-1.5 text-slate-500 leading-relaxed border-t pt-1.5 border-border/50">
                                             {faq.answer}
                                         </p>
                                     </details>
@@ -116,14 +116,14 @@ export function ToolLayout({
 
                 {/* Optional Bottom Actions Panel inside Sidebar */}
                 {actions && (
-                    <div className="p-6 border-t mt-auto flex-shrink-0 bg-slate-50/40 print:hidden">
+                    <div className="p-6 border-t mt-auto flex-shrink-0 bg-card/25 print:hidden">
                         {actions}
                     </div>
                 )}
             </aside>
 
             {/* Right/Middle Main Preview Content Area */}
-            <main className="flex-1 overflow-y-auto p-6 md:p-8 lg:p-12 flex flex-col items-center justify-center min-h-0 bg-slate-100/30 print:p-0 print:bg-white print:block print:overflow-visible">
+            <main className="flex-1 overflow-y-auto p-6 md:p-8 lg:p-12 flex flex-col items-center justify-center min-h-0 bg-card/30 print:p-0 print:bg-white print:block print:overflow-visible">
                 {previewContent}
             </main>
 
