@@ -310,7 +310,7 @@ export default function CaseEnginePage() {
                 className="justify-start gap-2.5 text-xs text-left"
                 size="sm"
               >
-                <Baseline className="w-4 h-4 text-indigo-500" />
+                <Baseline className="w-4 h-4 text-primary" />
                 <div>
                   <div className="font-semibold font-sans">Sentence case</div>
                   <div className="text-[10px] text-muted-foreground font-normal">e.g. Case engine sample.</div>
@@ -407,7 +407,7 @@ export default function CaseEnginePage() {
                 checked={ignoreMinorWords}
                 onChange={(e) => setIgnoreMinorWords(e.target.checked)}
                 disabled={caseStyle !== "title"}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring disabled:opacity-50"
               />
               <Label htmlFor="ignoreMinor" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Smart Title Case (Ignore prepositions)
@@ -421,7 +421,7 @@ export default function CaseEnginePage() {
                 checked={standardSentenceSpacing}
                 onChange={(e) => setStandardSentenceSpacing(e.target.checked)}
                 disabled={caseStyle !== "sentence"}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring disabled:opacity-50"
               />
               <Label htmlFor="addSpace" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Add Space After Sentences
@@ -453,7 +453,7 @@ export default function CaseEnginePage() {
               <div className="flex gap-2">
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>

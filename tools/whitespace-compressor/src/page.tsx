@@ -161,7 +161,7 @@ export default function WhitespaceCompressorPage() {
       .replace(/>/g, "&gt;")
 
     // Replace spaces with middle dots (·)
-    escaped = escaped.replace(/ /g, '<span class="text-indigo-400/60 font-bold select-none">·</span>')
+    escaped = escaped.replace(/ /g, '<span class="text-primary/70/60 font-bold select-none">·</span>')
 
     // Replace tabs with right arrows (→)
     escaped = escaped.replace(/\t/g, '<span class="text-emerald-500/50 font-bold select-none">→\t</span>')
@@ -206,7 +206,7 @@ export default function WhitespaceCompressorPage() {
                 id="collapseSpaces"
                 checked={collapseSpaces}
                 onChange={(e) => setCollapseSpaces(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="collapseSpaces" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Collapse Multiple Spaces
@@ -219,7 +219,7 @@ export default function WhitespaceCompressorPage() {
                 id="trimTrailing"
                 checked={trimTrailing}
                 onChange={(e) => setTrimTrailing(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="trimTrailing" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Trim Line Ends (Trailing)
@@ -232,7 +232,7 @@ export default function WhitespaceCompressorPage() {
                 id="trimLeading"
                 checked={trimLeading}
                 onChange={(e) => setTrimLeading(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="trimLeading" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Trim Line Starts (Leading)
@@ -246,7 +246,7 @@ export default function WhitespaceCompressorPage() {
                 checked={collapseNewlines}
                 disabled={removeEmptyLines}
                 onChange={(e) => setCollapseNewlines(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring disabled:opacity-50"
               />
               <Label htmlFor="collapseNewlines" className="text-xs font-medium text-slate-600 cursor-pointer select-none disabled:opacity-50">
                 Collapse Multiple Newlines
@@ -259,7 +259,7 @@ export default function WhitespaceCompressorPage() {
                 id="removeEmpty"
                 checked={removeEmptyLines}
                 onChange={(e) => setRemoveEmptyLines(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="removeEmpty" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Remove All Empty Lines
@@ -277,7 +277,7 @@ export default function WhitespaceCompressorPage() {
                 id="stripZeroWidth"
                 checked={stripZeroWidth}
                 onChange={(e) => setStripZeroWidth(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="stripZeroWidth" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Strip Zero-Width (Invisible)
@@ -290,7 +290,7 @@ export default function WhitespaceCompressorPage() {
                 id="replaceNbsps"
                 checked={replaceNbsps}
                 onChange={(e) => setReplaceNbsps(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="replaceNbsps" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Normalize Non-Breaking Spaces
@@ -304,7 +304,7 @@ export default function WhitespaceCompressorPage() {
                   id="tabsToSpaces"
                   checked={tabsToSpaces}
                   onChange={(e) => setTabsToSpaces(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
                 />
                 <Label htmlFor="tabsToSpaces" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                   Convert Tabs to Spaces
@@ -343,7 +343,7 @@ export default function WhitespaceCompressorPage() {
                     <span>Cleaned Characters:</span>
                     <span className="font-mono text-slate-700 font-semibold">{stats.finalChars}</span>
                   </div>
-                  <div className="flex justify-between font-bold text-indigo-600 border-t pt-1.5 mt-1.5">
+                  <div className="flex justify-between font-bold text-primary border-t pt-1.5 mt-1.5">
                     <span>Total Bytes Saved:</span>
                     <span>{stats.initialChars - stats.finalChars} chars</span>
                   </div>
@@ -351,7 +351,7 @@ export default function WhitespaceCompressorPage() {
 
                 <div className="border-t pt-2.5 space-y-1.5 text-[10px] text-slate-500 leading-normal">
                   {stats.spacesCollapsed > 0 && (
-                    <div>Collapsed <span className="font-bold text-indigo-600 font-mono">{stats.spacesCollapsed}</span> duplicate spaces.</div>
+                    <div>Collapsed <span className="font-bold text-primary font-mono">{stats.spacesCollapsed}</span> duplicate spaces.</div>
                   )}
                   {stats.zeroWidthStripped > 0 && (
                     <div className="text-rose-600 font-semibold">Removed <span className="font-mono">{stats.zeroWidthStripped}</span> invisible zero-width chars.</div>
@@ -380,7 +380,7 @@ export default function WhitespaceCompressorPage() {
               <div className="flex gap-2">
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>
@@ -456,11 +456,11 @@ export default function WhitespaceCompressorPage() {
                   
                   <div className="mt-4 flex flex-col gap-1.5 p-3 rounded-lg bg-slate-900 border border-slate-800/80 text-[10px] text-slate-400 font-semibold leading-relaxed">
                     <div className="flex items-center gap-1.5">
-                      <Info className="w-3.5 h-3.5 text-indigo-400" />
+                      <Info className="w-3.5 h-3.5 text-primary/70" />
                       <span>Whitespace Marker Key:</span>
                     </div>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[9px] pt-1 pl-5">
-                      <div>Spaces = <span className="text-indigo-400 font-bold">·</span></div>
+                      <div>Spaces = <span className="text-primary/70 font-bold">·</span></div>
                       <div>Tabs = <span className="text-emerald-500 font-bold">→</span></div>
                       <div>Line Ends = <span className="text-slate-500 font-bold">↵</span></div>
                     </div>

@@ -376,7 +376,7 @@ export default function VisualStylePurgerPage() {
                 className="justify-start gap-2.5 text-xs text-left"
                 size="sm"
               >
-                <FileCode className="w-4 h-4 text-indigo-500" />
+                <FileCode className="w-4 h-4 text-primary" />
                 <div>
                   <div className="font-semibold">Clean HTML Structure</div>
                   <div className="text-[10px] text-muted-foreground font-normal">Keep bold/lists, strip styles</div>
@@ -423,7 +423,7 @@ export default function VisualStylePurgerPage() {
                   setStripZeroWidth(e.target.checked)
                   setTimeout(() => processPaste(inputHtml, inputText), 50)
                 }}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="stripZW" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Strip Zero-Width Characters
@@ -439,7 +439,7 @@ export default function VisualStylePurgerPage() {
                   setTrimSpacing(e.target.checked)
                   setTimeout(() => processPaste(inputHtml, inputText), 50)
                 }}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="trimSpacing" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Collapse Duplicate Line Breaks
@@ -448,10 +448,10 @@ export default function VisualStylePurgerPage() {
           </div>
 
           {pasteStats.isPasted && (
-            <Card className="bg-indigo-50/50 border border-indigo-100 shadow-2xs">
+            <Card className="bg-card/100 border border-border/50 shadow-2xs">
               <CardContent className="p-4 space-y-2 text-xs">
-                <div className="font-bold text-indigo-950 flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-indigo-500" />
+                <div className="font-bold text-foreground flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-primary" />
                   Purger Statistics
                 </div>
                 <div className="text-slate-600">
@@ -463,9 +463,9 @@ export default function VisualStylePurgerPage() {
                     <span>Cleaned Size:</span>
                     <span className="font-mono">{(pasteStats.cleanedBytes / 1024).toFixed(2)} KB</span>
                   </div>
-                  <div className="flex justify-between py-0.5 border-t border-indigo-100/80 mt-1.5 pt-1.5 font-semibold text-indigo-900">
+                  <div className="flex justify-between py-0.5 border-t border-border/50 mt-1.5 pt-1.5 font-semibold text-foreground">
                     <span>Bloat Removed:</span>
-                    <span className="font-mono text-indigo-600">{pasteStats.reductionPercent}%</span>
+                    <span className="font-mono text-primary">{pasteStats.reductionPercent}%</span>
                   </div>
                 </div>
               </CardContent>
@@ -486,7 +486,7 @@ export default function VisualStylePurgerPage() {
                 <Button
                   onClick={handlePasteAndPurge}
                   size="sm"
-                  className="h-8 gap-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="h-8 gap-1.5 text-xs bg-primary hover:bg-primary/90 text-white"
                 >
                   <Copy className="w-3.5 h-3.5" /> Paste & Purge
                 </Button>
@@ -507,7 +507,7 @@ export default function VisualStylePurgerPage() {
               contentEditable
               onPaste={handlePaste}
               onInput={handleTextChange}
-              className="flex-1 p-6 overflow-y-auto font-mono text-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-indigo-500/10 empty:before:content-[attr(data-placeholder)] empty:before:text-slate-400/80 cursor-text select-text"
+              className="flex-1 p-6 overflow-y-auto font-mono text-sm focus:outline-none focus:ring-1 focus:ring-inset focus:ring-ring/10 empty:before:content-[attr(data-placeholder)] empty:before:text-slate-400/80 cursor-text select-text"
               data-placeholder="Paste formatted rich text from Word, Outlook, web, etc. (Ctrl+V / Cmd+V)..."
               style={{ minHeight: "100px" }}
             />

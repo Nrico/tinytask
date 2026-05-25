@@ -273,7 +273,7 @@ export default function SignatureGeneratorPage() {
             <div className="flex gap-2.5 pt-2">
               <button
                 onClick={loadExample}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                className="text-xs font-bold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
               >
                 <Sparkles className="w-3.5 h-3.5" /> Load Sample
               </button>
@@ -301,7 +301,7 @@ export default function SignatureGeneratorPage() {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="e.g. Jane Doe"
                 />
               </div>
@@ -313,7 +313,7 @@ export default function SignatureGeneratorPage() {
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="e.g. Director of Engineering"
                 />
               </div>
@@ -325,7 +325,7 @@ export default function SignatureGeneratorPage() {
                   id="dept"
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="e.g. Product Strategy"
                 />
               </div>
@@ -337,7 +337,7 @@ export default function SignatureGeneratorPage() {
                   id="comp"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="e.g. TinyTask Inc."
                 />
               </div>
@@ -358,7 +358,7 @@ export default function SignatureGeneratorPage() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="jane@company.com"
                 />
               </div>
@@ -370,7 +370,7 @@ export default function SignatureGeneratorPage() {
                   id="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="+1 (555) 012-3456"
                 />
               </div>
@@ -382,7 +382,7 @@ export default function SignatureGeneratorPage() {
                   id="mobile"
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="+1 (555) 098-7654"
                 />
               </div>
@@ -394,7 +394,7 @@ export default function SignatureGeneratorPage() {
                   id="web"
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="https://company.com"
                 />
               </div>
@@ -415,7 +415,7 @@ export default function SignatureGeneratorPage() {
                   id="linkedin"
                   value={linkedin}
                   onChange={(e) => setLinkedin(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="https://linkedin.com/in/username"
                 />
               </div>
@@ -427,7 +427,7 @@ export default function SignatureGeneratorPage() {
                   id="twitter"
                   value={twitter}
                   onChange={(e) => setTwitter(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="https://twitter.com/username"
                 />
               </div>
@@ -439,7 +439,7 @@ export default function SignatureGeneratorPage() {
                   id="github"
                   value={github}
                   onChange={(e) => setGithub(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="https://github.com/username"
                 />
               </div>
@@ -460,7 +460,7 @@ export default function SignatureGeneratorPage() {
                   id="logo"
                   value={logoUrl}
                   onChange={(e) => setLogoUrl(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none"
                   placeholder="Paste image link..."
                 />
               </div>
@@ -542,7 +542,7 @@ export default function SignatureGeneratorPage() {
                   id="font"
                   value={fontFamily}
                   onChange={(e) => setFontFamily(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none bg-white"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none bg-white"
                 >
                   <option value="Arial, sans-serif">Arial (Recommended)</option>
                   <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
@@ -568,7 +568,7 @@ export default function SignatureGeneratorPage() {
               <Button
                 onClick={handleCopyRichText}
                 size="sm"
-                className="h-8 gap-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="h-8 gap-1.5 text-xs bg-primary hover:bg-primary/90 text-white"
               >
                 {copiedRich ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                 {copiedRich ? "Copied Rich!" : "Copy Rich Signature"}
@@ -583,8 +583,8 @@ export default function SignatureGeneratorPage() {
               />
             </div>
 
-            <div className="p-3.5 bg-indigo-50/50 text-[10px] text-indigo-700 font-medium flex items-center gap-1.5 border-t border-indigo-100/20">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-pulse" />
+            <div className="p-3.5 bg-card/100 text-[10px] text-primary font-medium flex items-center gap-1.5 border-t border-border/50/20">
+              <Sparkles className="w-3.5 h-3.5 text-primary animate-pulse" />
               Copying as "Rich Signature" loads the formatted table directly. You can paste it straight into Gmail, Outlook, or Apple Mail signature boxes!
             </div>
           </div>

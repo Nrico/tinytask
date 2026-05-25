@@ -185,7 +185,7 @@ export default function PatternReplacerPage() {
                   id="find"
                   value={findText}
                   onChange={(e) => setFindText(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none font-mono"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none font-mono"
                   placeholder="Text or pattern to search..."
                 />
               </div>
@@ -197,7 +197,7 @@ export default function PatternReplacerPage() {
                   id="replace"
                   value={replaceText}
                   onChange={(e) => setReplaceText(e.target.value)}
-                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 focus:outline-none font-mono"
+                  className="w-full mt-0.5 rounded border border-slate-200 text-xs px-2.5 py-1.5 focus:ring-1 focus:ring-ring focus:outline-none font-mono"
                   placeholder="Text to replace with..."
                 />
               </div>
@@ -216,7 +216,7 @@ export default function PatternReplacerPage() {
                 id="matchCase"
                 checked={matchCase}
                 onChange={(e) => setMatchCase(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="matchCase" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Match Case (Case-Sensitive)
@@ -230,7 +230,7 @@ export default function PatternReplacerPage() {
                 checked={wholeWords}
                 disabled={isRegex}
                 onChange={(e) => setWholeWords(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring disabled:opacity-50"
               />
               <Label htmlFor="wholeWords" className="text-xs font-medium text-slate-600 cursor-pointer select-none disabled:opacity-50">
                 Whole Words Only
@@ -243,7 +243,7 @@ export default function PatternReplacerPage() {
                 id="isRegex"
                 checked={isRegex}
                 onChange={(e) => setIsRegex(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="isRegex" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Treat Find as Regex
@@ -261,7 +261,7 @@ export default function PatternReplacerPage() {
                 id="replaceTabs"
                 checked={replaceTabs}
                 onChange={(e) => setReplaceTabs(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="replaceTabs" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Replace Tab Characters (\\t)
@@ -274,7 +274,7 @@ export default function PatternReplacerPage() {
                 id="replaceNewlines"
                 checked={replaceNewlines}
                 onChange={(e) => setReplaceNewlines(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="replaceNewlines" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Replace Newlines (\\n)
@@ -287,7 +287,7 @@ export default function PatternReplacerPage() {
                 id="collapseSpaces"
                 checked={collapseSpaces}
                 onChange={(e) => setCollapseSpaces(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="collapseSpaces" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Collapse duplicate spaces
@@ -307,9 +307,9 @@ export default function PatternReplacerPage() {
             <Card className="bg-slate-50 border shadow-2xs">
               <CardContent className="p-4 space-y-1.5 text-[10px] text-slate-500 leading-normal">
                 <div className="font-bold text-slate-700 mb-1">Process Metrics</div>
-                <div className="flex justify-between font-bold text-indigo-600">
+                <div className="flex justify-between font-bold text-primary">
                   <span>Occurrences Found:</span>
-                  <span className="font-mono bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">{matchCount}</span>
+                  <span className="font-mono bg-card px-1.5 py-0.5 rounded border border-border/50">{matchCount}</span>
                 </div>
               </CardContent>
             </Card>
@@ -328,7 +328,7 @@ export default function PatternReplacerPage() {
               <div className="flex gap-2">
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>
@@ -396,7 +396,7 @@ export default function PatternReplacerPage() {
                   placeholder="Processed output text with all pattern replacements will appear here..."
                 />
               ) : (
-                <div className="w-full h-full overflow-auto p-6 bg-slate-50/50">
+                <div className="w-full h-full overflow-auto p-6 bg-card/100">
                   <pre 
                     className="font-mono text-sm text-slate-700 whitespace-pre-wrap break-all leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: highlightMatches(inputText) }}

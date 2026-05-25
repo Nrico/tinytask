@@ -72,7 +72,7 @@ export function ToolLayout({
                     <div className="mt-4 flex items-center gap-4 print:hidden">
                         <button
                             onClick={handleShare}
-                            className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 cursor-pointer select-none transition-colors"
+                            className="text-xs font-semibold text-primary hover:text-primary/80 flex items-center gap-1.5 cursor-pointer select-none transition-colors"
                             type="button"
                         >
                             <Share2 className="w-3.5 h-3.5" /> {shared ? "Link Copied!" : "Share this Tool"}
@@ -80,7 +80,7 @@ export function ToolLayout({
                         {helpData && (
                             <button
                                 onClick={() => setIsHelpOpen(true)}
-                                className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 cursor-pointer select-none transition-colors"
+                                className="text-xs font-semibold text-kraft hover:text-kraft-dark flex items-center gap-1.5 cursor-pointer select-none transition-colors"
                                 type="button"
                             >
                                 <HelpCircle className="w-3.5 h-3.5" /> How to Use
@@ -100,7 +100,7 @@ export function ToolLayout({
                             <div className="space-y-2">
                                 {faqs.map((faq, idx) => (
                                     <details key={idx} className="group border border-border/50 rounded-lg bg-card/40 p-2 text-xs">
-                                        <summary className="font-semibold text-slate-700 cursor-pointer list-none flex justify-between items-center group-open:text-indigo-600 transition-colors select-none">
+                                        <summary className="font-semibold text-slate-700 cursor-pointer list-none flex justify-between items-center group-open:text-primary transition-colors select-none">
                                             <span className="pr-2">{faq.question}</span>
                                             <span className="text-[9px] text-slate-400 group-open:rotate-180 transition-transform">▼</span>
                                         </summary>
@@ -169,7 +169,7 @@ export function ToolLayout({
                                         rel="noopener noreferrer"
                                         className="flex-1"
                                     >
-                                        <button className="w-full gap-2 text-white bg-indigo-600 hover:bg-indigo-700 font-semibold py-2 px-4 rounded-lg flex items-center justify-center text-sm h-11 transition-colors cursor-pointer">
+                                        <button className="w-full gap-2 text-primary-foreground bg-primary hover:bg-primary/90 font-semibold py-2 px-4 rounded-lg flex items-center justify-center text-sm h-11 transition-colors cursor-pointer">
                                             <Play className="w-4 h-4 fill-current" /> Watch Tutorial
                                         </button>
                                     </a>

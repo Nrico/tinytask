@@ -174,9 +174,9 @@ export default function BrandKitDashboardPage() {
                     </Button>
                 </div>
 
-                <div className="relative overflow-hidden rounded-3xl border bg-slate-50/50 p-8 md:p-12 shadow-xl">
+                <div className="relative overflow-hidden rounded-3xl border bg-card/100 p-8 md:p-12 shadow-xl">
                     <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-card0/10 rounded-full blur-3xl pointer-events-none" />
 
                     {/* Paywall Overlay */}
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center bg-background/80 backdrop-blur-md rounded-3xl">
@@ -414,7 +414,7 @@ export default function BrandKitDashboardPage() {
                         <Button 
                             onClick={handleSave} 
                             size="lg" 
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold flex-1 shadow-md shadow-indigo-500/10"
+                            className="bg-primary hover:bg-primary/90 text-white font-semibold flex-1 shadow-md shadow-primary/10"
                         >
                             {saveStatus === 'saved' ? 'Brand Kit Saved!' : 'Save Brand Configuration'}
                         </Button>
@@ -548,7 +548,7 @@ export default function BrandKitDashboardPage() {
                             </div>
 
                             {/* Colors demonstration circles */}
-                            <div className="flex gap-3 justify-center py-4 bg-slate-50/50 rounded-2xl border border-slate-100">
+                            <div className="flex gap-3 justify-center py-4 bg-card/100 rounded-2xl border border-slate-100">
                                 <div className="text-center">
                                     <div style={{ backgroundColor: colors.primary }} className="w-10 h-10 rounded-full border shadow-sm mx-auto" />
                                     <span className="text-3xs font-semibold text-slate-400 mt-1 block">Primary</span>

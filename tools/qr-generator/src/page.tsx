@@ -266,7 +266,7 @@ export default function QrGeneratorPage() {
             previewContent={
                 <div className="flex flex-col items-center justify-center space-y-6 w-full max-w-sm">
                     <Card className="w-full">
-                        <CardContent className="flex flex-col items-center justify-center p-8 bg-slate-50/50">
+                        <CardContent className="flex flex-col items-center justify-center p-8 bg-card/100">
                             <div 
                                 className="relative flex items-center justify-center overflow-hidden rounded-xl border bg-white p-6 shadow-sm" 
                                 style={{ backgroundColor: bgColor, minHeight: '200px', minWidth: '200px', width: '100%' }}

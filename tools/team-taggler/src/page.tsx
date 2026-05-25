@@ -94,13 +94,13 @@ export default function TeamTagglerPage() {
                             <div className="space-y-4">
                                 <div className="flex bg-slate-100 p-1 rounded-lg">
                                     <button
-                                        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${mode === 'pick' ? 'bg-white shadow text-indigo-600' : 'text-slate-500'}`}
+                                        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${mode === 'pick' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
                                         onClick={() => { setMode('pick'); setResult(null); }}
                                     >
                                         Pick One
                                     </button>
                                     <button
-                                        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${mode === 'groups' ? 'bg-white shadow text-indigo-600' : 'text-slate-500'}`}
+                                        className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${mode === 'groups' ? 'bg-white shadow text-primary' : 'text-slate-500'}`}
                                         onClick={() => { setMode('groups'); setResult(null); }}
                                     >
                                         Make Groups
@@ -121,7 +121,7 @@ export default function TeamTagglerPage() {
                                 )}
 
                                 <Button
-                                    className="w-full bg-indigo-600 hover:bg-indigo-700"
+                                    className="w-full bg-primary hover:bg-primary/90"
                                     size="lg"
                                     onClick={mode === 'pick' ? handlePickOne : handleMakeGroups}
                                     disabled={isAnimating || getNames().length === 0}
@@ -143,7 +143,7 @@ export default function TeamTagglerPage() {
                         <div className="text-center space-y-6">
                             {isAnimating || result ? (
                                 <div className="animate-in zoom-in duration-300">
-                                    <div className="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-4">The Winner Is</div>
+                                    <div className="text-sm font-bold text-primary uppercase tracking-widest mb-4">The Winner Is</div>
                                     <div className={`text-6xl font-black text-slate-900 ${isAnimating ? 'opacity-50 blur-sm' : 'opacity-100'}`}>
                                         {displayWinner}
                                     </div>
@@ -166,7 +166,7 @@ export default function TeamTagglerPage() {
                                 <div className="grid sm:grid-cols-2 gap-4 w-full">
                                     {(result as string[][]).map((group, idx) => (
                                         <Card key={idx} className="overflow-hidden">
-                                            <div className="bg-indigo-600 px-4 py-2 text-white font-bold text-sm flex justify-between">
+                                            <div className="bg-primary px-4 py-2 text-white font-bold text-sm flex justify-between">
                                                 <span>Group {idx + 1}</span>
                                                 <span className="opacity-80">{group.length} members</span>
                                             </div>
@@ -174,7 +174,7 @@ export default function TeamTagglerPage() {
                                                 <ul className="space-y-2">
                                                     {group.map((member, mIdx) => (
                                                         <li key={mIdx} className="flex items-center gap-2 text-sm">
-                                                            <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">
+                                                            <div className="w-6 h-6 rounded-full bg-card text-primary flex items-center justify-center text-xs font-bold">
                                                                 {member.charAt(0)}
                                                             </div>
                                                             {member}

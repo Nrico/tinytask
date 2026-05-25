@@ -240,7 +240,7 @@ function RichTextEditor({ value, onChange }: { value: string; onChange: (val: st
     ];
 
     return (
-        <div className="border rounded-lg overflow-hidden bg-background flex flex-col shadow-sm focus-within:ring-2 focus-within:ring-sky-500 transition-shadow">
+        <div className="border rounded-lg overflow-hidden bg-background flex flex-col shadow-sm focus-within:ring-2 focus-within:ring-ring transition-shadow">
             {/* Formatting Toolbar */}
             <div className="flex flex-wrap gap-1 p-2 bg-slate-50 border-b select-none items-center">
                 <button
@@ -670,7 +670,7 @@ export default function GreetingCardPage() {
         return (
             <div
                 className={cn(
-                    "h-full w-full p-8 flex flex-col overflow-hidden relative cursor-pointer hover:bg-slate-50/10 transition-colors",
+                    "h-full w-full p-8 flex flex-col overflow-hidden relative cursor-pointer hover:bg-card/10 transition-colors",
                     inverted ? "transform rotate-180" : ""
                 )}
                 style={{ backgroundColor: p.bg, textAlign: p.align, fontFamily: p.fontFamily }}
@@ -682,7 +682,7 @@ export default function GreetingCardPage() {
                 {/* Active Highlight Border - Hidden on print */}
                 <div className={cn(
                     "absolute inset-0 pointer-events-none border-4 transition-colors print:hidden",
-                    activePanelId === panelId ? 'border-sky-500/50' : 'border-transparent'
+                    activePanelId === panelId ? 'border-primary/50' : 'border-transparent'
                 )}></div>
                 
                 {/* Rich Content Area */}
@@ -915,7 +915,7 @@ export default function GreetingCardPage() {
                         {/* Preset templates */}
                         <div className="space-y-2">
                             <Label className="flex items-center gap-1.5 text-slate-700 font-semibold">
-                                <Sparkles className="w-4 h-4 text-sky-500" /> Card Templates
+                                <Sparkles className="w-4 h-4 text-primary" /> Card Templates
                             </Label>
                             <div className="grid grid-cols-2 gap-2">
                                 {Object.entries(TEMPLATES).map(([key, template]) => (
@@ -933,7 +933,7 @@ export default function GreetingCardPage() {
                         {/* Layout Selectors */}
                         <div className="space-y-2 border-t pt-4">
                             <Label className="flex items-center gap-1.5 text-slate-700 font-semibold">
-                                <Layers className="w-4 h-4 text-indigo-500" /> Folding Layout
+                                <Layers className="w-4 h-4 text-primary" /> Folding Layout
                             </Label>
                             <div className="flex gap-2">
                                 <Button
@@ -991,7 +991,7 @@ export default function GreetingCardPage() {
                                             className={cn(
                                                 "h-12 rounded-lg border text-xs flex items-center justify-center text-center p-1 transition-all cursor-pointer",
                                                 activePanelId === p.id
-                                                    ? 'border-sky-500 ring-1 ring-sky-500 bg-sky-50 text-sky-700 font-semibold'
+                                                    ? 'border-primary ring-1 ring-ring bg-card text-primary font-semibold'
                                                     : 'border-border hover:bg-slate-50 text-muted-foreground'
                                             )}
                                         >
@@ -1062,7 +1062,7 @@ export default function GreetingCardPage() {
                                     variant={viewMode === '3d' ? 'default' : 'outline'}
                                     size="sm"
                                     onClick={() => setViewMode('3d')}
-                                    className="text-xs gap-1.5 h-8 bg-gradient-to-r from-indigo-500/10 to-sky-500/10 border-indigo-200 text-indigo-700 hover:from-indigo-500 hover:to-sky-500 hover:text-white"
+                                    className="text-xs gap-1.5 h-8 bg-gradient-to-r from-primary/10 to-primary/10 border-border/80 text-primary hover:from-primary hover:to-primary hover:text-white"
                                 >
                                     <BookOpen className="w-3.5 h-3.5 animate-pulse" /> 3D Fold Preview
                                 </Button>
@@ -1132,7 +1132,7 @@ export default function GreetingCardPage() {
                                         max="100"
                                         value={foldProgress}
                                         onChange={(e) => setFoldProgress(Number(e.target.value))}
-                                        className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                        className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary"
                                     />
                                     <span className="text-xs font-mono font-bold text-slate-600 w-10 text-right">
                                         {foldProgress === 0 ? "Closed" : foldProgress === 100 ? "Open" : `${foldProgress}%`}
@@ -1224,7 +1224,7 @@ export default function GreetingCardPage() {
                                 >
                                     {/* Mouse rotation hints */}
                                     <div className="absolute top-4 left-4 bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded px-2 py-1 text-[10px] text-slate-200/90 font-mono flex items-center gap-1.5 select-none pointer-events-none">
-                                        <RotateCw className="w-3.5 h-3.5 text-indigo-400 animate-spin" style={{ animationDuration: '4s' }} /> Click & Drag to Rotate Card
+                                        <RotateCw className="w-3.5 h-3.5 text-primary/70 animate-spin" style={{ animationDuration: '4s' }} /> Click & Drag to Rotate Card
                                     </div>
 
                                     {layout === 'book' ? (
@@ -1383,7 +1383,7 @@ export default function GreetingCardPage() {
                 }
                 actions={
                     <div className="w-full text-center space-y-2">
-                        <Button onClick={handlePrint} className="w-full gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm" size="lg">
+                        <Button onClick={handlePrint} className="w-full gap-2 bg-primary hover:bg-primary/90 text-white shadow-sm" size="lg">
                             <Printer className="w-5 h-5" /> Print Card
                         </Button>
                         <p className="text-[10px] text-muted-foreground select-none">

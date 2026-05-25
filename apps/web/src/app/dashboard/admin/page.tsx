@@ -248,7 +248,7 @@ export default function AdminDashboardPage() {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="text-xs uppercase bg-slate-50 text-slate-500 border-b">
+                                <thead className="text-xs uppercase bg-card text-muted-foreground border-b border-border/50">
                                     <tr>
                                         <th scope="col" className="px-4 py-3">User Details</th>
                                         <th scope="col" className="px-4 py-3">Plan</th>
@@ -263,7 +263,7 @@ export default function AdminDashboardPage() {
                                         const isTargetRoleLoading = actionLoading === `${u.id}-role`;
 
                                         return (
-                                            <tr key={u.id} className="border-b hover:bg-slate-50/50">
+                                            <tr key={u.id} className="border-b hover:bg-card/100">
                                                 <td className="px-4 py-4">
                                                     <div className="font-semibold text-slate-900">{u.name}</div>
                                                     <div className="text-xs text-slate-500">{u.email}</div>

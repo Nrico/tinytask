@@ -3,13 +3,13 @@ import { Globe, FileSpreadsheet, FileText, Users, Mail } from "lucide-react"
 
 export default function ProductivityCollectionPage() {
     return (
-        <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center py-24 bg-slate-50">
+        <main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center py-24 bg-background">
             <section className="container mx-auto px-4 flex flex-col items-center gap-8 text-center pb-20 sm:px-6 lg:px-8">
                 <div className="space-y-4">
-                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl text-slate-900">
-                        Ultimate <span className="text-blue-600">Productivity</span>
+                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl text-foreground">
+                        Ultimate <span className="text-primary">Productivity</span>
                     </h1>
-                    <p className="mx-auto max-w-[700px] text-lg text-slate-600">
+                    <p className="mx-auto max-w-[700px] text-lg text-muted-foreground">
                         Streamline your workflow, organize your data, and save time with these essential utilities.
                     </p>
                 </div>
@@ -19,7 +19,7 @@ export default function ProductivityCollectionPage() {
                 <ToolCard
                     title="Zone Zapper"
                     description="Coordinate meetings across multiple timezones effortlessly."
-                    icon={<Globe className="w-6 h-6 text-cyan-600" />}
+                    icon={<Globe className="w-6 h-6 text-[#087b82]" />}
                     href="/tools/zone-zapper"
                 />
                 <ToolCard
@@ -31,13 +31,13 @@ export default function ProductivityCollectionPage() {
                 <ToolCard
                     title="Word Formatter"
                     description="Strip formatting and clean up text documents."
-                    icon={<FileText className="w-6 h-6 text-indigo-600" />}
+                    icon={<FileText className="w-6 h-6 text-kraft" />}
                     href="/tools/word-formatter"
                 />
                 <ToolCard
                     title="Team Taggler"
                     description="Make quick decisions and split teams for projects."
-                    icon={<Users className="w-6 h-6 text-indigo-500" />}
+                    icon={<Users className="w-6 h-6 text-kraft" />}
                     href="/tools/team-taggler"
                 />
                 <ToolCard

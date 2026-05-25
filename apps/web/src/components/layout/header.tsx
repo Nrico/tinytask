@@ -450,13 +450,13 @@ export function Header() {
                                     {/* Column 3: Text & Formatting */}
                                     <div>
                                         <h3 className="font-bold text-[11px] uppercase tracking-wider text-muted-foreground/80 mb-3 px-2 flex items-center gap-1.5 border-b border-border pb-1">
-                                            <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Text Cleaners
+                                            <Sparkles className="w-3.5 h-3.5 text-kraft" /> Text Cleaners
                                         </h3>
                                         <div className="space-y-1">
                                             {textTools.map(t => (
                                                 <DropdownMenuItem asChild key={t.slug}>
                                                     <Link href={`/tools/${t.slug}`} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors w-full cursor-pointer focus:bg-muted/80">
-                                                        <t.icon className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
+                                                        <t.icon className="w-4 h-4 text-kraft flex-shrink-0 mt-0.5" />
                                                         <div className="min-w-0">
                                                             <div className="text-xs font-semibold text-foreground truncate">{t.name}</div>
                                                             <div className="text-[10px] text-muted-foreground line-clamp-1">{t.description}</div>
@@ -470,13 +470,13 @@ export function Header() {
                                     {/* Column 4: Assets & Utils */}
                                     <div>
                                         <h3 className="font-bold text-[11px] uppercase tracking-wider text-muted-foreground/80 mb-3 px-2 flex items-center gap-1.5 border-b border-border pb-1">
-                                            <QrCode className="w-3.5 h-3.5 text-blue-500" /> Digital Assets
+                                            <QrCode className="w-3.5 h-3.5 text-primary" /> Digital Assets
                                         </h3>
                                         <div className="space-y-1">
                                             {digitalTools.map(t => (
                                                 <DropdownMenuItem asChild key={t.slug}>
                                                     <Link href={`/tools/${t.slug}`} onClick={() => setToolsMenuOpen(false)} className="flex gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors w-full cursor-pointer focus:bg-muted/80">
-                                                        <t.icon className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                                                        <t.icon className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                                                         <div className="min-w-0">
                                                             <div className="text-xs font-semibold text-foreground truncate">{t.name}</div>
                                                             <div className="text-[10px] text-muted-foreground line-clamp-1">{t.description}</div>
@@ -564,7 +564,7 @@ export function Header() {
                                             "w-4 h-4 mt-0.5 flex-shrink-0",
                                             t.category === 'print' ? 'text-rose-500' :
                                             t.category === 'data' ? 'text-emerald-500' :
-                                            t.category === 'text' ? 'text-indigo-500' : 'text-blue-500'
+                                            t.category === 'text' ? 'text-kraft' : 'text-primary'
                                         )} />
                                         <div className="min-w-0 flex-1">
                                             <div className="text-xs font-semibold text-foreground flex items-center justify-between">

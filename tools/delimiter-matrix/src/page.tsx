@@ -280,7 +280,7 @@ export default function DelimiterMatrixPage() {
                 className="justify-start gap-1.5 text-xs py-1 px-2.5 h-9"
                 size="sm"
               >
-                <ArrowRightLeft className="w-3.5 h-3.5 text-indigo-500" />
+                <ArrowRightLeft className="w-3.5 h-3.5 text-primary" />
                 Tab (TSV)
               </Button>
 
@@ -366,7 +366,7 @@ export default function DelimiterMatrixPage() {
                 id="hasHeader"
                 checked={hasHeader}
                 onChange={(e) => setHasHeader(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="hasHeader" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 First row contains headers
@@ -379,7 +379,7 @@ export default function DelimiterMatrixPage() {
                 id="trimCells"
                 checked={trimCells}
                 onChange={(e) => setTrimCells(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="trimCells" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Trim spaces in cells
@@ -392,7 +392,7 @@ export default function DelimiterMatrixPage() {
                 id="removeEmpty"
                 checked={removeEmptyRows}
                 onChange={(e) => setRemoveEmptyRows(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="removeEmpty" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Remove empty lines
@@ -405,7 +405,7 @@ export default function DelimiterMatrixPage() {
                 id="autoPad"
                 checked={autoPadColumns}
                 onChange={(e) => setAutoPadColumns(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="autoPad" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Ensure uniform column size
@@ -453,7 +453,7 @@ export default function DelimiterMatrixPage() {
                 
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>
@@ -521,7 +521,7 @@ export default function DelimiterMatrixPage() {
                   placeholder="Sanitized data formatted in your target selection will display here..."
                 />
               ) : (
-                <div className="w-full h-full overflow-auto p-4 bg-slate-50/50">
+                <div className="w-full h-full overflow-auto p-4 bg-card/100">
                   <table className="min-w-full border-collapse border border-slate-200 text-xs text-left bg-white shadow-2xs rounded-lg overflow-hidden">
                     <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                       <tr>

@@ -214,7 +214,7 @@ export default function InvoiceSwiftPage() {
                             </div>
                             <div className="space-y-3">
                                 {lineItems.map((item) => (
-                                    <div key={item.id} className="p-3 border rounded-lg bg-slate-50/50 space-y-3 relative group">
+                                    <div key={item.id} className="p-3 border rounded-lg bg-card/100 space-y-3 relative group">
                                         <button 
                                             onClick={() => removeLineItem(item.id)} 
                                             className="absolute top-2 right-2 p-1 text-slate-400 hover:text-red-500 rounded-md hover:bg-slate-100 transition-colors"

@@ -36,13 +36,13 @@ const AVAILABLE_TOOLS: ToolItem[] = [
         name: "QR & Barcode Generator",
         description: "Generate customized QR codes matching your brand's color palette.",
         slug: "qr-generator",
-        icon: <QrCode className="w-8 h-8 text-blue-500" />
+        icon: <QrCode className="w-8 h-8 text-primary" />
     },
     {
         name: "Brochure Creator",
         description: "Design premium trifold brochures styled automatically in your branding.",
         slug: "brochure-builder",
-        icon: <BookOpen className="w-8 h-8 text-sky-500" />
+        icon: <BookOpen className="w-8 h-8 text-primary" />
     },
     {
         name: "Signature Smith",
@@ -60,7 +60,7 @@ const AVAILABLE_TOOLS: ToolItem[] = [
         name: "Label Creator",
         description: "Print custom product label sheets set to brand sizes and theme colors.",
         slug: "label-creator",
-        icon: <Tags className="w-8 h-8 text-purple-500" />
+        icon: <Tags className="w-8 h-8 text-kraft" />
     },
     {
         name: "Table Tuner",
@@ -72,7 +72,7 @@ const AVAILABLE_TOOLS: ToolItem[] = [
         name: "Pixel Pruner",
         description: "Compress, crop and format digital assets for your brand library.",
         slug: "pixel-pruner",
-        icon: <ImageIcon className="w-8 h-8 text-cyan-500" />
+        icon: <ImageIcon className="w-8 h-8 text-primary" />
     }
 ];
 
@@ -146,7 +146,7 @@ function PortalContent() {
                         </p>
                     </div>
 
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border bg-slate-50/50 text-xs font-semibold text-slate-500 shadow-2xs">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border bg-card/100 text-xs font-semibold text-slate-500 shadow-2xs">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                         Active Brand Session
                     </div>
@@ -161,7 +161,7 @@ function PortalContent() {
                             className="group hover:shadow-xl hover:border-slate-300/80 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between bg-white/70 backdrop-blur-xs border shadow-sm"
                         >
                             <CardHeader className="p-6 pb-2">
-                                <div className="p-3 bg-slate-50 border rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">
+                                <div className="p-3 bg-card border border-border/80 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">
                                     {tool.icon}
                                 </div>
                                 <CardTitle className="text-lg font-bold mt-4 group-hover:text-primary transition-colors">

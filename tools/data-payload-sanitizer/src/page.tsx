@@ -190,7 +190,7 @@ export default function DataPayloadSanitizerPage() {
                 id="autoCopy"
                 checked={autoCopy}
                 onChange={(e) => setAutoCopy(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="autoCopy" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Auto-Copy Clean Text on Paste
@@ -203,7 +203,7 @@ export default function DataPayloadSanitizerPage() {
                 id="collapseNewlines"
                 checked={collapseNewlines}
                 onChange={(e) => setCollapseNewlines(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="collapseNewlines" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Collapse Multiple Blank Lines
@@ -216,7 +216,7 @@ export default function DataPayloadSanitizerPage() {
                 id="trimWhitespace"
                 checked={trimWhitespace}
                 onChange={(e) => setTrimWhitespace(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="trimWhitespace" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Trim Inner/Outer Indents
@@ -258,8 +258,8 @@ export default function DataPayloadSanitizerPage() {
                     </div>
 
                     <div className="flex items-center gap-1 text-[10px] text-slate-400 bg-white p-2 rounded border border-slate-100 font-medium">
-                      <Scale className="w-3.5 h-3.5 text-indigo-500" />
-                      Original payload was <span className="font-bold text-indigo-600 font-mono">{sizes.ratio.toFixed(1)}x</span> heavier.
+                      <Scale className="w-3.5 h-3.5 text-primary" />
+                      Original payload was <span className="font-bold text-primary font-mono">{sizes.ratio.toFixed(1)}x</span> heavier.
                     </div>
                   </div>
                 )}
@@ -271,7 +271,7 @@ export default function DataPayloadSanitizerPage() {
       previewContent={
         <div className="flex flex-col gap-6 w-full h-[calc(100vh-140px)] min-h-[400px]">
           {/* Paste Dropzone Box */}
-          <div className="bg-white rounded-xl border border-dashed border-slate-300 p-6 flex flex-col items-center justify-center text-center relative group hover:border-indigo-400 transition-colors shadow-2xs">
+          <div className="bg-white rounded-xl border border-dashed border-slate-300 p-6 flex flex-col items-center justify-center text-center relative group hover:border-primary transition-colors shadow-2xs">
             <input
               type="text"
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -279,8 +279,8 @@ export default function DataPayloadSanitizerPage() {
               placeholder="Paste trigger input"
             />
             <div className="pointer-events-none flex flex-col items-center max-w-md space-y-2">
-              <div className="p-3 bg-indigo-50 rounded-2xl border border-indigo-100 group-hover:scale-105 transition-transform">
-                <Scissors className="w-6 h-6 text-indigo-500" />
+              <div className="p-3 bg-card rounded-2xl border border-border/50 group-hover:scale-105 transition-transform">
+                <Scissors className="w-6 h-6 text-primary" />
               </div>
               <span className="text-sm font-bold text-slate-700">Paste Rich Document Content Here</span>
               <p className="text-xs text-slate-500">
@@ -289,7 +289,7 @@ export default function DataPayloadSanitizerPage() {
               <div className="flex gap-4 pt-2">
                 <button
                   onClick={loadExample}
-                  className="pointer-events-auto text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="pointer-events-auto text-xs font-bold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample Office Bloat
                 </button>
@@ -337,7 +337,7 @@ export default function DataPayloadSanitizerPage() {
             <div className="flex-1 flex flex-col bg-white rounded-xl border shadow-xs overflow-hidden">
               <div className="p-4 border-b bg-slate-50 flex items-center justify-between flex-shrink-0">
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <FileCode className="w-3.5 h-3.5 text-indigo-400" />
+                  <FileCode className="w-3.5 h-3.5 text-primary/70" />
                   Stripped HTML/CSS Structure ({formatBytes(sizes.htmlBytes)})
                 </span>
               </div>

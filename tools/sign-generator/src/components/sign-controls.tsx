@@ -122,7 +122,7 @@ export function SignControls({
 
                 {/* Custom Color Options */}
                 {templateId === 'custom' && (
-                    <div className="p-3 border rounded-lg bg-slate-50/50 space-y-3 animate-in fade-in slide-in-from-top-1">
+                    <div className="p-3 border rounded-lg bg-card/100 space-y-3 animate-in fade-in slide-in-from-top-1">
                         <Label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Custom Colors</Label>
                         <ColorPicker
                             label="Header Background"
@@ -166,7 +166,7 @@ export function SignControls({
                             { id: 'info', title: 'Info', icon: <Info className="w-4 h-4 text-blue-500" /> },
                             { id: 'shield-check', title: 'Safety OK', icon: <ShieldCheck className="w-4 h-4 text-emerald-500" /> },
                             { id: 'ban', title: 'Prohibited', icon: <Ban className="w-4 h-4 text-red-600" /> },
-                            { id: 'parking', title: 'Parking', icon: <CircleParking className="w-4 h-4 text-indigo-600" /> },
+                            { id: 'parking', title: 'Parking', icon: <CircleParking className="w-4 h-4 text-primary" /> },
                             { id: 'lock', title: 'Security Lock', icon: <Lock className="w-4 h-4 text-slate-700" /> },
                             { id: 'clock', title: 'Time / Hours', icon: <Clock className="w-4 h-4 text-cyan-600" /> },
                             { id: 'calendar-x', title: 'Cancelled', icon: <CalendarX className="w-4 h-4 text-rose-500" /> },
@@ -214,7 +214,7 @@ export function SignControls({
             </div>
 
             <div className="mt-auto pt-4 border-t">
-                <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm gap-2" onClick={onPrint}>
+                <Button className="w-full bg-primary hover:bg-primary/90 text-white shadow-sm gap-2" onClick={onPrint}>
                     <Printer className="w-4 h-4" />
                     Print Sign
                 </Button>

@@ -187,7 +187,7 @@ export default function ListUnbreakerPage() {
                 className="justify-start gap-2.5 text-xs text-left"
                 size="sm"
               >
-                <List className="w-4 h-4 text-indigo-500" />
+                <List className="w-4 h-4 text-primary" />
                 <div>
                   <div className="font-semibold">Dashed List (- )</div>
                   <div className="text-[10px] text-muted-foreground font-normal">Force standard plain-text dashes</div>
@@ -257,7 +257,7 @@ export default function ListUnbreakerPage() {
                 id="stripEmpty"
                 checked={stripEmptyLines}
                 onChange={(e) => setStripEmptyLines(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="stripEmpty" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Remove Empty Lines
@@ -270,7 +270,7 @@ export default function ListUnbreakerPage() {
                 id="collapseSpaces"
                 checked={collapseSpaces}
                 onChange={(e) => setCollapseSpaces(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="collapseSpaces" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Collapse Duplicate Spaces
@@ -283,7 +283,7 @@ export default function ListUnbreakerPage() {
                 id="trimWhitespace"
                 checked={trimWhitespace}
                 onChange={(e) => setTrimWhitespace(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="trimWhitespace" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Trim Indent Whitespace
@@ -296,7 +296,7 @@ export default function ListUnbreakerPage() {
                 id="forceList"
                 checked={forceListPrefix}
                 onChange={(e) => setForceListPrefix(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="forceList" className="text-xs font-semibold text-slate-700 cursor-pointer select-none">
                 Force Lists On All Lines
@@ -323,7 +323,7 @@ export default function ListUnbreakerPage() {
               <div className="flex gap-2">
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>

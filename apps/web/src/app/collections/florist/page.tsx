@@ -19,7 +19,7 @@ export default function FloristCollectionPage() {
                 <ToolCard
                     title="Label Creator"
                     description="Create custom price tags, stickers, and care instruction labels."
-                    icon={<Tags className="w-6 h-6 text-purple-500" />}
+                    icon={<Tags className="w-6 h-6 text-kraft" />}
                     href="/tools/label-creator"
                 />
                 <ToolCard
@@ -43,7 +43,7 @@ export default function FloristCollectionPage() {
                 <ToolCard
                     title="QR Generator"
                     description="Link customers to plant care guides or your social media."
-                    icon={<QrCode className="w-6 h-6 text-blue-500" />}
+                    icon={<QrCode className="w-6 h-6 text-primary" />}
                     href="/tools/qr-generator"
                 />
             </section>

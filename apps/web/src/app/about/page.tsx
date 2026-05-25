@@ -17,8 +17,8 @@ export default function AboutPage() {
 
             {/* Mission */}
             <div className="grid md:grid-cols-3 gap-8 mb-20">
-                <div className="space-y-4 p-6 bg-slate-50 rounded-xl border border-slate-100">
-                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
+                <div className="space-y-4 p-6 bg-card rounded-xl border border-border/80">
+                    <div className="w-12 h-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
                         <Zap className="w-6 h-6" />
                     </div>
                     <h3 className="font-bold text-lg">Speed First</h3>
@@ -26,7 +26,7 @@ export default function AboutPage() {
                         We believe tools should be instant. No loading screens, no complex setups. Just click and go.
                     </p>
                 </div>
-                <div className="space-y-4 p-6 bg-slate-50 rounded-xl border border-slate-100">
+                <div className="space-y-4 p-6 bg-card rounded-xl border border-border/80">
                     <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center">
                         <Shield className="w-6 h-6" />
                     </div>
@@ -35,7 +35,7 @@ export default function AboutPage() {
                         Most of our tools run entirely in your browser. Your data stays on your device, where it belongs.
                     </p>
                 </div>
-                <div className="space-y-4 p-6 bg-slate-50 rounded-xl border border-slate-100">
+                <div className="space-y-4 p-6 bg-card rounded-xl border border-border/80">
                     <div className="w-12 h-12 bg-red-100 text-red-600 rounded-lg flex items-center justify-center">
                         <Heart className="w-6 h-6" />
                     </div>
@@ -61,7 +61,7 @@ export default function AboutPage() {
             </div>
 
             {/* CTA */}
-            <div className="bg-slate-900 text-white rounded-2xl p-12 text-center space-y-6">
+            <div className="bg-[#231d19] text-white rounded-2xl p-12 text-center space-y-6">
                 <h2 className="text-3xl font-bold">Ready to get to work?</h2>
                 <p className="text-slate-300 max-w-xl mx-auto">
                     Explore our suite of tools and see how much time you can save today.

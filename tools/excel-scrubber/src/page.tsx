@@ -243,7 +243,7 @@ export default function ExcelScrubberPage() {
             sidebarContent={
                 data.length === 0 ? (
                     <div className="space-y-4">
-                        <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 text-xs text-muted-foreground space-y-2 leading-relaxed">
+                        <div className="rounded-xl border border-slate-100 bg-card/100 p-4 text-xs text-muted-foreground space-y-2 leading-relaxed">
                             <p className="font-semibold text-slate-700">How to use:</p>
                             <ol className="list-decimal pl-4 space-y-1">
                                 <li>Upload a `.xlsx` or `.csv` file.</li>
@@ -282,7 +282,7 @@ export default function ExcelScrubberPage() {
                             </div>
 
                             {selectedColumn && (
-                                <div className="space-y-3 p-3 rounded-lg border border-slate-100 bg-slate-50/50">
+                                <div className="space-y-3 p-3 rounded-lg border border-slate-100 bg-card/100">
                                     <div className="flex border-b border-slate-200 text-xs">
                                         <button
                                             onClick={() => setActiveColCleanerTab('replace')}

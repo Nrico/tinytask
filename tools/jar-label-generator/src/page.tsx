@@ -47,7 +47,7 @@ export default function JarLabelGeneratorPage() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={loadExample} className="gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-500" />
+            <Sparkles className="w-4 h-4 text-primary" />
             Load Example
           </Button>
           <Button onClick={handlePrint} className="gap-2">
@@ -145,7 +145,7 @@ export default function JarLabelGeneratorPage() {
         </div>
 
         {/* Right Column: Visual Preview Area */}
-        <div className="md:col-span-2 flex flex-col items-center justify-center bg-slate-50/50 rounded-xl border border-dashed p-8 min-h-[400px]">
+        <div className="md:col-span-2 flex flex-col items-center justify-center bg-card/100 rounded-xl border border-dashed p-8 min-h-[400px]">
           <h3 className="text-slate-500 font-medium mb-6 text-sm">Visual Preview</h3>
 
           {/* Interactive Canvas Sheet */}

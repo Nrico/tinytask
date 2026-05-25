@@ -249,7 +249,7 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
                 className="justify-start gap-2 text-xs py-1 px-2.5 h-9"
                 size="sm"
               >
-                <Link2Off className="w-3.5 h-3.5 text-indigo-500" />
+                <Link2Off className="w-3.5 h-3.5 text-primary" />
                 Keep Anchor Text Only
               </Button>
 
@@ -297,7 +297,7 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
                 id="stripUtm"
                 checked={stripUtm}
                 onChange={(e) => setStripUtm(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="stripUtm" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 Strip Tracking parameters (UTM)
@@ -310,7 +310,7 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
                 id="cleanPlain"
                 checked={cleanPlainUrls}
                 disabled={unlinkMode === "extract-list"}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring disabled:opacity-50"
                 onChange={(e) => setCleanPlainUrls(e.target.checked)}
               />
               <Label htmlFor="cleanPlain" className="text-xs font-medium text-slate-600 cursor-pointer select-none disabled:opacity-50">
@@ -329,7 +329,7 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
                     <span className="truncate flex-1 font-mono">{url}</span>
                     <button
                       onClick={() => copySingleUrl(url)}
-                      className="text-indigo-600 hover:underline font-semibold flex-shrink-0"
+                      className="text-primary hover:underline font-semibold flex-shrink-0"
                     >
                       Copy
                     </button>
@@ -364,7 +364,7 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
               <div className="flex gap-2">
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>
@@ -406,8 +406,8 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
               </Button>
             </div>
             {(stats.htmlLinksStripped > 0 || stats.plainUrlsStripped > 0) && (
-              <div className="px-4 py-2 bg-indigo-50 border-b border-indigo-100/50 text-[10px] font-semibold text-indigo-700 flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
+              <div className="px-4 py-2 bg-card border-b border-border/50/50 text-[10px] font-semibold text-primary flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                 Removed {stats.htmlLinksStripped} active links and cleaned {stats.plainUrlsStripped} tracking URLs!
               </div>
             )}

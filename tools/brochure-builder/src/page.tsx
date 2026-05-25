@@ -52,7 +52,7 @@ function RichTextEditor({ value, onChange }: { value: string; onChange: (val: st
     ];
 
     return (
-        <div className="border rounded-lg overflow-hidden bg-background flex flex-col shadow-sm focus-within:ring-2 focus-within:ring-sky-500 transition-shadow">
+        <div className="border rounded-lg overflow-hidden bg-background flex flex-col shadow-sm focus-within:ring-2 focus-within:ring-ring transition-shadow">
             {/* Formatting Toolbar */}
             <div className="flex flex-wrap gap-1 p-2 bg-slate-50 border-b select-none items-center">
                 <button
@@ -365,7 +365,7 @@ export default function BrochureBuilderPage() {
                 {/* Active Highlight Border - Hiden on Print */}
                 <div className={cn(
                     "absolute inset-0 pointer-events-none border-4 transition-colors print:hidden",
-                    activePanelId === panelId ? 'border-sky-500/50' : 'border-transparent'
+                    activePanelId === panelId ? 'border-primary/50' : 'border-transparent'
                 )}></div>
                 
                 {/* Formatted Content Area */}
@@ -523,7 +523,7 @@ export default function BrochureBuilderPage() {
                                         className={cn(
                                             "h-12 rounded-lg border text-xs flex items-center justify-center text-center p-1 transition-all cursor-pointer",
                                             activePanelId === p.id
-                                                ? 'border-sky-500 ring-1 ring-sky-500 bg-sky-50 text-sky-700 font-semibold'
+                                                ? 'border-primary ring-1 ring-ring bg-card text-primary font-semibold'
                                                 : 'border-border hover:bg-slate-50 text-muted-foreground'
                                         )}
                                     >
@@ -700,7 +700,7 @@ export default function BrochureBuilderPage() {
                 }
                 actions={
                     <div className="w-full text-center space-y-2">
-                        <Button onClick={handlePrint} className="w-full gap-2 bg-sky-600 hover:bg-sky-700 text-white shadow-sm" size="lg">
+                        <Button onClick={handlePrint} className="w-full gap-2 bg-primary hover:bg-primary/90 text-white shadow-sm" size="lg">
                             <Printer className="w-5 h-5" /> Print Brochure
                         </Button>
                         <p className="text-[10px] text-muted-foreground select-none">Prints 2 pages (Duplex/double-sided required)</p>

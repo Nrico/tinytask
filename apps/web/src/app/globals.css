@@ -25,6 +25,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-kraft: var(--kraft);
+  --color-kraft-2: var(--kraft-2);
+  --color-kraft-dark: var(--kraft-dark);
   --radius-radius: var(--radius);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);

@@ -271,7 +271,7 @@ export default function StringIntegrityPreserverPage() {
                 className="justify-start gap-2.5 text-xs text-left"
                 size="sm"
               >
-                <span className="font-mono text-indigo-500 font-bold text-sm">=“A”</span>
+                <span className="font-mono text-primary font-bold text-sm">=“A”</span>
                 <div>
                   <div className="font-semibold">Excel Formula Wrap</div>
                   <div className="text-[10px] text-muted-foreground font-normal">Wraps as static value formula `="001"`</div>
@@ -316,7 +316,7 @@ export default function StringIntegrityPreserverPage() {
                   name="scope"
                   checked={scope === "smart"}
                   onChange={() => setScope("smart")}
-                  className="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 border-slate-300 text-primary focus:ring-ring"
                 />
                 <div>
                   <span className="font-semibold text-slate-700">Smart Auto-Detect (Recommended)</span>
@@ -330,7 +330,7 @@ export default function StringIntegrityPreserverPage() {
                   name="scope"
                   checked={scope === "all"}
                   onChange={() => setScope("all")}
-                  className="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 border-slate-300 text-primary focus:ring-ring"
                 />
                 <div>
                   <span className="font-semibold text-slate-700">All Columns</span>
@@ -344,7 +344,7 @@ export default function StringIntegrityPreserverPage() {
                   name="scope"
                   checked={scope === "selected"}
                   onChange={() => setScope("selected")}
-                  className="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 border-slate-300 text-primary focus:ring-ring"
                 />
                 <div>
                   <span className="font-semibold text-slate-700">Selected Columns Only</span>
@@ -365,7 +365,7 @@ export default function StringIntegrityPreserverPage() {
                     name="matchLogic"
                     checked={matchLogic === "prone-cells"}
                     onChange={() => setMatchLogic("prone-cells")}
-                    className="h-3.5 w-3.5 border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-3.5 w-3.5 border-slate-300 text-primary focus:ring-ring"
                   />
                   <span className="text-slate-600">Only Prone Cells</span>
                 </label>
@@ -375,7 +375,7 @@ export default function StringIntegrityPreserverPage() {
                     name="matchLogic"
                     checked={matchLogic === "all-cells"}
                     onChange={() => setMatchLogic("all-cells")}
-                    className="h-3.5 w-3.5 border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-3.5 w-3.5 border-slate-300 text-primary focus:ring-ring"
                   />
                   <span className="text-slate-600">All Cells</span>
                 </label>
@@ -391,14 +391,14 @@ export default function StringIntegrityPreserverPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => selectAllColumns(true)}
-                    className="text-[10px] text-indigo-600 hover:underline font-semibold"
+                    className="text-[10px] text-primary hover:underline font-semibold"
                   >
                     All
                   </button>
                   <span className="text-[10px] text-slate-300">|</span>
                   <button
                     onClick={() => selectAllColumns(false)}
-                    className="text-[10px] text-indigo-600 hover:underline font-semibold"
+                    className="text-[10px] text-primary hover:underline font-semibold"
                   >
                     None
                   </button>
@@ -411,7 +411,7 @@ export default function StringIntegrityPreserverPage() {
                       type="checkbox"
                       checked={!!selectedColumns[idx]}
                       onChange={() => toggleColumnSelection(idx)}
-                      className="h-3.5 w-3.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-3.5 w-3.5 rounded border-slate-300 text-primary focus:ring-ring"
                     />
                     <span className="truncate">{header}</span>
                   </label>
@@ -430,7 +430,7 @@ export default function StringIntegrityPreserverPage() {
                 id="hasHeader"
                 checked={hasHeader}
                 onChange={(e) => setHasHeader(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-ring"
               />
               <Label htmlFor="hasHeader" className="text-xs font-medium text-slate-600 cursor-pointer select-none">
                 First Row Contains Headers
@@ -475,9 +475,9 @@ export default function StringIntegrityPreserverPage() {
                 <div className="font-bold text-slate-700 mb-1">Protection Summary</div>
                 <div>Parsed Rows: <span className="font-mono text-slate-800">{stats.rows}</span></div>
                 <div>Detected Columns: <span className="font-mono text-slate-800">{stats.cols}</span></div>
-                <div className="flex items-center justify-between text-indigo-600 font-bold border-t pt-1.5 mt-1.5">
+                <div className="flex items-center justify-between text-primary font-bold border-t pt-1.5 mt-1.5">
                   <span>Cells Sanitized:</span>
-                  <span className="font-mono bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">{stats.protectedCells}</span>
+                  <span className="font-mono bg-card px-1.5 py-0.5 rounded border border-border/50">{stats.protectedCells}</span>
                 </div>
               </CardContent>
             </Card>
@@ -510,7 +510,7 @@ export default function StringIntegrityPreserverPage() {
                 
                 <button
                   onClick={loadExample}
-                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 cursor-pointer select-none"
+                  className="text-xs font-semibold text-primary hover:text-primary/90 hover:underline flex items-center gap-1 cursor-pointer select-none"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> Sample
                 </button>
@@ -578,7 +578,7 @@ export default function StringIntegrityPreserverPage() {
                   placeholder="Processed columns will appear here. Copy and paste back to Excel or Sheets directly..."
                 />
               ) : (
-                <div className="w-full h-full overflow-auto p-4 bg-slate-50/50">
+                <div className="w-full h-full overflow-auto p-4 bg-card/100">
                   <table className="min-w-full border-collapse border border-slate-200 text-xs text-left bg-white shadow-2xs rounded-lg overflow-hidden">
                     <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                       <tr>
@@ -597,7 +597,7 @@ export default function StringIntegrityPreserverPage() {
                               key={colIdx} 
                               className={`p-2.5 border-r border-slate-200 font-mono transition-colors ${
                                 cell.isProtected 
-                                  ? "bg-indigo-50/50 text-indigo-700 border-indigo-100/50 relative group"
+                                  ? "bg-card/100 text-primary border-border/50/50 relative group"
                                   : "text-slate-600"
                               }`}
                             >
@@ -605,7 +605,7 @@ export default function StringIntegrityPreserverPage() {
                                 {cell.value}
                               </span>
                               {cell.isProtected && (
-                                <div className="absolute right-1 top-1 w-1.5 h-1.5 bg-indigo-500 rounded-full" title="Protected Cell" />
+                                <div className="absolute right-1 top-1 w-1.5 h-1.5 bg-card0 rounded-full" title="Protected Cell" />
                               )}
                             </td>
                           ))}
@@ -614,8 +614,8 @@ export default function StringIntegrityPreserverPage() {
                     </tbody>
                   </table>
                   {stats.protectedCells > 0 && (
-                    <div className="mt-3 flex items-center gap-1.5 text-[10px] text-indigo-600 font-medium bg-indigo-50/50 p-2 rounded border border-indigo-100/30">
-                      <AlertTriangle className="w-3.5 h-3.5 text-indigo-500" />
+                    <div className="mt-3 flex items-center gap-1.5 text-[10px] text-primary font-medium bg-card/100 p-2 rounded border border-border/50/30">
+                      <AlertTriangle className="w-3.5 h-3.5 text-primary" />
                       Highlighted cells indicate values that are formatted/escaped to prevent automatic spreadsheet conversions.
                     </div>
                   )}
