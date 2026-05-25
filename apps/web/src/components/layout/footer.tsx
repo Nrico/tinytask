@@ -16,8 +16,8 @@ export function Footer() {
                 </p>
 
                 <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold" aria-label="Footer navigation">
-                    <Link href="#categories" className="hover:underline">Tools</Link>
-                    <Link href="#featured" className="hover:underline">Collections</Link>
+                    <Link href="/#categories" className="hover:underline">Tools</Link>
+                    <Link href="/collections/productivity" className="hover:underline">Collections</Link>
                     <Link href="/pricing" className="hover:underline">Pricing</Link>
                     <Link href="/about" className="hover:underline">About</Link>
                     <Link href="/privacy" className="hover:underline">Privacy</Link>
