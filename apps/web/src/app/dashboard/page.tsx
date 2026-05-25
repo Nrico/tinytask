@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
-import { Zap, Crown, Box, FileText, QrCode, Loader2, ShieldAlert } from 'lucide-react';
+import { Zap, Crown, Box, FileText, QrCode, Loader2, ShieldAlert, Sparkles } from 'lucide-react';
 
 export default function DashboardPage() {
     const { user, isLoading, upgradeToPro } = useAuth();
@@ -166,20 +166,24 @@ export default function DashboardPage() {
 
             <h2 className="text-xl font-semibold mt-12 mb-6">Quick Access</h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2" onClick={() => router.push('/tools/qr-generator')}>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer" onClick={() => router.push('/tools/qr-generator')}>
                     <QrCode className="w-6 h-6" />
                     QR Generator
                 </Button>
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2" onClick={() => router.push('/tools/label-creator')}>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer" onClick={() => router.push('/tools/label-creator')}>
                     <Box className="w-6 h-6" />
                     Label Creator
                 </Button>
-                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2" onClick={() => router.push('/tools/word-formatter')}>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer" onClick={() => router.push('/tools/word-formatter')}>
                     <FileText className="w-6 h-6" />
                     Word Formatter
                 </Button>
+                <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer" onClick={() => router.push('/dashboard/brand-kit')}>
+                    <Sparkles className="w-6 h-6 text-primary" />
+                    Brand Identity
+                </Button>
                 {user.role === 'admin' && (
-                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 border-rose-200/50 dark:border-rose-900/30 bg-rose-50/10 dark:bg-rose-950/10 text-rose-800 dark:text-rose-400 hover:bg-rose-50/20 dark:hover:bg-rose-950/25" onClick={() => router.push('/dashboard/admin')}>
+                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 border-rose-200/50 dark:border-rose-900/30 bg-rose-50/10 dark:bg-rose-950/10 text-rose-800 dark:text-rose-400 hover:bg-rose-50/20 dark:hover:bg-rose-950/25 cursor-pointer" onClick={() => router.push('/dashboard/admin')}>
                         <ShieldAlert className="w-6 h-6 text-rose-600 dark:text-rose-400" />
                         Admin Support Panel
                     </Button>

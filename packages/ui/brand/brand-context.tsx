@@ -140,7 +140,7 @@ export function compressLogo(file: File, maxWidth = 150, maxHeight = 150): Promi
     });
 }
 
-function getContrastColor(hexColor: string): string {
+export function getContrastColor(hexColor: string): string {
     let rgb = { r: 255, g: 255, b: 255 };
     const hex = hexColor.replace('#', '');
     if (hex.length === 3) {

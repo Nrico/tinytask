@@ -15,7 +15,8 @@ import {
     encodeBrandKit, 
     compressLogo, 
     BrandKit,
-    useBrandKit
+    useBrandKit,
+    getContrastColor
 } from '@tinytask/ui/brand/brand-context';
 import { 
     Crown, 
@@ -64,10 +65,53 @@ const DEFAULT_BRAND_KIT = (id: string): BrandKit => ({
     disclaimer: ''
 });
 
+const COLOR_PRESETS = [
+    {
+        name: 'Corporate Navy',
+        colors: {
+            primary: '#0f172a',
+            secondary: '#38bdf8',
+            accent: '#e2e8f0',
+            background: '#ffffff',
+        }
+    },
+    {
+        name: 'Forest Moss',
+        colors: {
+            primary: '#064e3b',
+            secondary: '#10b981',
+            accent: '#d1fae5',
+            background: '#f0fdf4',
+        }
+    },
+    {
+        name: 'Sunset Clay',
+        colors: {
+            primary: '#7c2d12',
+            secondary: '#f97316',
+            accent: '#ffedd5',
+            background: '#fff7ed',
+        }
+    }
+];
+
 export default function BrandKitDashboardPage() {
     const { user, isLoading, upgradeToPro } = useAuth();
     const { setPreviewBrandKit, updateActiveBrandKit } = useBrandKit();
     const router = useRouter();
+
+    const applyColorPreset = (presetColors: { primary: string; secondary: string; accent: string; background: string }) => {
+        setProfiles(prev => prev.map(p => {
+            if (p.id === activeProfileId) {
+                return {
+                    ...p,
+                    colors: presetColors
+                };
+            }
+            return p;
+        }));
+    };
+
 
     // Tab state
     const [activeTab, setActiveTab] = useState<'design' | 'logos' | 'contact' | 'socials'>('design');
@@ -82,13 +126,6 @@ export default function BrandKitDashboardPage() {
     const [portalUrl, setPortalUrl] = useState('');
 
     const activeProfile = profiles.find(p => p.id === activeProfileId) || DEFAULT_BRAND_KIT('default');
-
-    // Redirect if not logged in
-    useEffect(() => {
-        if (!isLoading && !user) {
-            router.push('/login');
-        }
-    }, [user, isLoading, router]);
 
     // Load saved brand kits on mount
     useEffect(() => {
@@ -156,25 +193,59 @@ export default function BrandKitDashboardPage() {
                     setPortalUrl(`${origin}/brand-portal?brand_kit=${encoded}`);
                 }
             }
+        } else {
+            // Load local brand kit for free/guest users
+            const localStored = localStorage.getItem('tinytask_active_brand_kit');
+            if (localStored) {
+                try {
+                    const decoded = JSON.parse(localStored) as BrandKit;
+                    if (decoded && !decoded.id) {
+                        decoded.id = 'default';
+                    }
+                    setProfiles([decoded]);
+                    setActiveProfileId(decoded.id);
+                    
+                    const encoded = encodeBrandKit(decoded);
+                    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+                    setPortalUrl(`${origin}/brand-portal?brand_kit=${encoded}`);
+                } catch (e) {
+                    console.error("Failed to parse localStored brand kit for free/guest", e);
+                    const defaultKit = DEFAULT_BRAND_KIT('default');
+                    setProfiles([defaultKit]);
+                    setActiveProfileId('default');
+                    
+                    const encoded = encodeBrandKit(defaultKit);
+                    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+                    setPortalUrl(`${origin}/brand-portal?brand_kit=${encoded}`);
+                }
+            } else {
+                const defaultKit = DEFAULT_BRAND_KIT('default');
+                setProfiles([defaultKit]);
+                setActiveProfileId('default');
+                
+                const encoded = encodeBrandKit(defaultKit);
+                const origin = typeof window !== 'undefined' ? window.location.origin : '';
+                setPortalUrl(`${origin}/brand-portal?brand_kit=${encoded}`);
+            }
         }
     }, [user]);
 
     // Apply colors temporarily to the preview in real-time
     useEffect(() => {
-        if (user && user.plan === 'pro') {
-            setPreviewBrandKit(activeProfile);
-        }
+        setPreviewBrandKit(activeProfile);
+        
+        // Re-generate portalUrl as values change
+        const encoded = encodeBrandKit(activeProfile);
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        setPortalUrl(`${origin}/brand-portal?brand_kit=${encoded}`);
+
         return () => {
             setPreviewBrandKit(null);
         };
-    }, [activeProfile, user, setPreviewBrandKit]);
+    }, [activeProfile, setPreviewBrandKit]);
 
     if (isLoading) {
         return <div className="p-8 text-center">Loading...</div>;
-    }
-
-    if (!user) {
-        return null;
     }
 
     // Helper functions to update current profile in state list
@@ -293,11 +364,27 @@ export default function BrandKitDashboardPage() {
         }
 
         // Save list of profiles and active ID
-        localStorage.setItem(`tinytask_brand_kits_${user.id}`, JSON.stringify(profiles));
-        localStorage.setItem(`tinytask_active_brand_kit_id_${user.id}`, activeProfileId);
+        if (user && user.plan === 'pro') {
+            localStorage.setItem(`tinytask_brand_kits_${user.id}`, JSON.stringify(profiles));
+            localStorage.setItem(`tinytask_active_brand_kit_id_${user.id}`, activeProfileId);
+        } else {
+            localStorage.setItem('tinytask_active_brand_kit', JSON.stringify(activeProfile));
+        }
         
         // Update active brand kit context immediately
         updateActiveBrandKit(activeProfile);
+
+        // Store business name and contact information in cookies
+        const setCookie = (name: string, value: string) => {
+            if (typeof document !== 'undefined') {
+                document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; SameSite=Lax`;
+            }
+        };
+
+        setCookie('tinytask_biz_name', activeProfile.name);
+        setCookie('tinytask_biz_email', activeProfile.email || '');
+        setCookie('tinytask_biz_phone', activeProfile.phone || '');
+        setCookie('tinytask_biz_website', activeProfile.website || '');
 
         setSaveStatus('saved');
         setTimeout(() => setSaveStatus(null), 3000);
@@ -315,98 +402,7 @@ export default function BrandKitDashboardPage() {
         }
     };
 
-    // Free plan locked page
-    if (user.plan === 'free') {
-        const mockColors = {
-            primary: '#087b82',
-            secondary: '#f2e4c8',
-            accent: '#d7eeee',
-            background: '#ffffff',
-        };
 
-        return (
-            <div className="container mx-auto px-4 py-8 max-w-6xl">
-                <div className="mb-6">
-                    <Button variant="ghost" onClick={() => router.push('/dashboard')} className="gap-2 text-sm text-muted-foreground hover:text-foreground">
-                        <ArrowLeft className="w-4 h-4" /> Back to Dashboard
-                    </Button>
-                </div>
-
-                <div className="relative overflow-hidden rounded-3xl border bg-card/100 p-8 md:p-12 shadow-xl">
-                    <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-card/10 rounded-full blur-3xl pointer-events-none" />
-
-                    {/* Paywall Overlay */}
-                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center bg-background/80 backdrop-blur-md rounded-3xl">
-                        <div className="p-4 rounded-full bg-primary/10 border border-primary/20 text-primary mb-6 animate-pulse">
-                            <Lock className="w-10 h-10" />
-                        </div>
-                        <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-                            Unlock Subscriber Brand Kits
-                        </h2>
-                        <p className="mt-4 max-w-md text-base text-muted-foreground leading-relaxed">
-                            Maintain consistent branding across all TinyTask productivity tools. Elevate your workflows and share pre-branded tools with your team or clients.
-                        </p>
-                        
-                        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Button onClick={upgradeToPro} size="lg" className="px-8 bg-primary hover:bg-primary/90 text-primary-foreground gap-2 font-semibold shadow-lg shadow-primary/25 border-none">
-                                <Crown className="w-5 h-5 text-yellow-300 fill-yellow-300" /> Upgrade to Pro
-                            </Button>
-                            <Button variant="outline" size="lg" onClick={() => router.push('/pricing')}>
-                                View Pricing Details
-                            </Button>
-                        </div>
-
-                        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-semibold text-muted-foreground max-w-2xl">
-                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Multiple Profiles
-                            </div>
-                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Logo Uploads
-                            </div>
-                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Contact & Socials
-                            </div>
-                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Shareable Links
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Paywall Background Mockup */}
-                    <div className="grid gap-8 md:grid-cols-12 opacity-30 select-none pointer-events-none">
-                        <div className="md:col-span-7 space-y-6">
-                            <div>
-                                <h1 className="text-3xl font-bold tracking-tight text-slate-900">Brand Identity Manager</h1>
-                                <p className="text-slate-500">Define your brand values, styles, and logos.</p>
-                            </div>
-                            <Card>
-                                <CardHeader><CardTitle>Style Details</CardTitle></CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="mock-brand-name">Brand Name</Label>
-                                        <Input id="mock-brand-name" value="Acme Corp" disabled />
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <ColorPicker id="mock-primary-color" value={mockColors.primary} onChange={() => {}} label="Primary Color" />
-                                        <ColorPicker id="mock-secondary-color" value={mockColors.secondary} onChange={() => {}} label="Secondary Color" />
-                                    </div>
-                                    <FontSelector value="var(--font-outfit)" onChange={() => {}} />
-                                </CardContent>
-                            </Card>
-                        </div>
-                        <div className="md:col-span-5 flex flex-col justify-center">
-                            <div className="p-6 border rounded-2xl bg-white shadow">
-                                <div className="h-8 w-24 bg-slate-200 rounded mb-4" />
-                                <div className="h-6 w-32 bg-slate-300 rounded mb-2" />
-                                <div className="h-10 w-full bg-slate-100 rounded" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     // Pro User Active Brand Kit Creator
     return (
@@ -425,46 +421,98 @@ export default function BrandKitDashboardPage() {
                         <div>
                             <div className="flex items-center gap-2">
                                 <h1 className="text-3xl font-bold tracking-tight text-foreground">Brand Identity</h1>
-                                <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/15 border border-primary/20 font-semibold gap-1 py-0.5">
-                                    <Crown className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" /> Subscriber
-                                </Badge>
+                                {user?.plan === 'pro' ? (
+                                    <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/15 border border-primary/20 font-semibold gap-1 py-0.5">
+                                        <Crown className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" /> Subscriber
+                                    </Badge>
+                                ) : (
+                                    <Badge variant="outline" className="text-muted-foreground font-semibold gap-1 py-0.5">
+                                        {user ? 'Free Account' : 'Guest Mode'}
+                                    </Badge>
+                                )}
                             </div>
                             <p className="text-muted-foreground text-sm mt-1">
-                                Create and switch between profiles. Pre-populate your team tools instantly.
+                                {user?.plan === 'pro' 
+                                    ? 'Create and switch between profiles. Pre-populate your team tools instantly.'
+                                    : 'Customize your layout and colors to see your brand applied instantly in local tools.'
+                                }
                             </p>
                         </div>
                     </div>
 
-                    {/* Profile Selector Toolbar */}
-                    <Card className="border border-border/80 bg-card/40 p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-3 w-full sm:w-auto">
-                            <Label htmlFor="active-profile-select" className="text-xs font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">Profile:</Label>
-                            <select
-                                id="active-profile-select"
-                                value={activeProfileId}
-                                onChange={e => handleProfileChange(e.target.value)}
-                                className="h-9 rounded-lg border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-full sm:w-48 font-medium"
-                            >
-                                {profiles.map(p => (
-                                    <option key={p.id} value={p.id}>{p.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-                            <Button variant="outline" size="sm" onClick={handleCreateProfile} className="gap-1.5 h-9 font-semibold flex-1 sm:flex-none">
-                                <Plus className="w-4 h-4" /> New Profile
-                            </Button>
+                    {!user && (
+                        <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 text-amber-900 dark:border-amber-900/30 dark:bg-amber-950/10 dark:text-amber-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div className="text-sm">
+                                <span className="font-bold">Recommendation:</span> Create a free account or upgrade to Pro to save multiple brand profiles securely in the cloud and unlock remote sharing.
+                            </div>
                             <Button 
-                                variant="outline" 
                                 size="sm" 
-                                onClick={handleDeleteProfile} 
-                                disabled={profiles.length <= 1}
-                                className="text-destructive hover:bg-destructive/10 border-destructive/20 h-9 font-semibold gap-1.5 flex-1 sm:flex-none"
+                                className="bg-amber-800 hover:bg-amber-900 text-white shrink-0 border-none font-semibold cursor-pointer"
+                                onClick={() => router.push('/login?redirect=/dashboard/brand-kit')}
                             >
-                                <Trash2 className="w-4 h-4" /> Delete
+                                Create Account
                             </Button>
                         </div>
-                    </Card>
+                    )}
+                    {user && user.plan === 'free' && (
+                        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 text-primary flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div className="text-sm">
+                                <span className="font-bold">Upgrade Suggestion:</span> You are on a Free account. Upgrade to Pro to manage multiple brand profiles and share links that maintain your branding.
+                            </div>
+                            <Button 
+                                size="sm" 
+                                className="bg-primary hover:bg-primary/95 text-white shrink-0 gap-1.5 border-none font-semibold cursor-pointer"
+                                onClick={upgradeToPro}
+                            >
+                                <Crown className="w-3.5 h-3.5 text-yellow-300 fill-yellow-300" /> Upgrade to Pro
+                            </Button>
+                        </div>
+                    )}
+
+                    {/* Profile Selector Toolbar */}
+                    {user?.plan === 'pro' ? (
+                        <Card className="border border-border/80 bg-card/40 p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="flex items-center gap-3 w-full sm:w-auto">
+                                <Label htmlFor="active-profile-select" className="text-xs font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">Profile:</Label>
+                                <select
+                                    id="active-profile-select"
+                                    value={activeProfileId}
+                                    onChange={e => handleProfileChange(e.target.value)}
+                                    className="h-9 rounded-lg border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-full sm:w-48 font-medium"
+                                >
+                                    {profiles.map(p => (
+                                        <option key={p.id} value={p.id}>{p.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                                <Button variant="outline" size="sm" onClick={handleCreateProfile} className="gap-1.5 h-9 font-semibold flex-1 sm:flex-none">
+                                    <Plus className="w-4 h-4" /> New Profile
+                                </Button>
+                                <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    onClick={handleDeleteProfile} 
+                                    disabled={profiles.length <= 1}
+                                    className="text-destructive hover:bg-destructive/10 border-destructive/20 h-9 font-semibold gap-1.5 flex-1 sm:flex-none"
+                                >
+                                    <Trash2 className="w-4 h-4" /> Delete
+                                </Button>
+                            </div>
+                        </Card>
+                    ) : (
+                        <Card className="border border-border/80 bg-card/40 p-4 flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3">
+                                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Active Profile:</span>
+                                <Badge variant="outline" className="font-semibold text-sm py-1 bg-background text-foreground">
+                                    {activeProfile.name || 'Default Brand Profile'}
+                                </Badge>
+                            </div>
+                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-semibold">
+                                <Lock className="w-3.5 h-3.5" /> Multiple profiles require Pro
+                            </div>
+                        </Card>
+                    )}
 
                     {/* Tab Navigation */}
                     <div className="flex border-b border-slate-200 text-xs font-bold gap-1">
@@ -538,6 +586,46 @@ export default function BrandKitDashboardPage() {
                                                 value={activeProfile.colors.background} 
                                                 onChange={val => updateActiveProfileColors('background', val)} 
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4 border-t pt-4">
+                                        <h3 className="font-semibold text-slate-800 text-sm">Quick Theme Presets</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            {COLOR_PRESETS.map(preset => (
+                                                <button
+                                                    key={preset.name}
+                                                    type="button"
+                                                    onClick={() => applyColorPreset(preset.colors)}
+                                                    className="flex flex-col items-start p-3 rounded-xl border border-border bg-background hover:bg-slate-50 transition-all text-left shadow-2xs hover:shadow-xs group cursor-pointer"
+                                                >
+                                                    <span className="text-xs font-bold text-slate-700 mb-2 group-hover:text-primary transition-colors">
+                                                        {preset.name}
+                                                    </span>
+                                                    <div className="flex gap-1.5 w-full">
+                                                        <div 
+                                                            style={{ backgroundColor: preset.colors.primary }} 
+                                                            className="h-6 flex-1 rounded border border-black/5" 
+                                                            title="Primary"
+                                                        />
+                                                        <div 
+                                                            style={{ backgroundColor: preset.colors.secondary }} 
+                                                            className="h-6 flex-1 rounded border border-black/5" 
+                                                            title="Secondary"
+                                                        />
+                                                        <div 
+                                                            style={{ backgroundColor: preset.colors.accent }} 
+                                                            className="h-6 flex-1 rounded border border-black/5" 
+                                                            title="Accent"
+                                                        />
+                                                        <div 
+                                                            style={{ backgroundColor: preset.colors.background }} 
+                                                            className="h-6 flex-1 rounded border border-black/5" 
+                                                            title="Background"
+                                                        />
+                                                    </div>
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -748,86 +836,127 @@ export default function BrandKitDashboardPage() {
                             className="bg-primary hover:bg-primary/90 text-white font-bold flex-1 shadow-md shadow-primary/10"
                         >
                             {saveStatus === 'saved' ? 'Brand Settings Saved!' : 'Save Brand Settings'}
-                        </Button>
+                                        </Button>
                     </div>
 
                     {/* Sharing links panel */}
                     {portalUrl && (
-                        <Card className="shadow-md border border-emerald-100 bg-emerald-50/20">
-                            <CardHeader>
-                                <CardTitle className="text-lg flex items-center gap-1.5 text-emerald-800">
-                                    <Globe className="w-5 h-5" /> Shareable Branded Shortcut Links
-                                </CardTitle>
-                                <CardDescription className="text-emerald-700/80">
-                                    Access tools via these links to automatically lock tool settings into this specific brand profile.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {/* Brand Portal Link */}
-                                <div className="space-y-2">
-                                    <Label className="text-sm font-bold text-foreground flex items-center justify-between">
-                                        Main Branded Tool Portal
-                                        <span className="text-xs text-muted-foreground font-normal">Lists all tools with your branding</span>
-                                    </Label>
-                                    <div className="flex gap-2">
-                                        <div className="flex-1 bg-background border border-emerald-200/50 p-2.5 rounded-lg text-xs font-mono select-all truncate max-w-full text-foreground/80">
-                                            {portalUrl}
+                        user?.plan === 'pro' ? (
+                            <Card className="shadow-md border border-emerald-100 bg-emerald-50/20">
+                                <CardHeader>
+                                    <CardTitle className="text-lg flex items-center gap-1.5 text-emerald-800">
+                                        <Globe className="w-5 h-5" /> Shareable Branded Shortcut Links
+                                    </CardTitle>
+                                    <CardDescription className="text-emerald-700/80">
+                                        Access tools via these links to automatically lock tool settings into this specific brand profile.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    {/* Brand Portal Link */}
+                                    <div className="space-y-2">
+                                        <Label className="text-sm font-bold text-foreground flex items-center justify-between">
+                                            Main Branded Tool Portal
+                                            <span className="text-xs text-muted-foreground font-normal">Lists all tools with your branding</span>
+                                        </Label>
+                                        <div className="flex gap-2">
+                                            <div className="flex-1 bg-background border border-emerald-200/50 p-2.5 rounded-lg text-xs font-mono select-all truncate max-w-full text-foreground/80">
+                                                {portalUrl}
+                                            </div>
+                                            <Button 
+                                                variant="outline" 
+                                                className="border-emerald-200/40 text-emerald-800 dark:text-emerald-400 hover:bg-emerald-100/10 flex-shrink-0" 
+                                                onClick={() => copyToClipboard(portalUrl, 'portal')}
+                                            >
+                                                {copiedStates['portal'] ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                                            </Button>
+                                            <Button 
+                                                variant="ghost" 
+                                                className="text-emerald-800 dark:text-emerald-400 hover:bg-emerald-100/10 flex-shrink-0 gap-1.5" 
+                                                onClick={() => window.open(portalUrl, '_blank')}
+                                            >
+                                                <ExternalLink className="w-4 h-4" /> Open
+                                            </Button>
                                         </div>
-                                        <Button 
-                                            variant="outline" 
-                                            className="border-emerald-200/40 text-emerald-800 dark:text-emerald-400 hover:bg-emerald-100/10 flex-shrink-0" 
-                                            onClick={() => copyToClipboard(portalUrl, 'portal')}
-                                        >
-                                            {copiedStates['portal'] ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                                        </Button>
-                                        <Button 
-                                            variant="ghost" 
-                                            className="text-emerald-800 dark:text-emerald-400 hover:bg-emerald-100/10 flex-shrink-0 gap-1.5" 
-                                            onClick={() => window.open(portalUrl, '_blank')}
-                                        >
-                                            <ExternalLink className="w-4 h-4" /> Open
-                                        </Button>
                                     </div>
-                                </div>
 
-                                {/* Tool Specific Links */}
-                                 <div className="space-y-3 border-t border-emerald-100/30 pt-4">
-                                     <Label className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider">Direct Tool Shortcuts</Label>
-                                     <div className="grid gap-2">
-                                         {['invoice-swift', 'qr-generator', 'brochure-builder', 'signature-smith'].map(toolSlug => {
-                                             const toolName = toolSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                             const encoded = encodeBrandKit(activeProfile);
-                                             const toolUrl = `${window.location.origin}/tools/${toolSlug}?brand_kit=${encoded}`;
-                                             
-                                             return (
-                                                 <div key={toolSlug} className="flex items-center justify-between p-2.5 rounded-lg bg-background border border-border shadow-sm text-sm">
-                                                     <span className="font-semibold text-foreground/80">{toolName}</span>
-                                                     <div className="flex gap-1.5">
-                                                         <Button 
-                                                             size="sm" 
-                                                             variant="ghost" 
-                                                             className="h-8 text-xs text-muted-foreground hover:text-foreground gap-1"
-                                                             onClick={() => copyToClipboard(toolUrl, toolSlug)}
-                                                         >
-                                                             {copiedStates[toolSlug] ? (
-                                                                 <>
-                                                                     <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Copied
-                                                                 </>
-                                                             ) : (
-                                                                 <>
-                                                                     <Copy className="w-3.5 h-3.5" /> Copy Link
-                                                                 </>
-                                                             )}
-                                                         </Button>
+                                    {/* Tool Specific Links */}
+                                     <div className="space-y-3 border-t border-emerald-100/30 pt-4">
+                                         <Label className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider">Direct Tool Shortcuts</Label>
+                                         <div className="grid gap-2">
+                                             {['invoice-swift', 'qr-generator', 'brochure-builder', 'signature-smith'].map(toolSlug => {
+                                                 const toolName = toolSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                                 const encoded = encodeBrandKit(activeProfile);
+                                                 const toolUrl = `${window.location.origin}/tools/${toolSlug}?brand_kit=${encoded}`;
+                                                 
+                                                 return (
+                                                     <div key={toolSlug} className="flex items-center justify-between p-2.5 rounded-lg bg-background border border-border shadow-sm text-sm">
+                                                         <span className="font-semibold text-foreground/80">{toolName}</span>
+                                                         <div className="flex gap-1.5">
+                                                             <Button 
+                                                                 size="sm" 
+                                                                 variant="ghost" 
+                                                                 className="h-8 text-xs text-muted-foreground hover:text-foreground gap-1"
+                                                                 onClick={() => copyToClipboard(toolUrl, toolSlug)}
+                                                             >
+                                                                 {copiedStates[toolSlug] ? (
+                                                                     <>
+                                                                         <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Copied
+                                                                     </>
+                                                                 ) : (
+                                                                     <>
+                                                                         <Copy className="w-3.5 h-3.5" /> Copy Link
+                                                                     </>
+                                                                 )}
+                                                             </Button>
+                                                         </div>
                                                      </div>
-                                                 </div>
-                                             );
-                                         })}
+                                                 );
+                                             })}
+                                         </div>
                                      </div>
-                                 </div>
-                             </CardContent>
-                         </Card>
-                     )}
+                                </CardContent>
+                            </Card>
+                        ) : (
+                            <Card className="shadow-md border border-slate-200 bg-slate-50/50 dark:bg-slate-900/10 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-xl pointer-events-none" />
+                                <CardHeader className="pb-3">
+                                    <div className="flex items-center justify-between">
+                                        <CardTitle className="text-lg flex items-center gap-1.5 text-slate-800 dark:text-slate-200">
+                                            <Globe className="w-5 h-5 text-muted-foreground" /> Shareable Branded Shortcut Links
+                                        </CardTitle>
+                                        <Badge variant="secondary" className="bg-primary/10 text-primary border border-primary/20 flex gap-1 items-center font-bold">
+                                            <Lock className="w-3.5 h-3.5" /> Pro Feature
+                                        </Badge>
+                                    </div>
+                                    <CardDescription>
+                                        Share pre-configured links containing your primary and secondary colors, brand logo, and default business contact details with your team or clients.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4 pb-6">
+                                    <div className="rounded-xl border bg-background/80 backdrop-blur-xs p-5 text-center flex flex-col items-center justify-center">
+                                        <p className="text-sm text-muted-foreground max-w-md mb-4 leading-relaxed">
+                                            Sharing pre-designed brand kits requires a paid account. With Pro, anyone using your custom link will automatically load your presets.
+                                        </p>
+                                        {user ? (
+                                            <Button 
+                                                onClick={upgradeToPro} 
+                                                className="bg-primary hover:bg-primary/90 text-white font-bold gap-2 shadow-sm border-none cursor-pointer"
+                                            >
+                                                <Crown className="w-4 h-4 text-yellow-300 fill-yellow-300" /> Upgrade to Pro to Share
+                                            </Button>
+                                        ) : (
+                                            <Button 
+                                                onClick={() => router.push('/login?redirect=/dashboard/brand-kit')} 
+                                                className="bg-primary hover:bg-primary/90 text-white font-bold gap-2 shadow-sm border-none cursor-pointer"
+                                            >
+                                                Create Account to Share
+                                            </Button>
+                                        )}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )
+                    )}
                  </div>
 
                  {/* Mockup Preview Panel */}
@@ -849,8 +978,11 @@ export default function BrandKitDashboardPage() {
                                      <img src={activeProfile.logos.primary} alt="Brand Logo Mockup" className="max-h-8 max-w-[120px] object-contain" />
                                  ) : (
                                      <div 
-                                         style={{ backgroundColor: activeProfile.colors.primary }} 
-                                         className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold"
+                                         style={{ 
+                                             backgroundColor: activeProfile.colors.primary,
+                                             color: getContrastColor(activeProfile.colors.primary)
+                                         }} 
+                                         className="w-8 h-8 rounded-lg flex items-center justify-center font-bold"
                                      >
                                          {activeProfile.name ? activeProfile.name.charAt(0).toUpperCase() : 'B'}
                                      </div>
@@ -901,14 +1033,20 @@ export default function BrandKitDashboardPage() {
                              {/* Button Preview */}
                              <div className="space-y-2">
                                  <Button 
-                                     style={{ backgroundColor: activeProfile.colors.primary, color: 'white' }} 
+                                     style={{ 
+                                         backgroundColor: activeProfile.colors.primary, 
+                                         color: getContrastColor(activeProfile.colors.primary) 
+                                     }} 
                                      className="w-full font-semibold pointer-events-none border-none py-5"
                                  >
                                      Sample Action Button
                                  </Button>
                                  <div className="flex gap-2">
                                      <Button 
-                                         style={{ backgroundColor: activeProfile.colors.secondary, color: activeProfile.colors.primary }} 
+                                         style={{ 
+                                             backgroundColor: activeProfile.colors.secondary, 
+                                             color: getContrastColor(activeProfile.colors.secondary) 
+                                         }} 
                                          className="flex-1 font-semibold pointer-events-none border-none py-5"
                                      >
                                          Secondary Button

@@ -53,15 +53,37 @@ export function BrandKitSync() {
                     }
                 }
             } else {
-                // User is logged in but on the free plan, so clear any residual brand kit
-                clearBrandKit();
+                // User is logged in but on the free plan. Try to load local brand kit.
+                const localStored = localStorage.getItem('tinytask_active_brand_kit');
+                if (localStored) {
+                    try {
+                        const decoded = JSON.parse(localStored) as BrandKit;
+                        if (!activeBrandKit || JSON.stringify(activeBrandKit) !== JSON.stringify(decoded)) {
+                            updateActiveBrandKit(decoded);
+                        }
+                    } catch (e) {
+                        console.error("Failed to parse localStored brand kit in sync for free", e);
+                    }
+                }
             }
         } else {
-            // User is logged out. We only clear context if we aren't in a branded link session
+            // User is logged out (guest). We only clear context if we aren't in a branded link session AND have no local brand kit.
             if (typeof window !== 'undefined') {
                 const searchParams = new URLSearchParams(window.location.search);
                 if (!searchParams.has('brand_kit')) {
-                    clearBrandKit();
+                    const localStored = localStorage.getItem('tinytask_active_brand_kit');
+                    if (localStored) {
+                        try {
+                            const decoded = JSON.parse(localStored) as BrandKit;
+                            if (!activeBrandKit || JSON.stringify(activeBrandKit) !== JSON.stringify(decoded)) {
+                                updateActiveBrandKit(decoded);
+                            }
+                        } catch (e) {
+                            console.error("Failed to parse localStored brand kit in sync for guest", e);
+                        }
+                    } else {
+                        clearBrandKit();
+                    }
                 }
             }
         }

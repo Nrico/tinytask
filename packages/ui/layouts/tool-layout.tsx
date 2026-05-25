@@ -36,6 +36,7 @@ export function ToolLayout({
 }: ToolLayoutProps) {
     const [shared, setShared] = useState(false);
     const [isHelpOpen, setIsHelpOpen] = useState(false);
+    const [isMobileDismissed, setIsMobileDismissed] = useState(false);
     const pathname = usePathname();
 
     const helpData = TOOL_HELP[pathname || ''];
@@ -49,83 +50,103 @@ export function ToolLayout({
     };
 
     return (
-        <div className={cn("flex flex-col lg:flex-row h-[calc(100vh-3.5rem)] overflow-hidden bg-card/50", className)}>
-            {/* Left Sidebar Settings Panel */}
-            <aside className="w-full lg:w-80 bg-background border-r flex flex-col shadow-sm z-10 h-full">
-                {/* Sidebar Header */}
-                <div className="p-6 border-b flex-shrink-0">
-                    <Link href={backUrl} className="text-xs font-semibold text-muted-foreground hover:text-primary flex items-center gap-1 mb-4 select-none print:hidden">
-                        <ArrowLeft className="w-3.5 h-3.5" /> Back to Suite
-                    </Link>
-                    <h2 className="font-bold text-xl tracking-tight text-foreground flex items-center gap-2">
-                        {title}
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                        {description}
-                    </p>
-                    {/* Privacy Badge */}
-                    <div className="mt-3 flex items-start gap-1.5 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 border border-emerald-100/80 dark:border-emerald-900/30 rounded-lg p-2 text-[10px] font-medium leading-normal print:hidden select-none">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-500 flex-shrink-0 mt-0.5" />
-                        <span>100% Client-Side: Your data never leaves your computer. No servers, zero logs.</span>
+        <div className="flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden">
+            {/* Mobile Optimization Alert Banner */}
+            {!isMobileDismissed && (
+                <div className="lg:hidden flex items-start justify-between gap-3 bg-amber-50 dark:bg-amber-950/20 border-b border-amber-100 dark:border-amber-900/20 p-3.5 text-xs text-amber-800 dark:text-amber-300 print:hidden select-none">
+                    <div className="flex gap-2">
+                        <span className="text-base leading-none">🖥️</span>
+                        <div>
+                            <span className="font-bold">Desktop Recommended:</span> This tool is optimized for larger displays. Please rotate your device to landscape or use a desktop screen for full utility.
+                        </div>
                     </div>
-                    {/* Share & Help Buttons */}
-                    <div className="mt-4 flex items-center gap-4 print:hidden">
-                        <button
-                            onClick={handleShare}
-                            className="text-xs font-semibold text-primary hover:text-primary/80 flex items-center gap-1.5 cursor-pointer select-none transition-colors"
-                            type="button"
-                        >
-                            <Share2 className="w-3.5 h-3.5" /> {shared ? "Link Copied!" : "Share this Tool"}
-                        </button>
-                        {helpData && (
+                    <button 
+                        onClick={() => setIsMobileDismissed(true)} 
+                        className="text-amber-600 hover:text-amber-800 dark:hover:text-amber-200 p-0.5 cursor-pointer border-none bg-transparent"
+                    >
+                        <X className="w-3.5 h-3.5" />
+                    </button>
+                </div>
+            )}
+
+            <div className={cn("flex flex-col lg:flex-row flex-1 overflow-hidden bg-card/50", className)}>
+                {/* Left Sidebar Settings Panel */}
+                <aside className="w-full lg:w-80 bg-background border-r flex flex-col shadow-sm z-10 h-full">
+                    {/* Sidebar Header */}
+                    <div className="p-6 border-b flex-shrink-0">
+                        <Link href={backUrl} className="text-xs font-semibold text-muted-foreground hover:text-primary flex items-center gap-1 mb-4 select-none print:hidden">
+                            <ArrowLeft className="w-3.5 h-3.5" /> Back to Suite
+                        </Link>
+                        <h2 className="font-bold text-xl tracking-tight text-foreground flex items-center gap-2">
+                            {title}
+                        </h2>
+                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                            {description}
+                        </p>
+                        {/* Privacy Badge */}
+                        <div className="mt-3 flex items-start gap-1.5 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 border border-emerald-100/80 dark:border-emerald-900/30 rounded-lg p-2 text-[10px] font-medium leading-normal print:hidden select-none">
+                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-500 flex-shrink-0 mt-0.5" />
+                            <span>100% Client-Side: Your data never leaves your computer. No servers, zero logs.</span>
+                        </div>
+                        {/* Share & Help Buttons */}
+                        <div className="mt-4 flex items-center gap-4 print:hidden">
                             <button
-                                onClick={() => setIsHelpOpen(true)}
-                                className="text-xs font-semibold text-kraft hover:text-kraft-dark flex items-center gap-1.5 cursor-pointer select-none transition-colors"
+                                onClick={handleShare}
+                                className="text-xs font-semibold text-primary hover:text-primary/80 flex items-center gap-1.5 cursor-pointer select-none transition-colors"
                                 type="button"
                             >
-                                <HelpCircle className="w-3.5 h-3.5" /> How to Use
+                                <Share2 className="w-3.5 h-3.5" /> {shared ? "Link Copied!" : "Share this Tool"}
                             </button>
+                            {helpData && (
+                                <button
+                                    onClick={() => setIsHelpOpen(true)}
+                                    className="text-xs font-semibold text-kraft hover:text-kraft-dark flex items-center gap-1.5 cursor-pointer select-none transition-colors"
+                                    type="button"
+                                >
+                                    <HelpCircle className="w-3.5 h-3.5" /> How to Use
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Sidebar Body (Scrollable settings) */}
+                    <div className="p-6 space-y-6 flex-1 overflow-y-auto min-h-0 print:hidden">
+                        {sidebarContent}
+
+                        {/* Collapsible FAQ Section for SEO */}
+                        {faqs && faqs.length > 0 && (
+                            <div className="border-t pt-4 mt-6">
+                                <h3 className="font-semibold text-muted-foreground text-[10px] uppercase tracking-wider mb-3">Frequently Asked Questions</h3>
+                                <div className="space-y-2">
+                                    {faqs.map((faq, idx) => (
+                                        <details key={idx} className="group border border-border/50 rounded-lg bg-card/40 p-2 text-xs">
+                                            <summary className="font-semibold text-foreground/80 cursor-pointer list-none flex justify-between items-center group-open:text-primary transition-colors select-none">
+                                                <span className="pr-2">{faq.question}</span>
+                                                <span className="text-[9px] text-muted-foreground group-open:rotate-180 transition-transform">▼</span>
+                                            </summary>
+                                            <p className="mt-1.5 text-muted-foreground leading-relaxed border-t pt-1.5 border-border/50">
+                                                {faq.answer}
+                                            </p>
+                                        </details>
+                                    ))}
+                                </div>
+                            </div>
                         )}
                     </div>
-                </div>
 
-                {/* Sidebar Body (Scrollable settings) */}
-                <div className="p-6 space-y-6 flex-1 overflow-y-auto min-h-0 print:hidden">
-                    {sidebarContent}
-
-                    {/* Collapsible FAQ Section for SEO */}
-                    {faqs && faqs.length > 0 && (
-                        <div className="border-t pt-4 mt-6">
-                            <h3 className="font-semibold text-muted-foreground text-[10px] uppercase tracking-wider mb-3">Frequently Asked Questions</h3>
-                            <div className="space-y-2">
-                                {faqs.map((faq, idx) => (
-                                    <details key={idx} className="group border border-border/50 rounded-lg bg-card/40 p-2 text-xs">
-                                        <summary className="font-semibold text-foreground/80 cursor-pointer list-none flex justify-between items-center group-open:text-primary transition-colors select-none">
-                                            <span className="pr-2">{faq.question}</span>
-                                            <span className="text-[9px] text-muted-foreground group-open:rotate-180 transition-transform">▼</span>
-                                        </summary>
-                                        <p className="mt-1.5 text-muted-foreground leading-relaxed border-t pt-1.5 border-border/50">
-                                            {faq.answer}
-                                        </p>
-                                    </details>
-                                ))}
-                            </div>
+                    {/* Optional Bottom Actions Panel inside Sidebar */}
+                    {actions && (
+                        <div className="p-6 border-t mt-auto flex-shrink-0 bg-card/25 print:hidden">
+                            {actions}
                         </div>
                     )}
-                </div>
+                </aside>
 
-                {/* Optional Bottom Actions Panel inside Sidebar */}
-                {actions && (
-                    <div className="p-6 border-t mt-auto flex-shrink-0 bg-card/25 print:hidden">
-                        {actions}
-                    </div>
-                )}
-            </aside>
-
-            {/* Right/Middle Main Preview Content Area */}
-            <main className="flex-1 overflow-y-auto p-6 md:p-8 lg:p-12 flex flex-col items-center justify-center min-h-0 bg-card/30 print:p-0 print:bg-white print:block print:overflow-visible">
-                {previewContent}
-            </main>
+                {/* Right/Middle Main Preview Content Area */}
+                <main className="flex-1 overflow-y-auto p-6 md:p-8 lg:p-12 flex flex-col items-center justify-center min-h-0 bg-card/30 print:p-0 print:bg-white print:block print:overflow-visible">
+                    {previewContent}
+                </main>
+            </div>
 
             {/* Help Modal Portal */}
             {isHelpOpen && helpData && typeof document !== "undefined" && createPortal(

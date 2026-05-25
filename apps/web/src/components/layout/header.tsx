@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
-import { useBrandKit, encodeBrandKit } from "@tinytask/ui/brand/brand-context";
+import { useBrandKit, encodeBrandKit, getContrastColor } from "@tinytask/ui/brand/brand-context";
 import { cn } from "@tinytask/utils";
 import { 
     User, 
@@ -350,8 +350,8 @@ export function Header() {
                                 <img src={activeBrandKit.logos.primary} alt={activeBrandKit.name} className="max-h-8 max-w-[120px] object-contain" />
                             ) : (
                                 <div 
-                                    style={{ backgroundColor: primaryColor }} 
-                                    className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold"
+                                    style={{ backgroundColor: primaryColor, color: getContrastColor(primaryColor) }} 
+                                    className="w-8 h-8 rounded-lg flex items-center justify-center font-bold"
                                 >
                                     {activeBrandKit.name.charAt(0).toUpperCase()}
                                 </div>
