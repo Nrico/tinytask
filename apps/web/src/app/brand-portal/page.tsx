@@ -87,9 +87,9 @@ function PortalContent() {
     if (!brand) {
         return (
             <div className="container mx-auto px-4 py-16 text-center max-w-md">
-                <div className="p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 mb-6">
+                <div className="p-4 bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 rounded-2xl text-red-600 dark:text-red-400 mb-6">
                     <p className="font-semibold text-lg">Invalid Brand Link</p>
-                    <p className="text-sm mt-1 text-red-500">
+                    <p className="text-sm mt-1 text-red-500 dark:text-red-400">
                         This URL does not contain a valid brand configuration.
                     </p>
                 </div>
@@ -141,12 +141,12 @@ function PortalContent() {
                         >
                             {brand.name} Portal
                         </h1>
-                        <p className="text-slate-600 text-lg max-w-xl mx-auto leading-relaxed">
+                        <p className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
                             Access our suite of tools customized with {brand.name}&apos;s brand parameters.
                         </p>
                     </div>
 
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border bg-card/100 text-xs font-semibold text-slate-500 shadow-2xs">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border bg-card/100 text-xs font-semibold text-muted-foreground shadow-2xs">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                         Active Brand Session
                     </div>
@@ -158,7 +158,7 @@ function PortalContent() {
                         <Card 
                             key={tool.slug} 
                             onClick={() => handleToolClick(tool.slug)}
-                            className="group hover:shadow-xl hover:border-slate-300/80 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between bg-white/70 backdrop-blur-xs border shadow-sm"
+                            className="group hover:shadow-xl hover:border-primary/40 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between bg-card/70 backdrop-blur-xs border shadow-sm"
                         >
                             <CardHeader className="p-6 pb-2">
                                 <div className="p-3 bg-card border border-border/80 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">
@@ -167,7 +167,7 @@ function PortalContent() {
                                 <CardTitle className="text-lg font-bold mt-4 group-hover:text-primary transition-colors">
                                     {tool.name}
                                 </CardTitle>
-                                <CardDescription className="text-sm text-slate-500 mt-2 leading-relaxed">
+                                <CardDescription className="text-sm text-muted-foreground mt-2 leading-relaxed">
                                     {tool.description}
                                 </CardDescription>
                             </CardHeader>
@@ -186,7 +186,7 @@ function PortalContent() {
                 </div>
 
                 {/* Footer attribution */}
-                <div className="mt-16 text-center text-xs text-slate-400">
+                <div className="mt-16 text-center text-xs text-muted-foreground">
                     <p>Powered by TinyTask Productivity Suite</p>
                 </div>
 

@@ -52,8 +52,8 @@ export function FileUploader({
             onDrop={handleDrop}
             onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
             className={cn(
-                "border-2 border-dashed rounded-xl p-8 text-center hover:bg-slate-50 transition-colors cursor-pointer bg-white",
-                selectedFileName ? "border-primary bg-primary/5 hover:bg-primary/5" : "border-slate-300",
+                "border-2 border-dashed rounded-xl p-8 text-center hover:bg-muted/40 transition-colors cursor-pointer bg-card",
+                selectedFileName ? "border-primary bg-primary/5 hover:bg-primary/5" : "border-border",
                 className
             )}
         >
@@ -66,20 +66,20 @@ export function FileUploader({
             />
             <label htmlFor={id} className="cursor-pointer flex flex-col items-center gap-4">
                 <div className={cn(
-                    "p-4 rounded-full bg-slate-50 border border-slate-100 shadow-sm transition-transform duration-300",
-                    selectedFileName && "bg-white text-primary scale-110"
+                    "p-4 rounded-full bg-muted border border-border/60 shadow-sm transition-transform duration-300",
+                    selectedFileName && "bg-card text-primary scale-110"
                 )}>
                     {selectedFileName ? (
                         <CheckCircle2 className="w-8 h-8 text-primary" />
 					) : (
-                        icon || <Upload className="w-8 h-8 text-slate-400" />
+                        icon || <Upload className="w-8 h-8 text-muted-foreground" />
                     )}
                 </div>
                 <div className="space-y-1">
-                    <p className="font-medium text-sm text-slate-800">
+                    <p className="font-medium text-sm text-foreground">
                         {selectedFileName ? selectedFileName : "Click to upload or drag and drop"}
                     </p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-muted-foreground">
                         {description}
                     </p>
                 </div>

@@ -27,7 +27,7 @@ export default function AboutPage() {
                     </p>
                 </div>
                 <div className="space-y-4 p-6 bg-card rounded-xl border border-border/80">
-                    <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center">
                         <Shield className="w-6 h-6" />
                     </div>
                     <h3 className="font-bold text-lg">Privacy Focused</h3>
@@ -36,7 +36,7 @@ export default function AboutPage() {
                     </p>
                 </div>
                 <div className="space-y-4 p-6 bg-card rounded-xl border border-border/80">
-                    <div className="w-12 h-12 bg-red-100 text-red-600 rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-red-100 dark:bg-red-950/30 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-center">
                         <Heart className="w-6 h-6" />
                     </div>
                     <h3 className="font-bold text-lg">User Centric</h3>

@@ -96,7 +96,7 @@ export default function LoginPage() {
                     <form onSubmit={handleSubmit}>
                         <div className="grid gap-4">
                             {error && (
-                                <div className="p-3 text-xs bg-red-50 border border-red-200 rounded text-red-600 font-medium">
+                                <div className="p-3 text-xs bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 rounded text-red-600 dark:text-red-400 font-medium">
                                     {error}
                                 </div>
                             )}

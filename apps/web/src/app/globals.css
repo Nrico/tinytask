@@ -31,6 +31,19 @@
   --radius-radius: var(--radius);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+
+  /* Override Tailwind slate colors with brand theme variables for automatic dark mode contrast and styling integration */
+  --color-slate-50: var(--card);
+  --color-slate-100: var(--muted);
+  --color-slate-200: var(--border);
+  --color-slate-300: var(--border);
+  --color-slate-400: var(--muted-foreground);
+  --color-slate-500: var(--muted-foreground);
+  --color-slate-600: var(--muted-foreground);
+  --color-slate-700: var(--foreground);
+  --color-slate-800: var(--foreground);
+  --color-slate-900: var(--foreground);
+  --color-slate-950: var(--foreground);
 }
 
 @layer base {

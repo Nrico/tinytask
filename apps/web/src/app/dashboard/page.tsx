@@ -78,8 +78,8 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     {user.role === 'admin' && (
-                        <Button onClick={() => router.push('/dashboard/admin')} variant="outline" className="gap-2 font-semibold border-rose-200 bg-rose-50/30 text-rose-700 hover:bg-rose-50/50">
-                            <ShieldAlert className="w-4 h-4 text-rose-600" />
+                        <Button onClick={() => router.push('/dashboard/admin')} variant="outline" className="gap-2 font-semibold border-rose-200/50 dark:border-rose-900/30 bg-rose-50/30 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-950/35">
+                            <ShieldAlert className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                             Admin Panel
                         </Button>
                     )}
@@ -89,7 +89,7 @@ export default function DashboardPage() {
                             Upgrade to Pro
                         </Button>
                     ) : (
-                        <Badge variant="secondary" className="px-4 py-2 text-sm gap-2 bg-slate-100 text-slate-800 border-none font-semibold shadow-xs">
+                        <Badge variant="secondary" className="px-4 py-2 text-sm gap-2 bg-secondary text-secondary-foreground border border-border font-semibold shadow-xs">
                             <Crown className="w-4 h-4 text-yellow-500" />
                             Pro Plan Active
                         </Badge>
@@ -179,8 +179,8 @@ export default function DashboardPage() {
                     Word Formatter
                 </Button>
                 {user.role === 'admin' && (
-                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 border-rose-200 bg-rose-50/10 text-rose-800 hover:bg-rose-50/20" onClick={() => router.push('/dashboard/admin')}>
-                        <ShieldAlert className="w-6 h-6 text-rose-600" />
+                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center gap-2 border-rose-200/50 dark:border-rose-900/30 bg-rose-50/10 dark:bg-rose-950/10 text-rose-800 dark:text-rose-400 hover:bg-rose-50/20 dark:hover:bg-rose-950/25" onClick={() => router.push('/dashboard/admin')}>
+                        <ShieldAlert className="w-6 h-6 text-rose-600 dark:text-rose-400" />
                         Admin Support Panel
                     </Button>
                 )}

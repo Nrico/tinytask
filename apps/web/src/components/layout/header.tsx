@@ -360,7 +360,7 @@ export function Header() {
                                 {activeBrandKit.name} Portal
                             </span>
                         </div>
-                        <span className="text-2xs bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-full border border-slate-200">
+                        <span className="text-2xs bg-muted text-muted-foreground font-semibold px-2 py-0.5 rounded-full border border-border">
                             Branded Suite
                         </span>
                     </div>
@@ -369,7 +369,7 @@ export function Header() {
                         <Button 
                             variant="outline" 
                             size="sm" 
-                            className="gap-1 text-slate-500 hover:text-slate-800"
+                            className="gap-1 text-muted-foreground hover:text-foreground"
                             onClick={() => {
                                 clearBrandKit();
                                 router.push('/');

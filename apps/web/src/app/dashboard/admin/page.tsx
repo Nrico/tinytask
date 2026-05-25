@@ -231,7 +231,7 @@ export default function AdminDashboardPage() {
                 </CardHeader>
                 <CardContent>
                     {error && (
-                        <div className="p-4 mb-4 text-sm bg-red-50 border border-red-200 rounded text-red-600 font-medium">
+                        <div className="p-4 mb-4 text-sm bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 rounded font-medium">
                             {error}
                         </div>
                     )}
@@ -265,9 +265,9 @@ export default function AdminDashboardPage() {
                                         return (
                                             <tr key={u.id} className="border-b hover:bg-card/100">
                                                 <td className="px-4 py-4">
-                                                    <div className="font-semibold text-slate-900">{u.name}</div>
-                                                    <div className="text-xs text-slate-500">{u.email}</div>
-                                                    <div className="text-[10px] text-slate-400 font-mono mt-0.5">UID: {u.id}</div>
+                                                    <div className="font-semibold text-foreground">{u.name}</div>
+                                                    <div className="text-xs text-muted-foreground">{u.email}</div>
+                                                    <div className="text-[10px] text-muted-foreground/80 font-mono mt-0.5">UID: {u.id}</div>
                                                 </td>
                                                 <td className="px-4 py-4">
                                                     <Badge variant={u.plan === 'pro' ? 'default' : 'secondary'}>
@@ -279,7 +279,7 @@ export default function AdminDashboardPage() {
                                                         {u.role.toUpperCase()}
                                                     </Badge>
                                                 </td>
-                                                <td className="px-4 py-4 text-slate-500 text-xs">
+                                                <td className="px-4 py-4 text-muted-foreground text-xs">
                                                     {formatDate(u.createdAt)}
                                                 </td>
                                                 <td className="px-4 py-4 text-right">

@@ -38,9 +38,9 @@ export default function BrandKitDashboardPage() {
     // Form State
     const [brandName, setBrandName] = useState('');
     const [colors, setColors] = useState({
-        primary: '#4f46e5',
-        secondary: '#f3f4f6',
-        accent: '#f59e0b',
+        primary: '#087b82',
+        secondary: '#f2e4c8',
+        accent: '#d7eeee',
         background: '#ffffff',
     });
     const [logos, setLogos] = useState<{
@@ -160,9 +160,9 @@ export default function BrandKitDashboardPage() {
     // Free plan locked page
     if (user.plan === 'free') {
         const mockColors = {
-            primary: '#a855f7',
-            secondary: '#f3e8ff',
-            accent: '#e9d5ff',
+            primary: '#087b82',
+            secondary: '#f2e4c8',
+            accent: '#d7eeee',
             background: '#ffffff',
         };
 
@@ -175,23 +175,23 @@ export default function BrandKitDashboardPage() {
                 </div>
 
                 <div className="relative overflow-hidden rounded-3xl border bg-card/100 p-8 md:p-12 shadow-xl">
-                    <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-card0/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-80 h-80 bg-card/10 rounded-full blur-3xl pointer-events-none" />
 
                     {/* Paywall Overlay */}
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center bg-background/80 backdrop-blur-md rounded-3xl">
-                        <div className="p-4 rounded-full bg-purple-100 border border-purple-200 text-purple-600 mb-6 animate-pulse">
+                        <div className="p-4 rounded-full bg-primary/10 border border-primary/20 text-primary mb-6 animate-pulse">
                             <Lock className="w-10 h-10" />
                         </div>
-                        <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                        <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
                             Unlock Subscriber Brand Kits
                         </h2>
-                        <p className="mt-4 max-w-md text-base text-slate-600 leading-relaxed">
+                        <p className="mt-4 max-w-md text-base text-muted-foreground leading-relaxed">
                             Maintain consistent branding across all TinyTask productivity tools. Elevate your workflows and share pre-branded tools with your team or clients.
                         </p>
                         
                         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Button onClick={upgradeToPro} size="lg" className="px-8 bg-purple-600 hover:bg-purple-700 text-white gap-2 font-semibold shadow-lg shadow-purple-500/25">
+                            <Button onClick={upgradeToPro} size="lg" className="px-8 bg-primary hover:bg-primary/90 text-primary-foreground gap-2 font-semibold shadow-lg shadow-primary/25 border-none">
                                 <Crown className="w-5 h-5 text-yellow-300 fill-yellow-300" /> Upgrade to Pro
                             </Button>
                             <Button variant="outline" size="lg" onClick={() => router.push('/pricing')}>
@@ -199,18 +199,18 @@ export default function BrandKitDashboardPage() {
                             </Button>
                         </div>
 
-                        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-semibold text-slate-500 max-w-2xl">
-                            <div className="p-3 bg-white/50 border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Custom Colors
+                        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-semibold text-muted-foreground max-w-2xl">
+                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
+                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Custom Colors
                             </div>
-                            <div className="p-3 bg-white/50 border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Logo Uploads
+                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
+                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Logo Uploads
                             </div>
-                            <div className="p-3 bg-white/50 border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Premium Fonts
+                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
+                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Premium Fonts
                             </div>
-                            <div className="p-3 bg-white/50 border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
-                                <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Shareable Links
+                            <div className="p-3 bg-card/50 border border-border rounded-xl flex items-center justify-center gap-1.5 shadow-sm">
+                                <Sparkles className="w-3.5 h-3.5 text-primary" /> Shareable Links
                             </div>
                         </div>
                     </div>
@@ -265,8 +265,8 @@ export default function BrandKitDashboardPage() {
                 <div className="w-full lg:w-7/12 space-y-6">
                     <div>
                         <div className="flex items-center gap-2">
-                            <h1 className="text-3xl font-bold tracking-tight text-slate-800">Brand Identity</h1>
-                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 hover:bg-purple-100 border border-purple-200 font-semibold gap-1 py-0.5">
+                            <h1 className="text-3xl font-bold tracking-tight text-foreground">Brand Identity</h1>
+                            <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/15 border border-primary/20 font-semibold gap-1 py-0.5">
                                 <Crown className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" /> Subscriber
                             </Badge>
                         </div>
@@ -275,7 +275,7 @@ export default function BrandKitDashboardPage() {
                         </p>
                     </div>
 
-                    <Card className="shadow-md border bg-white/50 backdrop-blur-sm">
+                    <Card className="shadow-md border bg-card/50 backdrop-blur-sm">
                         <CardHeader>
                             <CardTitle className="text-lg">Brand Settings</CardTitle>
                             <CardDescription>All fields will adapt client-side across the suite of tools.</CardDescription>
@@ -289,7 +289,7 @@ export default function BrandKitDashboardPage() {
                                     value={brandName} 
                                     onChange={e => setBrandName(e.target.value)} 
                                     placeholder="e.g. Acme Corporation" 
-                                    className="bg-white"
+                                    className="bg-background"
                                 />
                             </div>
 
@@ -298,7 +298,7 @@ export default function BrandKitDashboardPage() {
                                 label="Brand Font Family" 
                                 value={font} 
                                 onChange={setFont} 
-                                className="bg-white rounded-md p-1 border"
+                                className="bg-background rounded-md p-1 border"
                             />
 
                             {/* Brand Colors */}
@@ -434,24 +434,24 @@ export default function BrandKitDashboardPage() {
                             <CardContent className="space-y-4">
                                 {/* Brand Portal Link */}
                                 <div className="space-y-2">
-                                    <Label className="text-sm font-semibold text-slate-700 flex items-center justify-between">
+                                    <Label className="text-sm font-semibold text-foreground flex items-center justify-between">
                                         Main Branded Tool Portal
                                         <span className="text-xs text-muted-foreground font-normal">Lists all tools with your branding</span>
                                     </Label>
                                     <div className="flex gap-2">
-                                        <div className="flex-1 bg-white border border-emerald-200 p-2.5 rounded-lg text-xs font-mono select-all truncate max-w-full text-slate-600">
+                                        <div className="flex-1 bg-background border border-emerald-200/50 p-2.5 rounded-lg text-xs font-mono select-all truncate max-w-full text-foreground/80">
                                             {portalUrl}
                                         </div>
                                         <Button 
                                             variant="outline" 
-                                            className="border-emerald-200 text-emerald-800 hover:bg-emerald-100 flex-shrink-0" 
+                                            className="border-emerald-200/40 text-emerald-800 dark:text-emerald-400 hover:bg-emerald-100/10 flex-shrink-0" 
                                             onClick={() => copyToClipboard(portalUrl, 'portal')}
                                         >
-                                            {copiedStates['portal'] ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                                            {copiedStates['portal'] ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
                                         </Button>
                                         <Button 
                                             variant="ghost" 
-                                            className="text-emerald-800 hover:bg-emerald-100 flex-shrink-0 gap-1.5" 
+                                            className="text-emerald-800 dark:text-emerald-400 hover:bg-emerald-100/10 flex-shrink-0 gap-1.5" 
                                             onClick={() => window.open(portalUrl, '_blank')}
                                         >
                                             <ExternalLink className="w-4 h-4" /> Open
@@ -460,8 +460,8 @@ export default function BrandKitDashboardPage() {
                                 </div>
 
                                 {/* Tool Specific Links */}
-                                <div className="space-y-3 border-t border-emerald-100 pt-4">
-                                    <Label className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Direct Tool Shortcuts</Label>
+                                 <div className="space-y-3 border-t border-emerald-100/30 pt-4">
+                                    <Label className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider">Direct Tool Shortcuts</Label>
                                     <div className="grid gap-2">
                                         {['invoice-swift', 'qr-generator', 'brochure-builder', 'signature-smith'].map(toolSlug => {
                                             const toolName = toolSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -469,18 +469,18 @@ export default function BrandKitDashboardPage() {
                                             const toolUrl = `${window.location.origin}/tools/${toolSlug}?brand_kit=${encoded}`;
                                             
                                             return (
-                                                <div key={toolSlug} className="flex items-center justify-between p-2.5 rounded-lg bg-white border border-slate-100 shadow-sm text-sm">
-                                                    <span className="font-semibold text-slate-700">{toolName}</span>
+                                                <div key={toolSlug} className="flex items-center justify-between p-2.5 rounded-lg bg-background border border-border shadow-sm text-sm">
+                                                    <span className="font-semibold text-foreground/80">{toolName}</span>
                                                     <div className="flex gap-1.5">
                                                         <Button 
                                                             size="sm" 
                                                             variant="ghost" 
-                                                            className="h-8 text-xs text-slate-600 gap-1"
+                                                            className="h-8 text-xs text-muted-foreground hover:text-foreground gap-1"
                                                             onClick={() => copyToClipboard(toolUrl, toolSlug)}
                                                         >
                                                             {copiedStates[toolSlug] ? (
                                                                 <>
-                                                                    <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied
+                                                                    <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Copied
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -501,7 +501,7 @@ export default function BrandKitDashboardPage() {
 
                 {/* Mockup Preview Panel */}
                 <div className="w-full lg:w-5/12 sticky top-24">
-                    <h3 className="font-semibold text-slate-800 text-sm mb-4">Interactive Branding Preview</h3>
+                    <h3 className="font-semibold text-foreground/80 text-sm mb-4">Interactive Branding Preview</h3>
                     
                     <div 
                         style={{ 
@@ -509,7 +509,7 @@ export default function BrandKitDashboardPage() {
                             backgroundColor: colors.background,
                             color: colors.primary
                         }} 
-                        className="rounded-3xl border border-slate-200/80 shadow-lg p-6 min-h-[480px] flex flex-col justify-between transition-colors duration-300"
+                        className="rounded-3xl border border-border shadow-lg p-6 min-h-[480px] flex flex-col justify-between transition-colors duration-300"
                     >
                         {/* Mock Header */}
                         <div className="flex justify-between items-center border-b pb-4 mb-6" style={{ borderColor: `${colors.primary}20` }}>
@@ -524,7 +524,7 @@ export default function BrandKitDashboardPage() {
                                         {brandName ? brandName.charAt(0).toUpperCase() : 'B'}
                                     </div>
                                 )}
-                                <span className="font-bold text-base tracking-tight text-slate-800" style={{ color: colors.primary }}>
+                                <span className="font-bold text-base tracking-tight text-foreground" style={{ color: colors.primary }}>
                                     {brandName || 'Acme Corp'}
                                 </span>
                             </div>
