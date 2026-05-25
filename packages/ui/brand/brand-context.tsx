@@ -23,6 +23,7 @@ interface BrandKitContextType {
     isBrandedSession: boolean;
     clearBrandKit: () => void;
     setPreviewBrandKit: (kit: BrandKit | null) => void;
+    updateActiveBrandKit: (kit: BrandKit | null) => void;
 }
 
 const BrandKitContext = createContext<BrandKitContextType | undefined>(undefined);
@@ -197,9 +198,24 @@ export function BrandKitProvider({ children }: { children: React.ReactNode }) {
                 setActiveBrandKit(decoded);
                 setIsBrandedSession(true);
                 applyBrandStyles(decoded);
+                return;
             } catch (e) {
                 console.error("Failed to parse stored brand kit", e);
                 sessionStorage.removeItem('tinytask_active_brand_kit');
+            }
+        }
+
+        // Check localStorage as fallback for persistent branding
+        const localStored = localStorage.getItem('tinytask_active_brand_kit');
+        if (localStored) {
+            try {
+                const decoded = JSON.parse(localStored) as BrandKit;
+                setActiveBrandKit(decoded);
+                setIsBrandedSession(true);
+                applyBrandStyles(decoded);
+            } catch (e) {
+                console.error("Failed to parse localStorage brand kit", e);
+                localStorage.removeItem('tinytask_active_brand_kit');
             }
         }
     }, []);
@@ -208,6 +224,7 @@ export function BrandKitProvider({ children }: { children: React.ReactNode }) {
         setActiveBrandKit(null);
         setIsBrandedSession(false);
         sessionStorage.removeItem('tinytask_active_brand_kit');
+        localStorage.removeItem('tinytask_active_brand_kit');
         applyBrandStyles(null);
         
         // Remove brand_kit query parameter from the URL if present
@@ -222,8 +239,23 @@ export function BrandKitProvider({ children }: { children: React.ReactNode }) {
         applyBrandStyles(kit);
     };
 
+    const updateActiveBrandKit = (kit: BrandKit | null) => {
+        setActiveBrandKit(kit);
+        if (kit) {
+            setIsBrandedSession(true);
+            sessionStorage.setItem('tinytask_active_brand_kit', JSON.stringify(kit));
+            localStorage.setItem('tinytask_active_brand_kit', JSON.stringify(kit));
+            applyBrandStyles(kit);
+        } else {
+            setIsBrandedSession(false);
+            sessionStorage.removeItem('tinytask_active_brand_kit');
+            localStorage.removeItem('tinytask_active_brand_kit');
+            applyBrandStyles(null);
+        }
+    };
+
     return (
-        <BrandKitContext.Provider value={{ activeBrandKit, isBrandedSession, clearBrandKit, setPreviewBrandKit }}>
+        <BrandKitContext.Provider value={{ activeBrandKit, isBrandedSession, clearBrandKit, setPreviewBrandKit, updateActiveBrandKit }}>
             {children}
         </BrandKitContext.Provider>
     );

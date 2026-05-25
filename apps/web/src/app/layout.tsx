@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { inter, playfair, oswald, outfit } from "@/lib/fonts";
 import { AuthProvider } from "@/lib/auth-context";
 import { BrandKitProvider } from "@tinytask/ui/brand/brand-context";
+import { BrandKitSync } from "@/components/layout/brand-kit-sync";
 
 export const metadata: Metadata = {
   title: "TinyTask - Productivity Tools Suite",
@@ -51,6 +52,7 @@ export default function RootLayout({
       )}>
         <AuthProvider>
           <BrandKitProvider>
+            <BrandKitSync />
             <div className="relative flex min-h-screen flex-col">
               <Header />
               <div className="flex-1">{children}</div>

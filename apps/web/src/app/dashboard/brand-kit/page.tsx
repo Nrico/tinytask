@@ -32,7 +32,7 @@ import {
 
 export default function BrandKitDashboardPage() {
     const { user, isLoading, upgradeToPro } = useAuth();
-    const { setPreviewBrandKit } = useBrandKit();
+    const { setPreviewBrandKit, updateActiveBrandKit } = useBrandKit();
     const router = useRouter();
 
     // Form State
@@ -136,6 +136,7 @@ export default function BrandKitDashboardPage() {
         };
 
         localStorage.setItem(`tinytask_brand_kit_${user.id}`, JSON.stringify(kit));
+        updateActiveBrandKit(kit);
         
         const encoded = encodeBrandKit(kit);
         const origin = window.location.origin;
