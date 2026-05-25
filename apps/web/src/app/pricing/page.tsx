@@ -38,7 +38,7 @@ export default function PricingPage() {
                     <CardContent className="flex-1">
                         <div className="text-4xl font-bold mb-6">$0<span className="text-lg font-normal text-muted-foreground">/mo</span></div>
                         <ul className="space-y-3 text-sm">
-                            <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500" /> Access to all 12+ tools</li>
+                            <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500" /> Access to all 25 tools</li>
                             <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500" /> Unlimited exports</li>
                             <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-500" /> No ads</li>
                             <li className="flex items-center gap-2 text-muted-foreground"><X className="w-4 h-4" /> Save projects</li>

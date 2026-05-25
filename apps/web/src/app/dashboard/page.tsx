@@ -84,7 +84,7 @@ export default function DashboardPage() {
                         </Button>
                     )}
                     {user.plan === 'free' ? (
-                        <Button onClick={upgradeToPro} className="gap-2 bg-rose-600 hover:bg-rose-700 text-white border-none shadow-xs font-semibold">
+                        <Button onClick={upgradeToPro} className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground border-none shadow-xs font-semibold cursor-pointer">
                             <Zap className="w-4 h-4" />
                             Upgrade to Pro
                         </Button>
@@ -116,7 +116,7 @@ export default function DashboardPage() {
                                 <p className="text-xs text-muted-foreground leading-relaxed">
                                     Upgrade to unlock unlimited projects, custom brand kits, offline barcode options, and priority email support.
                                 </p>
-                                <Button onClick={upgradeToPro} className="w-full text-xs h-9 bg-rose-600 hover:bg-rose-700 text-white border-none shadow-xs font-semibold gap-1">
+                                <Button onClick={upgradeToPro} className="w-full text-xs h-9 bg-primary hover:bg-primary/90 text-primary-foreground border-none shadow-xs font-semibold gap-1 cursor-pointer">
                                     <Zap className="w-3.5 h-3.5" /> Upgrade to Pro
                                 </Button>
                             </div>

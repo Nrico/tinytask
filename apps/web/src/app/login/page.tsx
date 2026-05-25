@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -186,13 +187,13 @@ export default function LoginPage() {
 
                 <p className="px-8 text-center text-sm text-muted-foreground">
                     By clicking continue, you agree to our{" "}
-                    <a href="#" className="underline underline-offset-4 hover:text-primary">
+                    <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
                         Terms of Service
-                    </a>{" "}
+                    </Link>{" "}
                     and{" "}
-                    <a href="#" className="underline underline-offset-4 hover:text-primary">
+                    <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
                         Privacy Policy
-                    </a>
+                    </Link>
                     .
                 </p>
             </div>
