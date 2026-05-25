@@ -18,11 +18,20 @@ export const metadata: Metadata = {
     siteName: "TinyTask",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "TinyTask - Productivity Tools Suite",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "TinyTask - Productivity Tools Suite",
     description: "A collection of premium productivity tools for everyday tasks.",
+    images: ["/og-image.jpeg"],
   },
 };
 
