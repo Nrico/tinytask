@@ -32,6 +32,19 @@ export default function InvoiceSwiftPage() {
             if (activeBrandKit.name) {
                 setCompanyName(activeBrandKit.name);
             }
+            
+            const detailsParts = [];
+            if (activeBrandKit.address) detailsParts.push(activeBrandKit.address);
+            if (activeBrandKit.phone) detailsParts.push(`Phone: ${activeBrandKit.phone}`);
+            if (activeBrandKit.email) detailsParts.push(`Email: ${activeBrandKit.email}`);
+            if (activeBrandKit.website) detailsParts.push(`Web: ${activeBrandKit.website}`);
+            if (detailsParts.length > 0) {
+                setCompanyDetails(detailsParts.join('\n'));
+            }
+            
+            if (activeBrandKit.disclaimer) {
+                setPaymentTerms(activeBrandKit.disclaimer);
+            }
         }
     }, [isBrandedSession, activeBrandKit]);
 
@@ -87,7 +100,7 @@ export default function InvoiceSwiftPage() {
             `}} />
 
             <ToolLayout
-                title="Invoice Swift"
+                title="Create & Print PDF Invoices"
                 description="Create and print professional invoices instantly."
                 sidebarContent={
                     <div className="space-y-6">

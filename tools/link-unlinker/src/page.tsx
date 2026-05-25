@@ -234,7 +234,7 @@ For support, go to our Help Center (https://support.example.com/tickets) or sear
 
   return (
     <ToolLayout
-      title="Link Un-linker"
+      title="Strip Tracking (UTM) from Links"
       description="Remove hyperlinks from rich documents while preserving text, strip tracking metrics, or extract unique link URLs."
       sidebarContent={
         <div className="space-y-6">

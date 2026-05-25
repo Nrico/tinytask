@@ -282,7 +282,7 @@ export default function CaseEnginePage() {
 
   return (
     <ToolLayout
-      title="Quick Case Engine"
+      title="Fix Capitalization & Text Casing"
       description="Instantly convert word list or text paragraphs into uppercase, lowercase, sentence case, or standard publishing title casing."
       faqs={[
         {

@@ -17,31 +17,31 @@ export default function FloristCollectionPage() {
 
             <section className="container mx-auto px-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:px-6 lg:px-8 max-w-5xl">
                 <ToolCard
-                    title="Label Creator"
+                    title="Design Avery Sheet Labels"
                     description="Create custom price tags, stickers, and care instruction labels."
                     icon={<Tags className="w-6 h-6 text-kraft" />}
                     href="/tools/label-creator"
                 />
                 <ToolCard
-                    title="Greeting Card Builder"
+                    title="Design Folded Greeting Cards"
                     description="Design personalized cards for bouquets and arrangements."
                     icon={<Heart className="w-6 h-6 text-red-500" />}
                     href="/tools/greeting-card"
                 />
                 <ToolCard
-                    title="Name Tent Maker"
+                    title="Create Event Name Tents"
                     description="Create elegant display signs for flower varieties and pricing."
                     icon={<Tent className="w-6 h-6 text-rose-500" />}
                     href="/tools/name-tent"
                 />
                 <ToolCard
-                    title="Invoice Swift"
+                    title="Create & Print PDF Invoices"
                     description="Generate professional invoices for weddings and events."
                     icon={<FileText className="w-6 h-6 text-emerald-600" />}
                     href="/tools/invoice-swift"
                 />
                 <ToolCard
-                    title="QR Generator"
+                    title="Generate QR & Barcode Assets"
                     description="Link customers to plant care guides or your social media."
                     icon={<QrCode className="w-6 h-6 text-primary" />}
                     href="/tools/qr-generator"

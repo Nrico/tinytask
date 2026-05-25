@@ -42,7 +42,7 @@ export default function JarLabelGeneratorPage() {
     <div className="container mx-auto px-4 py-10 max-w-5xl sm:px-6 lg:px-8 print:hidden">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Jar Label Generator</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Create Lid & Packaging Labels</h1>
           <p className="text-muted-foreground mt-1">Small-batch food producers, hobbyists, and home cooks need a quick way to design and print professional jar labels that fit standard label sheets.</p>
         </div>
         <div className="flex gap-2">

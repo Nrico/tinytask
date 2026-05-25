@@ -17,31 +17,31 @@ export default function ProductivityCollectionPage() {
 
             <section className="container mx-auto px-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:px-6 lg:px-8 max-w-5xl">
                 <ToolCard
-                    title="Zone Zapper"
+                    title="Map Timezone Overlaps for Syncs"
                     description="Coordinate meetings across multiple timezones effortlessly."
                     icon={<Globe className="w-6 h-6 text-[#087b82]" />}
                     href="/tools/zone-zapper"
                 />
                 <ToolCard
-                    title="Excel Data Scrubber"
+                    title="Clean a Messy Spreadsheet"
                     description="Clean and format messy spreadsheet data in seconds."
                     icon={<FileSpreadsheet className="w-6 h-6 text-green-600" />}
                     href="/tools/excel-scrubber"
                 />
                 <ToolCard
-                    title="Word Formatter"
+                    title="Format Drafts into Markdown"
                     description="Strip formatting and clean up text documents."
                     icon={<FileText className="w-6 h-6 text-kraft" />}
                     href="/tools/word-formatter"
                 />
                 <ToolCard
-                    title="Team Taggler"
+                    title="Pick Winners & Split Squads"
                     description="Make quick decisions and split teams for projects."
                     icon={<Users className="w-6 h-6 text-kraft" />}
                     href="/tools/team-taggler"
                 />
                 <ToolCard
-                    title="Signature Smith"
+                    title="Generate Branded Email Signatures"
                     description="Create professional email signatures for your correspondence."
                     icon={<Mail className="w-6 h-6 text-pink-500" />}
                     href="/tools/signature-smith"

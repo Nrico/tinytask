@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export interface BrandKit {
+    id: string;
     name: string;
     colors: {
         primary: string;
@@ -16,6 +17,17 @@ export interface BrandKit {
         icon?: string; // compressed base64
     };
     font: string;
+    email?: string;
+    phone?: string;
+    website?: string;
+    address?: string;
+    socials?: {
+        linkedin?: string;
+        twitter?: string;
+        github?: string;
+        instagram?: string;
+    };
+    disclaimer?: string;
 }
 
 interface BrandKitContextType {
@@ -69,7 +81,11 @@ export function decodeBrandKit(str: string): BrandKit | null {
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
             }).join('')
         );
-        return JSON.parse(jsonStr) as BrandKit;
+        const parsed = JSON.parse(jsonStr) as BrandKit;
+        if (parsed && !parsed.id) {
+            parsed.id = "default";
+        }
+        return parsed;
     } catch (e) {
         console.error("Failed to decode brand kit", e);
         return null;
@@ -210,6 +226,9 @@ export function BrandKitProvider({ children }: { children: React.ReactNode }) {
         if (localStored) {
             try {
                 const decoded = JSON.parse(localStored) as BrandKit;
+                if (decoded && !decoded.id) {
+                    decoded.id = "default";
+                }
                 setActiveBrandKit(decoded);
                 setIsBrandedSession(true);
                 applyBrandStyles(decoded);

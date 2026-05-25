@@ -284,7 +284,7 @@ export default function SignGeneratorPage() {
       `}} />
 
       <ToolLayout
-        title="Sign Generator"
+        title="Design OSHA-Compliant Signs"
         description="Create professional warning signs, office notices, parking displays, and announcement sheets."
         faqs={[
           {

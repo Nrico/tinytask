@@ -363,7 +363,7 @@ export default function VisualStylePurgerPage() {
 
   return (
     <ToolLayout
-      title="Visual Style Purger"
+      title="Strip Rich Text Styles"
       description="Instantly strips MS Word XML styles, inline line-heights, fonts, and background shading, leaving clean content."
       sidebarContent={
         <div className="space-y-6">

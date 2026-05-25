@@ -243,7 +243,7 @@ export default function SignatureGeneratorPage() {
 
   return (
     <ToolLayout
-      title="Email Signature Generator"
+      title="Create HTML Email Signatures"
       description="Design Outlook-safe HTML signatures and copy them as rich text directly into your mail app's settings."
       sidebarContent={
         <div className="space-y-6 max-h-[calc(100vh-180px)] overflow-y-auto pr-1">

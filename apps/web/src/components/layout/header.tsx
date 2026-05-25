@@ -60,15 +60,15 @@ export const ALL_TOOLS: ToolItem[] = [
     // Office & Print Docs
     {
         slug: "invoice-swift",
-        name: "Invoice Swift",
-        description: "Create professional PDF invoices instantly.",
+        name: "Create & Print PDF Invoices",
+        description: "Create professional business invoices instantly.",
         category: "print",
         icon: FileText,
         keywords: ["invoice", "pdf", "billing", "receipt", "payment"]
     },
     {
         slug: "brochure-builder",
-        name: "Brochure Builder",
+        name: "Create Branded Brochures",
         description: "Design and print tri-fold and bi-fold brochures.",
         category: "print",
         icon: BookOpen,
@@ -76,7 +76,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "greeting-card",
-        name: "Greeting Card Maker",
+        name: "Design Folded Greeting Cards",
         description: "Create folded greeting cards (portrait/landscape).",
         category: "print",
         icon: Heart,
@@ -84,15 +84,15 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "name-tent",
-        name: "Name Tent Maker",
-        description: "Create foldable name tents for meetings.",
+        name: "Create Event Name Tents",
+        description: "Create foldable name tents for meetings and conferences.",
         category: "print",
         icon: Tent,
         keywords: ["name tent", "tent", "meeting", "events", "conference"]
     },
     {
         slug: "jar-label-generator",
-        name: "Jar Label Generator",
+        name: "Create Lid & Packaging Labels",
         description: "Design packaging jar and lid labels.",
         category: "print",
         icon: Package,
@@ -100,7 +100,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "label-creator",
-        name: "Label Creator",
+        name: "Design Avery Sheet Labels",
         description: "Design custom labels with Avery sheets.",
         category: "print",
         icon: Tags,
@@ -108,8 +108,8 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "sign-generator",
-        name: "Safety Sign Builder",
-        description: "Create OSHA-compliant warning signs.",
+        name: "Design OSHA-Compliant Signs",
+        description: "Create OSHA-compliant warning and safety signs.",
         category: "print",
         icon: Shield,
         keywords: ["sign", "safety", "warning", "caution", "danger", "osha"]
@@ -118,15 +118,15 @@ export const ALL_TOOLS: ToolItem[] = [
     // Data & Spreadsheets
     {
         slug: "excel-scrubber",
-        name: "Excel Data Scrubber",
-        description: "Clean, format, and manipulate Excel data.",
+        name: "Clean a Messy Spreadsheet",
+        description: "Clean, format, and manipulate Excel and CSV data.",
         category: "data",
         icon: FileSpreadsheet,
         keywords: ["excel", "csv", "scrub", "clean", "sheets", "rows", "columns"]
     },
     {
         slug: "string-integrity-preserver",
-        name: "String Preserver",
+        name: "Fix Excel Conversion Bugs",
         description: "Prevent Excel column auto-conversion bugs.",
         category: "data",
         icon: ShieldAlert,
@@ -134,7 +134,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "delimiter-matrix",
-        name: "Delimiter Matrix",
+        name: "Convert List Delimiters",
         description: "Convert pipe/semicolon/tab text list files.",
         category: "data",
         icon: Grid,
@@ -142,7 +142,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "table-tuner",
-        name: "Table Tuner",
+        name: "Format Tables for Markdown & JSON",
         description: "Format CSV/Excel files to markdown/JSON/HTML.",
         category: "data",
         icon: Table,
@@ -152,7 +152,7 @@ export const ALL_TOOLS: ToolItem[] = [
     // Clipboard & Text Cleaners
     {
         slug: "visual-style-purger",
-        name: "Visual Style Purger",
+        name: "Strip Rich Text Styles",
         description: "Strip fonts, sizes, and colors from rich text.",
         category: "text",
         icon: Sparkles,
@@ -160,7 +160,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "data-payload-sanitizer",
-        name: "Payload Sanitizer",
+        name: "Scrub Hidden MS Word Tags",
         description: "Purge hidden MS Word styling tags to raw text.",
         category: "text",
         icon: Trash2,
@@ -168,7 +168,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "whitespace-compressor",
-        name: "Whitespace Compressor",
+        name: "Clean Double Spaces & Breaks",
         description: "Compress double spaces, line breaks, and tabs.",
         category: "text",
         icon: Minimize2,
@@ -176,7 +176,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "list-unbreaker",
-        name: "List Un-breaker",
+        name: "Align Bullets & Text Lists",
         description: "Align text list elements and clean bullet characters.",
         category: "text",
         icon: List,
@@ -184,7 +184,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "word-formatter",
-        name: "Word Formatter",
+        name: "Format Drafts into Markdown",
         description: "Format drafting documents into Markdown structure.",
         category: "text",
         icon: FileText,
@@ -192,7 +192,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "case-engine",
-        name: "Quick Case Engine",
+        name: "Fix Capitalization & Text Casing",
         description: "Toggle text casings (Camel, Sentence, snake, etc.).",
         category: "text",
         icon: Type,
@@ -200,7 +200,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "pattern-replacer",
-        name: "Pattern Replacer",
+        name: "Find & Replace with Patterns",
         description: "Find and replace text using words or regex patterns.",
         category: "text",
         icon: RefreshCw,
@@ -210,7 +210,7 @@ export const ALL_TOOLS: ToolItem[] = [
     // Assets & Utilities
     {
         slug: "qr-generator",
-        name: "QR & Barcode Generator",
+        name: "Generate QR & Barcode Assets",
         description: "Generate high-resolution barcodes and QR codes.",
         category: "digital",
         icon: QrCode,
@@ -218,7 +218,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "pixel-pruner",
-        name: "Pixel Pruner",
+        name: "Resize & Compress Digital Images",
         description: "Resize and compress images inside your browser.",
         category: "digital",
         icon: ImageIcon,
@@ -226,7 +226,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "signature-smith",
-        name: "Signature Smith",
+        name: "Generate Branded Email Signatures",
         description: "Generate professional branded HTML email signatures.",
         category: "digital",
         icon: Mail,
@@ -234,7 +234,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "signature-generator",
-        name: "Email Signature Generator",
+        name: "Create HTML Email Signatures",
         description: "Build clean vertical/horizontal HTML email signatures.",
         category: "digital",
         icon: PenTool,
@@ -242,7 +242,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "zone-zapper",
-        name: "Zone Zapper",
+        name: "Map Timezone Overlaps for Syncs",
         description: "Map timezone overlaps for remote team syncs.",
         category: "digital",
         icon: Globe,
@@ -250,7 +250,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "team-taggler",
-        name: "Team Taggler",
+        name: "Pick Winners & Split Squads",
         description: "Pick raffle winners and split squads instantly.",
         category: "digital",
         icon: Users,
@@ -258,7 +258,7 @@ export const ALL_TOOLS: ToolItem[] = [
     },
     {
         slug: "link-unlinker",
-        name: "Link Un-linker",
+        name: "Strip Tracking (UTM) from Links",
         description: "Purge UTM tracking parameters & anchor hyperlinks.",
         category: "digital",
         icon: Link2,

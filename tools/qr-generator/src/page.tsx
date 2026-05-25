@@ -167,7 +167,7 @@ export default function QrGeneratorPage() {
 
     return (
         <ToolLayout
-            title="QR & Barcode Generator"
+            title="Generate QR & Barcode Assets"
             description="Generate QR codes and barcodes instantly."
             faqs={[
                 {

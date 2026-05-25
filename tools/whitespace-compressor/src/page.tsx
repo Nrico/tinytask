@@ -192,7 +192,7 @@ export default function WhitespaceCompressorPage() {
 
   return (
     <ToolLayout
-      title="Whitespace Compressor"
+      title="Clean Double Spaces & Breaks"
       description="Clean formatting by collapsing multiple spaces, trimming line tails, stripping invisible editor characters, and normalizing tabs."
       sidebarContent={
         <div className="space-y-6">

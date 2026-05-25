@@ -266,7 +266,7 @@ export default function DelimiterMatrixPage() {
 
   return (
     <ToolLayout
-      title="Delimiter Matrix"
+      title="Convert List Delimiters"
       description="Safely parse and convert tabular structures containing nested commas, quotes, and newlines into clean formats."
       sidebarContent={
         <div className="space-y-6">

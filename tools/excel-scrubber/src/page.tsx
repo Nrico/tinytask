@@ -238,7 +238,7 @@ export default function ExcelScrubberPage() {
 
     return (
         <ToolLayout
-            title="Excel Data Scrubber"
+            title="Clean a Messy Spreadsheet"
             description="Clean, reorder columns, split/merge fields, and format CSV or Excel tables."
             sidebarContent={
                 data.length === 0 ? (

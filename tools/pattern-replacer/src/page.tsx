@@ -167,7 +167,7 @@ export default function PatternReplacerPage() {
 
   return (
     <ToolLayout
-      title="Pattern Replacer"
+      title="Find & Replace with Patterns"
       description="Find and replace text using custom text, regex patterns, or plain-English checkboxes (Tabs, Line Breaks, double spaces) with yellow highlights."
       sidebarContent={
         <div className="space-y-6">

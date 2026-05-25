@@ -98,7 +98,7 @@ export default function LabelCreatorPage() {
         <div className="container mx-auto px-4 py-8 max-w-7xl sm:px-6 lg:px-8">
             <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 print:hidden">
                 <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight">Label Creator</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">Design Avery Sheet Labels</h1>
                     <p className="text-muted-foreground">
                         Design, merge, and print labels using Avery templates.
                     </p>

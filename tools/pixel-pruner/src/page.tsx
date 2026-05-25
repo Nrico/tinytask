@@ -345,7 +345,7 @@ export default function PixelPrunerPage() {
 
     return (
         <ToolLayout
-            title="Pixel Pruner"
+            title="Resize & Compress Digital Images"
             description="Resize and compress images instantly in your browser."
             sidebarContent={sidebarContent}
             previewContent={previewContent}

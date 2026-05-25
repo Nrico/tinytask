@@ -195,7 +195,7 @@ export default function NameTentPage() {
             `}} />
 
             <ToolLayout
-                title="Name Tent Maker"
+                title="Create Event Name Tents"
                 description="Design and print folding name tents for meetings, events, and classrooms."
                 sidebarContent={
                     <div className="space-y-6">

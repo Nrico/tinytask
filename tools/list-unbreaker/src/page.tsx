@@ -174,7 +174,7 @@ export default function ListUnbreakerPage() {
 
   return (
     <ToolLayout
-      title="Plain-Text List Un-breaker"
+      title="Align Bullets & Text Lists"
       description="Clean up erratically indented lines, strip erratic tab spaces, and format nested lists into aligned bullet points."
       sidebarContent={
         <div className="space-y-6">

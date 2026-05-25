@@ -43,6 +43,13 @@ export default function SignatureSmithPage() {
                 setAvatarType('url');
                 setAvatarUrl(activeBrandKit.logos.primary);
             }
+            if (activeBrandKit.phone) setPhone(activeBrandKit.phone);
+            if (activeBrandKit.email) setEmail(activeBrandKit.email);
+            if (activeBrandKit.website) setWebsite(activeBrandKit.website);
+            if (activeBrandKit.address) setAddress(activeBrandKit.address);
+            if (activeBrandKit.socials?.linkedin) setLinkedin(activeBrandKit.socials.linkedin);
+            if (activeBrandKit.socials?.twitter) setTwitter(activeBrandKit.socials.twitter);
+            if (activeBrandKit.socials?.github) setGithub(activeBrandKit.socials.github);
         }
     }, [isBrandedSession, activeBrandKit]);
 
@@ -316,7 +323,7 @@ export default function SignatureSmithPage() {
 
     return (
         <ToolLayout
-            title="Signature Smith"
+            title="Generate Branded Email Signatures"
             description="Create professional email signatures in seconds."
             sidebarContent={
                 <div className="space-y-6">

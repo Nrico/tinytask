@@ -124,7 +124,7 @@ export default function ZoneZapperPage() {
                 </Link>
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Zone Zapper</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">Map Timezone Overlaps for Syncs</h1>
                         <p className="text-muted-foreground">Find the perfect meeting time across timezones.</p>
                     </div>
                 </div>

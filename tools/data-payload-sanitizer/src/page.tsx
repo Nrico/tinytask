@@ -176,7 +176,7 @@ export default function DataPayloadSanitizerPage() {
 
   return (
     <ToolLayout
-      title="Data Payload Sanitizer"
+      title="Scrub Hidden MS Word Tags"
       description="Paste rich-text copies from Word, Excel, or Outlook to immediately strip out hidden HTML/XML formatting and obtain clean plain text."
       sidebarContent={
         <div className="space-y-6">

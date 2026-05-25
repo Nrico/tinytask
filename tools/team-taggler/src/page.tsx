@@ -69,7 +69,7 @@ export default function TeamTagglerPage() {
                 </Link>
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Team Taggler</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">Pick Winners & Split Squads</h1>
                         <p className="text-muted-foreground">Randomly pick a winner or split teams instantly.</p>
                     </div>
                 </div>

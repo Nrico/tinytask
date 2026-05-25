@@ -894,7 +894,7 @@ export default function GreetingCardPage() {
             `}} />
 
             <ToolLayout
-                title="Greeting Card Maker"
+                title="Design Folded Greeting Cards"
                 description="Design folded greeting cards (Vertical Book Fold or Horizontal Tent Fold) with high-quality styling."
                 faqs={[
                     {

@@ -257,7 +257,7 @@ export default function StringIntegrityPreserverPage() {
 
   return (
     <ToolLayout
-      title="String Integrity Preserver"
+      title="Fix Excel Conversion Bugs"
       description="Format Excel, Sheets, and CSV columns as explicit formulas or quoted texts so leading zeros are kept and date auto-conversions are skipped."
       sidebarContent={
         <div className="space-y-6">

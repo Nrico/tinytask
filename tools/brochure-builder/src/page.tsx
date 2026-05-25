@@ -478,7 +478,7 @@ export default function BrochureBuilderPage() {
             `}} />
 
             <ToolLayout
-                title="Brochure Creator"
+                title="Create Branded Brochures"
                 description="Design and print beautiful bi-fold and tri-fold brochures."
                 sidebarContent={
                     <div className="space-y-6">

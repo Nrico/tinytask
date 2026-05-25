@@ -6,7 +6,7 @@ test.describe("Jar Label Generator tool interface tests", () => {
     
     // Check heading title
     const heading = page.locator("h1");
-    await expect(heading).toContainText("Jar Label Generator");
+    await expect(heading).toContainText("Create Lid & Packaging Labels");
     
     // Verify privacy note exists
     const privacyNote = page.locator("text=Privacy Note");

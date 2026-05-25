@@ -64,7 +64,7 @@ export default function WordFormatterPage() {
     return (
         <div className="container mx-auto px-4 py-8 max-w-5xl sm:px-6 lg:px-8">
             <div className="mb-8 space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">Word Document Formatter</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Format Drafts into Markdown</h1>
                 <p className="text-muted-foreground">
                     Transform messy documents into professionally formatted reports, papers, or legal docs.
                 </p>

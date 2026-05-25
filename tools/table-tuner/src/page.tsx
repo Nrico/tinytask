@@ -85,7 +85,7 @@ export default function TableTunerPage() {
 
     return (
         <ToolLayout
-            title="Table Tuner"
+            title="Format Tables for Markdown & JSON"
             description="Convert CSV or Excel data to Markdown, HTML, JSON, and ASCII tables."
             sidebarContent={
                 <div className="space-y-6">
